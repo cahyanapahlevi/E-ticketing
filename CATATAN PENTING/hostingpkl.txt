@@ -1,0 +1,7 @@
+link:https://kominfotiket.000webhostapp.com
+
+<!----- For FTP ----!>
+port: 21
+source: files.000webhost.com
+username: kominfotiket
+password: pklkominfo2019
