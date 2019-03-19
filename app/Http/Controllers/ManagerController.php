@@ -137,7 +137,7 @@ public function edit($ID_PROGRAMER)
 
 public function update(Request $request)
 {
-	/
+	
 	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
 	//id_aplikasi' => $request->id_aplikasi,
 		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
