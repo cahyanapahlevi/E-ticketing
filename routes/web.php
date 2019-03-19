@@ -15,13 +15,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-
 //login
 Route::get('/programmer','ProgrammerController@login');
-Route::get('/programmer/masuk','ProgrammerController@login');
 Route::get('/manager', 'ManagerController@login');
-Route::post('/manager/masuk', 'ManagerController@masuk');
-Route::get('/manager/logout', 'ManagerController@logout');
+
 //route programmer
 Route::get('/programmer/home', 'ProgrammerController@home');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
@@ -37,12 +34,10 @@ Route::get('/manager/dticket', 'ManagerController@dticket');
 Route::get('/manager/eticket', 'ManagerController@eticket');
 Route::get('/manager/report', 'ManagerController@report');
 Route::get('/manager/user','ManagerController@user');
-Route::get('/manager/edituser', 'ManagerController@edituser');
-Route::post('/manager/tambah', 'ManagerController@tambah');
+Route::get('/manager/tambah','ManagerController@tambah');
+Route::get('/manager/user/edit/{id_programer}','ManagerController@edit');
+Route::get('/manager/user/hapus/{id_programer}','ManagerController@hapus');
 
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Route Manager
+Route::post('/manager/tambahuser','ManagerController@tambahuser');
+Route::post('/manager/user/update','ManagerController@update');
