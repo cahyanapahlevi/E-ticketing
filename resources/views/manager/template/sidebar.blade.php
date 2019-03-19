@@ -7,7 +7,7 @@
                   <img src="{{asset('source/images/faces/face1.jpg')}}" alt="profile image">
                 </div>
                 <div class="text-wrapper">
-                  <p class="profile-name">{{\Session::get('name')}}</p>
+                  <p class="profile-name">{{\Session::get('nama')}}</p>
                   <div>
                     <small class="designation text-muted">Manager</small>
                     <span class="status-indicator online"></span>

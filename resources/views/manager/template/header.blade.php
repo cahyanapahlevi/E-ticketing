@@ -122,7 +122,7 @@
           </li>
           <li class="nav-item dropdown d-none d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <span class="profile-text">welcome, {{\Session::get('name')}}</span>
+              <span class="profile-text">welcome, {{\Session::get('nama')}}</span>
               <img class="img-xs rounded-circle" src="{{asset('source/images/faces/face1.jpg')}}" alt="Profile image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
