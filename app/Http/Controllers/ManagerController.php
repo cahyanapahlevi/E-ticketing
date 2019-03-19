@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ManagerController extends Controller
 {
@@ -16,10 +17,11 @@ class ManagerController extends Controller
 
         $nama_manager =$request->nama_manager;
         $pass     =$request->pass;
-        $data = DB::table('manager')->where('nama_manager',$nama_manager)->first();
+        $data = DB::table('manager')->where('USERNAME_MANAGER',$nama_manager)->first();
         if($data){ 
-            if(DB::table('manager')->where('pass',$pass)->first()){
-                Session::put('name',$data->id_manager);
+            if(DB::table('manager')->where('PASSWORD_MANAGER',$pass)->first()){
+                Session::put('ID',$data->ID_MANAGER);
+                Session::put('nama',$data->USERNAME_MANAGER);
                 Session::put('login',TRUE);
                 return redirect('manager/home');
             }
