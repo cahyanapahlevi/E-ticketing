@@ -38,8 +38,8 @@ Route::get('/manager/eticket', 'ManagerController@eticket');
 Route::get('/manager/report', 'ManagerController@report');
 Route::get('/manager/user','ManagerController@user');
 Route::get('/manager/tambah','ManagerController@tambah');
-Route::get('/manager/user/edit/{id_programer}','ManagerController@edit');
-Route::get('/manager/user/hapus/{id_programer}','ManagerController@hapus');
+Route::get('/manager/user/edit/{ID_PROGRAMER}','ManagerController@edit');
+Route::get('/manager/user/hapus/{ID_PROGRAMER}}','ManagerController@hapus');
 
 //Route Manager
 Route::post('/manager/tambahuser','ManagerController@tambahuser');

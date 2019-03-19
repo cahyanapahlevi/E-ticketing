@@ -22,7 +22,7 @@
 				  {{ csrf_field() }}
                     <div class="form-group">
                       <label for="exampleInputName1">ID Programmer</label>
-                      <input type="text" class="form-control" name="id_programer" value="{{$cetak}}" required="required" placeholder="ID Programmer">
+                      <input type="text" class="form-control" name="ID_PROGRAMER" value="{{$cetak}}" required="required" placeholder="ID_PROGRAMER">
                     </div>
                   <!-- <div class="form-group">
                       <label for="exampleTextarea1">ID Aplikasi</label>
@@ -30,19 +30,19 @@
                     </div> -->
                     <div class="form-group">
                       <label for="exampleInputPassword4">User Name</label>
-                      <input type="text" class="form-control" name="nama" required="required" placeholder="User Name">
+                      <input type="text" class="form-control" name="USERNAME_PROGRAMER" required="required" placeholder="USERNAME_PROGRAMER">
                     </div>
                  <div class="form-group">
                       <label for="exampleInputCity1">Password</label>
-                      <input type="password" class="form-control" name="pass" required="required" placeholder="Password">
+                      <input type="password" class="form-control" name="PASSWORD_PROGRAMER" required="required" placeholder="PASSWORD_PROGRAMER">
                     </div>
 					<div class="form-group">
                       <label for="exampleInputCity1">Divisi</label>
-                      <input type="text" class="form-control" name="divisi" required="required" placeholder="Divisi">
+                      <input type="text" class="form-control" name="DIVISI_PROGRAMER" required="required" placeholder="DIVISI_PROGRAMER">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Bidang</label>
-                      <input type="text" class="form-control" name="bidang" required="required" placeholder="Bidang">
+                      <input type="text" class="form-control" name="BIDANG_PROGRAMER" required="required" placeholder="BIDANG_PROGRAMER">
                     </div>
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     <button class="btn btn-light">Batal</button>

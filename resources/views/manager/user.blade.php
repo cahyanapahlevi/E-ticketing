@@ -32,7 +32,7 @@
                       </thead>
                       <tbody>
 					  @php $no = 1; @endphp
-					  @foreach($tabel_programer as $tp)
+					  @foreach($programer as $tp)
                   
 						<tr>
 						<td>
@@ -40,13 +40,13 @@
 						
 						</td>
 						<td>
-						{{$tp->username_software}}
+						{{$tp->USERNAME_PROGRAMER}}
 						</td>
 						<td>
-						{{$tp->divisi_software}}
+						{{$tp->DIVISI_PROGRAMER}}
 						</td>
 						<td>
-						{{$tp->bidang_software}}
+						{{$tp->BIDANG_PROGRAMER}}
 						</td>
 						<td>
 						<a href="{{url('manager/user/edit', $tp->id_programer)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>Edit</a> 

@@ -61,7 +61,7 @@ class ManagerController extends Controller
             return view('manager/home');
         }
     }
-    public function ticket()
+   public function ticket()
     {
     	return view('manager/ticket');
     }
@@ -79,31 +79,31 @@ class ManagerController extends Controller
     }
 	    public function user()
     {
-		$tabel_programer = DB::table('tabel_programer')->get();
+		$programer = DB::table('programer')->get();
 		
-        return view('manager/user',['tabel_programer' => $tabel_programer]);
+        return view('manager/user',['programer' => $programer]);
     }
     public function edituser()
     {
-		$tabel_programer = DB::table('tabel_programer')->where('id_programer',$id_programer)->get();
+		$tabel_programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
         return view('manager/edituser');
     }
 	
-	public function hapus($id_software)
+	public function hapus($ID_PROGRAMER)
 {
-	DB::table('software')->where('id_software',$id_software)->delete();
+	DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->delete();
 	return redirect('manager/user');
 }
 	
 	public function tambah()
     
 	{
-		$deretakhir = DB::table('software')->orderBy('id_software','desc')->first();
+		$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
 		
 		if( ! $deretakhir)
 			$angka = 0;
 		else
-			$angka = substr($deretakhir->id_software,3);
+			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'P'. sprintf('%03d', intval($angka)+1);
 		
         return view('manager/tuser', compact('cetak'));
@@ -111,13 +111,13 @@ class ManagerController extends Controller
 	public function tambahuser(Request $request)
 {
 	
-	DB::table('software')->insert([
-		'id_software' => $request->id_software,
+	DB::table('programer')->insert([
+		'ID_PROGRAMER' => $request->ID_PROGRAMER,
 		//'id_aplikasi' => $request->id_aplikasi,
-		'username_software' => $request->username_software,
-		'password_software' => $request->password_software,
-		'divisi_software' => $request->divisi_software,
-		'bidang_software' => $request->bidang_software
+		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
+		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER,
+		'DIVISI_PROGRAMER' => $request->DIVISI_PROGRAMER,
+		'BIDANG_PROGRAMER' => $request->BIDANG_PROGRAMER
 	]);
 	
 	return redirect('/manager/user');
@@ -125,25 +125,25 @@ class ManagerController extends Controller
 }
 
 
-public function edit($id_software)
+public function edit($ID_PROGRAMER)
 {
 	
-	$software = DB::table('software')->where('id_software',$id_software)->get();
+	$software = DB::table('programer')->where('D=ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
-	return view('manager/euser',['software' => $software]);
+	return view('manager/euser',['programer' => $programer]);
  
 }
 
 
 public function update(Request $request)
 {
-	// update data pegawai
-	DB::table('software')->where('id_software',$request->id_software)->update([
+	/
+	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
 	//id_aplikasi' => $request->id_aplikasi,
-		'username_software' => $request->username_software,
-		'password_software' => $request->password_software,
-		'divisi_software' => $request->divisi_software,
-		'bidang_software' => $request->bidang_software
+		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
+		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER,
+		'DIVISI_PROGRAMER' => $request->DIVISI_PROGRAMER,
+		'BIDANG_PROGRAMER' => $request->BIDANG_PROGRAMER
 		
 	]);
 	

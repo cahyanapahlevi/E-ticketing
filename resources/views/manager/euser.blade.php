@@ -19,12 +19,12 @@
 				 
 
                   
-				  @foreach($tabel_programer as $tp)
+				  @foreach($Programer as $tp)
 				  <form action="{{url('/manager/user/update')}}" method="post">
 				  {{ csrf_field() }}
                     <div class="form-group">
                       
-                      <input type="hidden" class="form-control" name="id_software}}"   value ="{{$tp->id_software}}" required="required" placeholder="ID Software" readonly>
+                      <input type="hidden" class="form-control" name="ID_PROGRAMER}}"   value ="{{$tp->id_software}}" required="required" placeholder="ID PROGRAMER}}" readonly>
                     </div> 
                 <!--   <div class="form-group">
                       <label for="exampleTextarea1">ID Aplikasi</label>
@@ -32,19 +32,19 @@
                     </div> -->
                     <div class="form-group">
                       <label for="exampleInputPassword4">User Name</label>
-                      <input type="text" class="form-control" name="username_software" value ="{{$tp->username_software}}" required="required" placeholder="UserName Software">
+                      <input type="text" class="form-control" name="USERNAME_PROGRAMER" value ="{{$tp->USERNAME_PROGRAMER}}" required="required" placeholder="USERNAME PROGRAMER">
                     </div>
                  <div class="form-group">
                       <label for="exampleInputCity1">Password</label>
-                      <input type="password" class="form-control" name="password_software" value ="{{$tp->password_software}}" required="required" placeholder="Password">
+                      <input type="password" class="form-control" name="PASSWORD_PROGRAMER" value ="{{$tp->PASSWORD_PROGRAMER}}" required="required" placeholder="PASSWORD PROGRAMER">
                     </div>
 					<div class="form-group">
                       <label for="exampleInputCity1">Divisi</label>
-                      <input type="text" class="form-control" name="divisi_software" value ="{{$tp->divisi_software}}"  required="required" placeholder="Divisi">
+                      <input type="text" class="form-control" name="DIVISI_PROGRAMER" value ="{{$tp->DIVISI_PROGRAMER}}"  required="required" placeholder="DIVISI PROGRAMER">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Bidang</label>
-                      <input type="text" class="form-control" name="bidang_software" value ="{{$tp->bidang_software}}"  required="required" placeholder="Bidang">
+                      <input type="text" class="form-control" name="BIDANG_PROGRAMER" value ="{{$tp->BIDANG_PROGRAMER}}"  required="required" placeholder="BIDANG PROGRAMER">
                     </div>
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     <button class="btn btn-light">Batal</button>
