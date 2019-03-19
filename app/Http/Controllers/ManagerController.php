@@ -25,15 +25,12 @@ class ManagerController extends Controller
             }
             else{
 
-                Alert::warning('Data tidak sesuai, Silahkan Login ulang!!!');
-                return redirect('manager');
+                return redirect('manager')->with('alert','Data Tidak Sesuai Silahkan Login Ulang!');
             }
         }
         else{
-             Alert::error('Error Message', 'Optional Title')->autoclose(3500);
-
-            //Alert::error('Password atau Email, Salah!');
-            return redirect('manager');
+            
+            return redirect('manager')->with('alert','Password atau Email, Salah!');
         }
         /*$data= DB::table('manager')->where([
     ['nama_manager',$nama_manager],

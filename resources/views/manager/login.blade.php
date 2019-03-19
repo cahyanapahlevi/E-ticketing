@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.addons.css')}}">
 
   <link rel="stylesheet" href="{{asset('source/css/style.css')}}">
-  <link rel="stylesheet" href="{{asset('source/css/sweetalert.min.css')}}">
  <link rel="shortcut icon" href="{{asset('source/images/coco.png')}}" />
 </head>
 
@@ -72,8 +71,6 @@
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
-  <script src="{{url('source/js/sweetalert.min.js')}}"></script>
-  @include('sweet::alert')
 </body>
 
 </html>
