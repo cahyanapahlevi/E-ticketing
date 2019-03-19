@@ -19,6 +19,8 @@ Route::get('/', function () {
 Route::get('/programmer','ProgrammerController@login');
 Route::get('/programmer/masuk','ProgrammerController@login');
 Route::get('/manager', 'ManagerController@login');
+Route::post('/manager/masuk', 'ManagerController@masuk');
+Route::get('/manager/logout', 'ManagerController@logout');
 
 //route programmer
 Route::get('/programmer/home', 'ProgrammerController@home');
