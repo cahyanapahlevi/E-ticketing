@@ -19,17 +19,14 @@
 				 
 
                   
-				  @foreach($Programer as $tp)
+				  @foreach($programer as $tp)
 				  <form action="{{url('/manager/user/update')}}" method="post">
 				  {{ csrf_field() }}
                     <div class="form-group">
                       
-                      <input type="hidden" class="form-control" name="ID_PROGRAMER}}"   value ="{{$tp->id_software}}" required="required" placeholder="ID PROGRAMER}}" readonly>
+                      <input type="hidden" class="form-control" name="ID_PROGRAMER"   value ="{{$tp->ID_PROGRAMER}}" required="required" placeholder="ID PROGRAMER" readonly>
                     </div> 
-                <!--   <div class="form-group">
-                      <label for="exampleTextarea1">ID Aplikasi</label>
-                       <input type="text" class="form-control" name="id_aplikasi"  value ="{{$tp->id_aplikasi}}" required="required" placeholder="ID Aplikasi">
-                    </div> -->
+               
                     <div class="form-group">
                       <label for="exampleInputPassword4">User Name</label>
                       <input type="text" class="form-control" name="USERNAME_PROGRAMER" value ="{{$tp->USERNAME_PROGRAMER}}" required="required" placeholder="USERNAME PROGRAMER">

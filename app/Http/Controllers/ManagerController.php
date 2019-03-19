@@ -128,7 +128,7 @@ class ManagerController extends Controller
 public function edit($ID_PROGRAMER)
 {
 	
-	$software = DB::table('programer')->where('D=ID_PROGRAMER',$ID_PROGRAMER)->get();
+	$programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
 	return view('manager/euser',['programer' => $programer]);
  
@@ -139,7 +139,6 @@ public function update(Request $request)
 {
 	
 	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
-	//id_aplikasi' => $request->id_aplikasi,
 		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
 		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER,
 		'DIVISI_PROGRAMER' => $request->DIVISI_PROGRAMER,

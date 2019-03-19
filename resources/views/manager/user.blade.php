@@ -49,9 +49,9 @@
 						{{$tp->BIDANG_PROGRAMER}}
 						</td>
 						<td>
-						<a href="{{url('manager/user/edit', $tp->id_programer)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>Edit</a> 
+						<a href="{{url('manager/user/edit', $tp->ID_PROGRAMER)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>Edit</a> 
 						|
-						<a href= "{{url('manager/user/hapus', $tp->id_programer)}}"class='btn btn-mini btn-danger tipsy-kiri-atas'>Hapus</a></td>
+						<a href= "{{url('manager/user/hapus', $tp->ID_PROGRAMER)}}"class='btn btn-mini btn-danger tipsy-kiri-atas'>Hapus</a></td>
                           
                         </tr>
 						@endforeach
