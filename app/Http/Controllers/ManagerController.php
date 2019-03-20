@@ -63,16 +63,23 @@ class ManagerController extends Controller
     }
   public function ticket()
     {
-        $lihat = DB::table('PROYEK')->get();
-        
-        return view('manager/ticket',compact('lihat'));
+		$lihat = DB::table('proyek')->get()->all();
+				return view('manager/ticket',compact('lihat'));
     }
     public function dticket()
     {
-        $users = DB::table('PROYEK')
-            ->rightJoin('PROGRAMMER', 'PROYEK.ID_PROGRAMMER', '=', 'PROGRAMMER.ID_PROGRAMMER')
+        $users = DB::table('proyek')
+            ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
-        return view('manager/dticket',compact('users'));
+			
+			$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
+		
+		if( ! $deretakhir)
+			$angka = 0;
+		else
+			$angka = substr($deretakhir->ID_PROGRAMER,3);
+			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
+        return view('manager/dticket',compact('users'),compact('cetak'));
     }
 	public function eticket()
     {
@@ -156,25 +163,25 @@ public function update(Request $request)
 public function tticket(Request $request)
     {
         
-        DB::table('PROYEK')->insert([
+        DB::table('proyek')->insert([
         'ID_PROYEK' => $request->ID_PROYEK,
-        'ID_PROGRAMMER' => $request->ID_PROGRAMMER,
-        'PROGRAMMER1' => $request->PROGRAMMER1,
-        'PROGRAMMER2' => $request->PROGRAMMER2,
+        'ID_PROGRAMER' => $request->ID_PROGRAMER,
+        'PROGRAMER1' => $request->PROGRAMER1,
+        'PROGRAMER2' => $request->PROGRAMER2,
         'NAMA_PROYEK' => $request->NAMA_PROYEK,
         'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
         'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
         'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
         'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
         'STATUS_PROYEK' => $request->STATUS_PROYEK
+]);
+				return redirect('manager/ticket');
         
-        ]);
         
-        return redirect('manager/dticket');
     }
     public function updateticket(Request $request)
     {
-        DB::table('PROYEK')->where('ID_PROYEK',$request->ID_PROYEK)->update([
+        DB::table('proyek')->where('ID_PROYEK',$request->ID_PROYEK)->update([
         'STATUS_PROYEK' => $request->STATUS_PROYEK
         ]);
         

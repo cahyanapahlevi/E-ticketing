@@ -66,13 +66,13 @@
                             {{ $t->PLATFORM_PROYEK}}
                           </td>
                           <td> 
-              {{ $t->PROGRAMMER1}}
+              {{ $t->PROGRAMER1}}
                           </td>
               <td> 
-              {{ $t->PROGRAMMER2}}
+              {{ $t->PROGRAMER2}}
                           </td>
               <td> 
-              {{ $t->ID_PROGRAMMER}}
+              {{ $t->ID_PROGRAMER}}
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
