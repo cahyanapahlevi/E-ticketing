@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.addons.css')}}">
 
   <link rel="stylesheet" href="{{asset('source/css/style.css')}}">
-  <link rel="stylesheet" href="{{asset('source/css/sweetalert.min.css')}}">
  <link rel="shortcut icon" href="{{asset('source/images/coco.png')}}" />
 </head>
 
@@ -37,7 +36,7 @@
                     <div><h4>{{Session::get('alert-success')}}</h4></div>
                 </div>
             @endif
-              <form action="{{url('/programer/masuk')}}" method="post">
+              <form action="{{url('/programmer/masuk')}}" method="post">
                 {{ @csrf_field() }}
                 <div class="form-group">
                   <label class="label">Username</label>
@@ -77,7 +76,6 @@
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
-  <script src="{{asset('source/js/sweetalert.min.js')}}"></script>
 </body>
 
 </html>
