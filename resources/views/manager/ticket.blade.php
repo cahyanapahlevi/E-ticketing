@@ -6,77 +6,123 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Permintaan Tiket Baru</h4>
+                  <h4 class="card-title">Permintaan Proyek Baru</h4>
+          <a href="{{url('/manager/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Proyek</button></a>
+          <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                           <th>
-                            ID_Tiket
+                            ID Proyek
                           </th>
                           <th>
-                            Nama Aplikasi
+                            Nama Proyek
+                          </th>
+               <th>
+                            Instansi
                           </th>
                           <th>
-                            Deskripsi Aplikasi
+                            Deskripsi Proyek
                           </th>
                           <th>
+                            Platform Proyek
+                          </th>
+                          <th>
+                            Programmer1
+                          </th>
+                          <th>
+                            Programmer2
+                          </th>
+              <th>
+                            Programmer3
+                          </th>
+              <th>
+                            Dedline
+                          </th>
+              <th>
                             Status
                           </th>
+                          
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($aplikasi as $p)
+            
                         <tr>
+            @foreach ($lihat as $t)
                           <td class="font-weight-medium">
-                            1
+              {{ $t->ID_PROYEK}}
                           </td>
-                          <td>{{ $p->aplikasi }}</td>
-                         <td>{{ $p->aktifitas }}</td>
                           <td>
-                             <div class="btn-group dropdown">
-                          <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $p->status }}
-                          </button>
-                          <div class="dropdown-menu">
-                             <a class="dropdown-item" href="{{url('/pegawai/edit', $p->id_tiket)}}">
-                              <i class="fa fa-envelope-open-o fa-fw"></i>Open</a>
-                            <a class="dropdown-item" href="#">
-                              <i class="fa fa-history fa-fw"></i>On Progress</a>
-                            <a class="dropdown-item" href="#">
-                              <i class="fa fa-check text-success fa-fw"></i>Done</a>
-                          </div>
-                        </div>
-                            <!--<a href="{{url('/manager/eticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>-->
+              {{ $t->NAMA_PROYEK}}
                           </td>
+              <td>
+              {{ $t->INSTANSI_PROYEK}}
+                          </td>
+                          <td>
+              {{ $t->DESKRIPSI_PROYEK}}
+                          </td>
+                          <td>
+                            {{ $t->PLATFORM_PROYEK}}
+                          </td>
+                          <td> 
+              {{ $t->PROGRAMMER1}}
+                          </td>
+              <td> 
+              {{ $t->PROGRAMMER2}}
+                          </td>
+              <td> 
+              {{ $t->ID_PROGRAMMER}}
+                          </td>
+                          <td>
+                            {{ $t->DEADLINE_PROYEK}}
+                          </td>
+              <td>
+                            {{ $t->STATUS_PROYEK}}
+              <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
+  
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Status</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         <form action="{{url('manager/update')}}" method="post">
+       {{ csrf_field() }}
+       <input type="hidden" name="ID_PROYEK" value="{{$t->ID_PROYEK}}" >
+        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" value="{{ $t->STATUS_PROYEK}}" readonly></input>
+        
+        <input type="radio" class="flat" name="STATUS_PROYEK"  value="$t->STATUS_PROYEK" checked>Open
+                          
+<br>
+<input type="radio" value="progress" class="flat" name="STATUS_PROYEK" value="Progress">Progress
+                         
+<br>
+<input type="radio" value="done" class="flat" name="STATUS_PROYEK" value="Done">Done
+          <br>                 
+      <input type="submit" class="btn btn-primary btn-fw" data-dismiss="modal" name="submit">  
+    </form> 
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+                          </td>
+                          
                         </tr>
-                        <tr>
-                          <td class="font-weight-medium">
-                            2
-                          </td>
-                          <td>
-                            Messsy Adam
-                          </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                          <td>
-                            $245.30
-                          </td>
-                          <td class="text-success"> 24.56%
-                            <i class="mdi mdi-arrow-up"></i>
-                          </td>
-                          <td>
-                            July 1, 2015
-                          </td>
-						  <td>
-						   <a href="{{url('/manager/eticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
-						  </td>
-                        </tr>
-               
+                        @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -85,4 +131,6 @@
             </div>
           </div>
         </div>
+    
+    
 @endsection

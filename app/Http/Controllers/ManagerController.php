@@ -61,13 +61,18 @@ class ManagerController extends Controller
             return view('manager/home');
         }
     }
-   public function ticket()
+  public function ticket()
     {
-    	return view('manager/ticket');
+        $lihat = DB::table('PROYEK')->get();
+        
+        return view('manager/ticket',compact('lihat'));
     }
     public function dticket()
     {
-        return view('manager/dticket');
+        $users = DB::table('PROYEK')
+            ->rightJoin('PROGRAMMER', 'PROYEK.ID_PROGRAMMER', '=', 'PROGRAMMER.ID_PROGRAMMER')
+            ->get()->all();
+        return view('manager/dticket',compact('users'));
     }
 	public function eticket()
     {
@@ -148,5 +153,32 @@ public function update(Request $request)
 	
 	return redirect('/manager/user');
 }
+public function tticket(Request $request)
+    {
+        
+        DB::table('PROYEK')->insert([
+        'ID_PROYEK' => $request->ID_PROYEK,
+        'ID_PROGRAMMER' => $request->ID_PROGRAMMER,
+        'PROGRAMMER1' => $request->PROGRAMMER1,
+        'PROGRAMMER2' => $request->PROGRAMMER2,
+        'NAMA_PROYEK' => $request->NAMA_PROYEK,
+        'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
+        'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
+        'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
+        'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
+        'STATUS_PROYEK' => $request->STATUS_PROYEK
+        
+        ]);
+        
+        return redirect('manager/dticket');
+    }
+    public function updateticket(Request $request)
+    {
+        DB::table('PROYEK')->where('ID_PROYEK',$request->ID_PROYEK)->update([
+        'STATUS_PROYEK' => $request->STATUS_PROYEK
+        ]);
+        
+        return redirect('manager/ticket');
+    }
 
 }
