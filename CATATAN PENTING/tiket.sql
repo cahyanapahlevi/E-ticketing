@@ -4,49 +4,6 @@
 /*==============================================================*/
 
 
-alter table KOMENTAR 
-   drop foreign key FK_KOMENTAR_DIKOMENTA_TIKET;
-
-alter table PROYEK 
-   drop foreign key FK_PROYEK_MENAMBAHK_MANAGER;
-
-alter table PROYEK 
-   drop foreign key FK_PROYEK_MENGERJAK_PROGRAME;
-
-alter table TIKET 
-   drop foreign key FK_TIKET_MEMILIKI_PROGRAME;
-
-alter table TIKET 
-   drop foreign key FK_TIKET_MENJADI_PROYEK;
-
-
-alter table KOMENTAR 
-   drop foreign key FK_KOMENTAR_DIKOMENTA_TIKET;
-
-drop table if exists KOMENTAR;
-
-drop table if exists MANAGER;
-
-drop table if exists PROGRAMER;
-
-
-alter table PROYEK 
-   drop foreign key FK_PROYEK_MENGERJAK_PROGRAME;
-
-alter table PROYEK 
-   drop foreign key FK_PROYEK_MENAMBAHK_MANAGER;
-
-drop table if exists PROYEK;
-
-
-alter table TIKET 
-   drop foreign key FK_TIKET_MENJADI_PROYEK;
-
-alter table TIKET 
-   drop foreign key FK_TIKET_MEMILIKI_PROGRAME;
-
-drop table if exists TIKET;
-
 /*==============================================================*/
 /* Table: KOMENTAR                                              */
 /*==============================================================*/
