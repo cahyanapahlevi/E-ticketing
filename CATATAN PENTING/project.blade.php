@@ -6,42 +6,46 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Ticket Masuk</h4>
+                  <h4 class="card-title">Project Yang Sedang Dikerjakan</h4>
+				  <a href="{{url('/programmer/dproject')}}"><button type="button" class="btn btn-outline-success">Tambah Project</button></a>
+				  <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                          <th>
-                            ID Proyek
+                           Id Project
                           </th>
                           <th>
-                            Nama Proyek
+                            Nama Project
+                          </th>
+                          <th>
+                            Instansi
+                          </th>
+                          <th>
+                            Deskripsi
+                          </th>
+                          <th>
+                            Platforn
+                          </th>
+                          <th>
+                            Dedline
+                          </th>
+                          <th>
+                            Status
                           </th>
 						  <th>
-                            Instansi Proyek
-                          </th>
-                          <th>
-                            Deskripsi Proyek
-                          </th>
-                          <th>
-                            Platform Proyek
-                          </th>
-                          <th>
-                            Programmer1
-                          </th>
-                          <th>
-                            Programmer2
+                            Aktifitas Tiket
                           </th>
 						  <th>
-                            Programmer3
+                            Progress
                           </th>
 						  <th>
-                            Deadline Proyek
+                            Timeline
                           </th>
 						  <th>
-                            Status Proyek
+                            Action
                           </th>
-						  
                         </tr>
                       </thead>
                       <tbody>
@@ -53,10 +57,10 @@
                             Herman Beck
                           </td>
                           <td>
-                            Aplikasi Mencari Jodoh
+                            Aplikasi Ternak
                           </td>
                           <td>
-                            0%
+                            $ 77.99
                           </td>
                           <td class="text-danger"> 53.64%
                             <i class="mdi mdi-arrow-down"></i>
@@ -65,7 +69,7 @@
                             May 15, 2015
                           </td>
                           <td>
-                            
+                            <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
                           </td>
 						  <td>
 						  </td>
@@ -73,10 +77,11 @@
 						  </td>
 						  <td>
 						  </td>
-						  
-						  
+						  <td>
+						  <button type="button" class="btn btn-primary btn-info">Edit</button>
+						  <button type="button" class="btn btn-danger btn-info">Delete</button>
+						  </td>
                         </tr>
-           
                       </tbody>
                     </table>
                   </div>

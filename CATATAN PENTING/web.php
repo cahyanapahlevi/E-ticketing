@@ -29,6 +29,7 @@ Route::get('/programmer/dticket', 'ProgrammerController@dticket');
 Route::get('/programmer/project', 'ProgrammerController@project');
 Route::get('/programmer/dproject', 'ProgrammerController@dproject');
 Route::get('/programmer/edituser', 'ProgrammerController@edituser');
+Route::get('/programmer/aktifitas', 'ProgrammerController@aktifitas'); //penambahan menu aktifitas(rita)
 
 //route Manager
 Route::get('/manager/home', 'ManagerController@home');
@@ -40,9 +41,11 @@ Route::get('/manager/user','ManagerController@user');
 Route::get('/manager/tambah','ManagerController@tambah');
 Route::get('/manager/user/edit/{id_programer}','ManagerController@edit');
 Route::get('/manager/user/hapus/{id_programer}','ManagerController@hapus');
+Route::get('/manager/aktifitas', 'ManagerController@aktifitas'); //penambahan menu aktifitas(rita)
 
 //Route Manager
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/tticket', 'ManagerController@tticket');
 Route::post('/manager/update', 'ManagerController@update');
+Route::post('/manager/showreport', 'ManagerController@showreport'); //penambahan menu melihat report sesuai bulan dan tahun(rita)

@@ -6,42 +6,34 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Ticket Masuk</h4>
+                  <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan</h4>
+				  <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Aktifitas</button></a>
+				  <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                          <th>
-                            ID Proyek
+                            ID Tiket
                           </th>
-                          <th>
+						  <th>
                             Nama Proyek
                           </th>
-						  <th>
-                            Instansi Proyek
-                          </th>
                           <th>
-                            Deskripsi Proyek
-                          </th>
-                          <th>
-                            Platform Proyek
-                          </th>
-                          <th>
-                            Programmer1
-                          </th>
-                          <th>
-                            Programmer2
+                            Task
                           </th>
 						  <th>
-                            Programmer3
+                            Aktifitas (To Do List)
                           </th>
-						  <th>
-                            Deadline Proyek
+                          <th>
+                            Progress 
                           </th>
-						  <th>
-                            Status Proyek
+                          <th>
+                            Timeline
                           </th>
-						  
+                          <th>
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -49,6 +41,8 @@
                           <td class="font-weight-medium">
                             1
                           </td>
+						  <td>
+						  </td>
                           <td>
                             Herman Beck
                           </td>
@@ -62,18 +56,10 @@
                             <i class="mdi mdi-arrow-down"></i>
                           </td>
                           <td>
-                            May 15, 2015
+                           <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-primary btn-fw">Edit</button></a>
+						   <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-danger btn-fw">Hapus</button></a>
                           </td>
-                          <td>
-                            
-                          </td>
-						  <td>
-						  </td>
-						  <td>
-						  </td>
-						  <td>
-						  </td>
-						  
+                          
 						  
                         </tr>
            
