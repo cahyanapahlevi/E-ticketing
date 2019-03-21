@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ProgrammerController extends Controller
 {
@@ -14,12 +16,12 @@ class ProgrammerController extends Controller
     public function masuk(Request $request)
     {
 
-        $nama_programer =$request->USERNAME_PROGRAMER;
-        $pass     =$request->PASSWORD_PROGRAMER;
-        $data = DB::table('programer')->where('USERNAME_PROGRAMER',$nama_manager)->first();
+        $nama_programer =$request->nama_programer;
+        $pass     =$request->pass;
+        $data = DB::table('programer')->where('USERNAME_PROGRAMER',$nama_programer)->first();
         if($data){ 
             if(DB::table('programer')->where('PASSWORD_PROGRAMER',$pass)->first()){
-                Session::put('ID',$data->ID_PROGRAMER);
+                //Session::put('ID',$data->ID_PROGRAMER);
                 Session::put('nama',$data->USERNAME_PROGRAMER);
                 Session::put('login',TRUE);
                 return redirect('programmer/home');

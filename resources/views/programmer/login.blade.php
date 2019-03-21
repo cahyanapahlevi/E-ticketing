@@ -71,7 +71,7 @@
       </div>
     </div>
   </div>
-  @include('sweet::alert')
+
   <script src="{{asset('source/vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
