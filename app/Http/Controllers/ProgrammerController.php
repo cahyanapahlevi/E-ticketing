@@ -16,7 +16,6 @@ class ProgrammerController extends Controller
     public function proseslogin(Request $request)
     {
 
-<<<<<<< HEAD
         $username_programer =$request->username_programer;
         $password     =$request->password;
         $data1 = DB::table('programer')->where('USERNAME_PROGRAMER',$username_programer)->first();
@@ -24,15 +23,6 @@ class ProgrammerController extends Controller
             if(DB::table('programer')->where('PASSWORD_PROGRAMER',$password)->first()){
                 Session::put('ID',$data1->ID_PROGRAMER);
                 Session::put('nama',$data1->USERNAME_PROGRAMER);
-=======
-        $nama_programer =$request->nama_programer;
-        $pass     =$request->pass;
-        $data = DB::table('programer')->where('USERNAME_PROGRAMER',$nama_programer)->first();
-        if($data){ 
-            if(DB::table('programer')->where('PASSWORD_PROGRAMER',$pass)->first()){
-                //Session::put('ID',$data->ID_PROGRAMER);
-                Session::put('nama',$data->USERNAME_PROGRAMER);
->>>>>>> 12e31c9eb52579c8c113c469cf6f69f46073c6f1
                 Session::put('login',TRUE);
                 return redirect('programmer/home');
             }
