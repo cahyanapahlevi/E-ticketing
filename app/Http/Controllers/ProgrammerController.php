@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ProgrammerController extends Controller
 {
@@ -11,16 +13,16 @@ class ProgrammerController extends Controller
         return view('programmer/login');
     }
 
-    public function masuk(Request $request)
+    public function proseslogin(Request $request)
     {
 
-        $nama_programer =$request->USERNAME_PROGRAMER;
-        $pass     =$request->PASSWORD_PROGRAMER;
-        $data = DB::table('programer')->where('USERNAME_PROGRAMER',$nama_manager)->first();
-        if($data){ 
-            if(DB::table('programer')->where('PASSWORD_PROGRAMER',$pass)->first()){
-                Session::put('ID',$data->ID_PROGRAMER);
-                Session::put('nama',$data->USERNAME_PROGRAMER);
+        $username_programer =$request->username_programer;
+        $password     =$request->password;
+        $data1 = DB::table('programer')->where('USERNAME_PROGRAMER',$username_programer)->first();
+        if($data1){ 
+            if(DB::table('programer')->where('PASSWORD_PROGRAMER',$password)->first()){
+                Session::put('ID',$data1->ID_PROGRAMER);
+                Session::put('nama',$data1->USERNAME_PROGRAMER);
                 Session::put('login',TRUE);
                 return redirect('programmer/home');
             }

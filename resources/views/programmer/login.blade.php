@@ -41,7 +41,7 @@
                 <div class="form-group">
                   <label class="label">Username</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Username"name="nama_programer">
+                    <input type="text" class="form-control" placeholder="Username" name="username_programer">
                     <div class="input-group-append">
                       <span class="input-group-text">
                         <i class="mdi mdi-check-circle-outline"></i>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                   <label class="label">Password</label>
                   <div class="input-group">
-                    <input type="password" class="form-control" placeholder="*********" name="pass">
+                    <input type="password" class="form-control" placeholder="*********" name="password">
                     <div class="input-group-append">
                       <span class="input-group-text">
                         <i class="mdi mdi-check-circle-outline"></i>
@@ -71,7 +71,6 @@
       </div>
     </div>
   </div>
-  @include('sweet::alert')
   <script src="{{asset('source/vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
