@@ -25,15 +25,11 @@ class ManagerController extends Controller
             }
             else{
 
-                Alert::warning('Data tidak sesuai, Silahkan Login ulang!!!');
-                return redirect('manager');
+                return redirect('manager')->with('Data tidak sesuai, Silahkan Login ulang!!!');
             }
         }
         else{
-             Alert::error('Error Message', 'Optional Title')->autoclose(3500);
-
-            //Alert::error('Password atau Email, Salah!');
-            return redirect('manager');
+            return redirect('manager')->with('alert','Password atau Email, Salah!');
         }
         /*$data= DB::table('manager')->where([
     ['nama_manager',$nama_manager],
@@ -79,9 +75,22 @@ class ManagerController extends Controller
     {
         return view('manager/eticket');
     }
+	/*Penambahan pagination pada halaman report (rita)*/
 	    public function report()
     {
-        return view('manager/report');
+         $page = DB::table('permintaan')->paginate(2);
+		
+		return view('manager/report',compact('page'));
+    }
+	/*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
+	 public function showreport(Request $req)
+    {
+        $month = $req->month;
+		$year = $req->year;
+		$page =DB::table('permintaan')->whereYear('timeline', '=', $year)
+              ->whereMonth('timeline', '=', $month)
+              ->paginate(5);
+			return view('manager/report',compact('page'));
     }
 	    public function user()
     {
@@ -141,20 +150,7 @@ public function edit($id_software)
 }
 
 
-public function update(Request $request)
-{
-	// update data pegawai
-	DB::table('software')->where('id_software',$request->id_software)->update([
-	//id_aplikasi' => $request->id_aplikasi,
-		'username_software' => $request->username_software,
-		'password_software' => $request->password_software,
-		'divisi_software' => $request->divisi_software,
-		'bidang_software' => $request->bidang_software
-		
-	]);
-	
-	return redirect('/manager/user');
-}
+
 public function tticket(Request $request)
     {
 		
@@ -181,6 +177,11 @@ public function tticket(Request $request)
 		]);
 		
 		return redirect('manager/ticket');
+    }
+	/*penambahan controller aktifitas(rita)*/
+	public function aktifitas()
+    {
+        return view('manager/aktifitas');
     }
 
 }

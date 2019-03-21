@@ -1,13 +1,13 @@
-@extends('programmer.master')
+@extends('manager.master')
 
-@section('programmer.content')
+@section('manager.content')
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan</h4>
-				  <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Aktifitas</button></a>
+                  <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan Programmer</h4>
+				  
 				  <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
@@ -31,9 +31,7 @@
                           <th>
                             Timeline
                           </th>
-                          <th>
-                            Action
-                          </th>
+                          
                         </tr>
                       </thead>
                       <tbody>
@@ -41,8 +39,6 @@
                           <td class="font-weight-medium">
                             1
                           </td>
-						  <td>
-						  </td>
                           <td>
                             Herman Beck
                           </td>
@@ -55,10 +51,9 @@
                           <td class="text-danger"> 53.64%
                             <i class="mdi mdi-arrow-down"></i>
                           </td>
-                          <td>
-                           <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-primary btn-fw">Edit</button></a>
-						   <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-danger btn-fw">Hapus</button></a>
-                          </td>
+						  <td>
+						  </td>
+                         
                           
 						  
                         </tr>
