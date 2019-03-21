@@ -7,29 +7,43 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Project Yang Sedang Dikerjakan</h4>
+          <a href="{{url('/programmer/dproject')}}"><button type="button" class="btn btn-outline-success">Tambah Project</button></a>
+          <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                          <th>
-                            No
+                           Id Project
                           </th>
                           <th>
-                            Nama Programmer
+                            Nama Project
                           </th>
                           <th>
-                            Nama Aplikasi
+                            Instansi
                           </th>
                           <th>
-                            Progress
+                            Deskripsi
                           </th>
                           <th>
-                            Status
+                            Platforn
                           </th>
                           <th>
                             Dedline
                           </th>
                           <th>
+                            Status
+                          </th>
+              <th>
+                            Aktifitas Tiket
+                          </th>
+              <th>
+                            Progress
+                          </th>
+              <th>
+                            Timeline
+                          </th>
+              <th>
                             Action
                           </th>
                         </tr>
@@ -55,33 +69,19 @@
                             May 15, 2015
                           </td>
                           <td>
-                            <a href="{{url('/programmer/dproject')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
+                            <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
                           </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              <button type="button" class="btn btn-primary btn-info">Edit</button>
+              <button type="button" class="btn btn-danger btn-info">Delete</button>
+              </td>
                         </tr>
-                        <tr>
-                          <td class="font-weight-medium">
-                            2
-                          </td>
-                          <td>
-                            Messsy Adam
-                          </td>
-                          <td>
-                           Aplikasi Manajemen
-                          </td>
-                          <td>
-                            $245.30
-                          </td>
-                          <td class="text-success"> 24.56%
-                            <i class="mdi mdi-arrow-up"></i>
-                          </td>
-                          <td>
-                            July 1, 2015
-                          </td>
-						  <td>
-						  <a href="{{url('/programmer/dproject')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
-						  </td>
-                        </tr>
-                     
                       </tbody>
                     </table>
                   </div>

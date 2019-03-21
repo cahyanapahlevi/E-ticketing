@@ -7,8 +7,8 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan</h4>
-				  <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Aktifitas</button></a>
-				  <p></p>
+          <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Aktifitas</button></a>
+          <p></p>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
@@ -16,13 +16,13 @@
                          <th>
                             ID Tiket
                           </th>
-						  <th>
+              <th>
                             Nama Proyek
                           </th>
                           <th>
                             Task
                           </th>
-						  <th>
+              <th>
                             Aktifitas (To Do List)
                           </th>
                           <th>
@@ -41,8 +41,8 @@
                           <td class="font-weight-medium">
                             1
                           </td>
-						  <td>
-						  </td>
+              <td>
+              </td>
                           <td>
                             Herman Beck
                           </td>
@@ -57,10 +57,10 @@
                           </td>
                           <td>
                            <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-primary btn-fw">Edit</button></a>
-						   <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-danger btn-fw">Hapus</button></a>
+               <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-danger btn-fw">Hapus</button></a>
                           </td>
                           
-						  
+              
                         </tr>
            
                       </tbody>

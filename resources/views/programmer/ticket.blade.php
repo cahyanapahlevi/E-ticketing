@@ -11,27 +11,37 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                          <th>
-                            No
+                         <th>
+                            ID Proyek
                           </th>
                           <th>
-                            Nama Programmer
+                            Nama Proyek
+                          </th>
+              <th>
+                            Instansi Proyek
                           </th>
                           <th>
-                            Nama Aplikasi
+                            Deskripsi Proyek
                           </th>
                           <th>
-                            Progress
+                            Platform Proyek
                           </th>
                           <th>
-                            Status
+                            Programmer1
                           </th>
                           <th>
-                            Dedline
+                            Programmer2
                           </th>
-                          <th>
-                            Action
+              <th>
+                            Programmer3
                           </th>
+              <th>
+                            Deadline Proyek
+                          </th>
+              <th>
+                            Status Proyek
+                          </th>
+              
                         </tr>
                       </thead>
                       <tbody>
@@ -55,36 +65,18 @@
                             May 15, 2015
                           </td>
                           <td>
-                            <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
+                            
                           </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              
+              
                         </tr>
-                        <tr>
-                          <td class="font-weight-medium">
-                            2
-                          </td>
-                          <td>
-                            Messsy Adam
-                          </td>
-                          <td>
-                            Aplikasi Absensi
-                          </td>
-                          <td>
-                            0%
-                          </td>
-                          <td class="text-success"> 24.56%
-                            <i class="mdi mdi-arrow-up"></i>
-                          </td>
-                          <td>
-                            July 1, 2015
-                          </td>
-						  <td>
-						  <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
-						  </td>
-                        </tr>
-                      
-                     
-                    
-                     
+           
                       </tbody>
                     </table>
                   </div>

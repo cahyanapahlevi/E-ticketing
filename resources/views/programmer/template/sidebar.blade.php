@@ -7,7 +7,7 @@
                   <img src="{{asset('source/images/faces/face1.jpg')}}" alt="profile image">
                 </div>
                 <div class="text-wrapper">
-                  <p class="profile-name">{{\Session::get('nama')}}</p>
+                  <p class="profile-name">{{\Session::get('name')}}</p>
                   <div>
                     <small class="designation text-muted">Programmer</small>
                     <span class="status-indicator online"></span>
@@ -22,11 +22,23 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+      <!--penambahan dropdown menu untuk tiket(rita)-->
           <li class="nav-item">
-            <a class="nav-link" href="{{url('/programmer/ticket')}}">
-              <i class="menu-icon mdi mdi-ticket"></i>
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-content-copy"></i>
               <span class="menu-title">Ticket</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url('/programmer/ticket')}}">Proyek Baru</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url('/programmer/aktifitas')}}">Aktivitas (To Do List)</a>
+                </li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url('/programmer/project')}}">
