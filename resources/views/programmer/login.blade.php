@@ -52,7 +52,7 @@
                 <div class="form-group">
                   <label class="label">Password</label>
                   <div class="input-group">
-                    <input type="password" class="form-control" placeholder="*********" name="pass">
+                    <input type="password" class="form-control" placeholder="*********" name="password">
                     <div class="input-group-append">
                       <span class="input-group-text">
                         <i class="mdi mdi-check-circle-outline"></i>

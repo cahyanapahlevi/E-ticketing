@@ -85,9 +85,22 @@ class ManagerController extends Controller
     {
         return view('manager/eticket');
     }
-	    public function report()
+	  /*Penambahan pagination pada halaman report (rita)*/
+        public function report()
     {
-        return view('manager/report');
+         $page = DB::table('permintaan')->paginate(2);
+        
+        return view('manager/report',compact('page'));
+    }
+    /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
+     public function showreport(Request $req)
+    {
+        $month = $req->month;
+        $year = $req->year;
+        $page =DB::table('permintaan')->whereYear('timeline', '=', $year)
+              ->whereMonth('timeline', '=', $month)
+              ->paginate(5);
+            return view('manager/report',compact('page'));
     }
 	    public function user()
     {
@@ -186,6 +199,10 @@ public function tticket(Request $request)
         ]);
         
         return redirect('manager/ticket');
+    }
+    public function aktifitas()
+    {
+        return view('manager/aktifitas');
     }
 
 }
