@@ -47,7 +47,8 @@ Route::get('/manager/user','ManagerController@user');
 Route::get('/manager/tambah','ManagerController@tambah');
 Route::get('/manager/user/edit/{ID_PROGRAMER}','ManagerController@edit');
 Route::get('/manager/user/hapus/{ID_PROGRAMER}}','ManagerController@hapus');
-Route::get('/manager/aktifitas', 'ManagerController@aktifitas'); 
+Route::get('/manager/aktifitas', 'ManagerController@aktifitas');
+Route::get('/manager/cetak', 'ManagerController@cetak');  
 
 
 //Route for proses data into database
