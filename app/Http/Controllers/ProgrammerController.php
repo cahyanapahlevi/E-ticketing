@@ -80,5 +80,9 @@ class ProgrammerController extends Controller
     {
         return view('programmer/edituser');
     }
+    public function aktifitas()
+    {
+        return view('programmer/aktifitas');
+    }
 
 }

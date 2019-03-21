@@ -27,13 +27,14 @@ Route::get('/manager', 'ManagerController@login');
 Route::post('/manager/masuk', 'ManagerController@masuk');
 Route::get('/manager/logout', 'ManagerController@logout');
 
-//route programmer
+//route programmer get page
 Route::get('/programmer/home', 'ProgrammerController@home');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
 Route::get('/programmer/dticket', 'ProgrammerController@dticket');
 Route::get('/programmer/project', 'ProgrammerController@project');
 Route::get('/programmer/dproject', 'ProgrammerController@dproject');
 Route::get('/programmer/edituser', 'ProgrammerController@edituser');
+Route::get('/programmer/aktifitas', 'ProgrammerController@aktifitas'); 
 
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
@@ -45,9 +46,12 @@ Route::get('/manager/user','ManagerController@user');
 Route::get('/manager/tambah','ManagerController@tambah');
 Route::get('/manager/user/edit/{ID_PROGRAMER}','ManagerController@edit');
 Route::get('/manager/user/hapus/{ID_PROGRAMER}}','ManagerController@hapus');
+Route::get('/manager/aktifitas', 'ManagerController@aktifitas'); 
 
-//Route Manager to post data into database
+
+//Route for proses data into database
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/tticket', 'ManagerController@tticket');
 Route::post('/manager/update', 'ManagerController@updateticket');
+Route::post('/manager/showreport', 'ManagerController@showreport');
