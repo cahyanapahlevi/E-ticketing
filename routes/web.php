@@ -37,6 +37,7 @@ Route::get('/programmer/edituser', 'ProgrammerController@edituser');
 Route::get('/programmer/aktifitas', 'ProgrammerController@aktifitas'); 
 Route::get('/programmer/tambah','ProgrammerController@tambah');
 
+
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/ticket', 'ManagerController@ticket');
@@ -61,3 +62,4 @@ Route::post('/manager/showreport', 'ManagerController@showreport');
 
 //Route for proses data into database
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
+Route::post('/programmer/dproject2','ProgrammerController@dproject2');

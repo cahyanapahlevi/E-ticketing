@@ -77,43 +77,51 @@ class ProgrammerController extends Controller
     public function dproject()
     {
 		$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
-		$deretakhir1 = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
-		if( ! $deretakhir && !$deretakhir1){
+		if( !$deretakhir)
 			$angka = 0;
-		$angka1 = 0;}
-		else{
+		else
 			$angka = substr($deretakhir->ID_PROYEK,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
+			
+		$deretakhir1 = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
+		if( !$deretakhir1)
+			$angka1 = 0;
+		else
 			$angka1 = substr($deretakhir1->ID_TIKET,5);
 			$cetak1 = 'T'. sprintf('%03d', intval($angka1)+1);
-		}
+			
+			
 		$data = DB::table('proyek')
-		->join('proyek','proyek.ID_PROYEK','=','proyek.ID_TIKET')
-		->select('proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK'.'proyek.DESKRIPSI_PROYEK'.'proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK','tiket.AKTIFITAS_TIKET','tiket_PROGRESS_TIKET','tiket.TIMELINE_TIKET')
+		->join('tiket','proyek.ID_PROYEK','=','tiket.ID_TIKET')
+		->select('proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK','tiket.AKTIFITAS_TIKET','tiket.PROGRESS_TIKET','tiket.TIMELINE_TIKET')
 		->get();
 		
-        return view('programmer/dproject', ['cetak'=>$cetak, 'cetak1'=>$cetak1, 'data']);
+        return view('programmer/dproject', compact('angka','angka1','cetak','cetak1','data'));
     }
 		public function tambahproject(Request $request)
-{
+	{
 	
-	DB::table('proyek')->insert([
+	/*$data = DB::table('proyek')->insert([
 		'ID_PROYEK' => $request->ID_PROYEK,
 		'NAMA_PROYEK' => $request->NAMA_PROYEK,
 		'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
 		'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
 		'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
 		'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
-		'STATUS_PROYEK' => $request->STATUS_PROYEK
+		'STATUS_PROYEK' => $request->STATUS_PROYEK,
+		])->outputinserted.';'
 	'ID_TIKET'=> $request->ID_TIKET,
 	'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET,
 		'PROGRESS_TIKET' => $request->PROGRESS_TIKET,
 		'TIMELINE_TIKET' => $request->TIMELINE_TIKET
-	]);
+	]);*/
 	return view('/manager/dproject');
  
-}
-	
+	}
+public function dproject2()
+    {
+        return view('programmer/dproject2');
+    }	
 	
     public function edituser()
     {

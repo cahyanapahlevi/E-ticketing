@@ -9,16 +9,21 @@
                 <div class="card-body">
                   <a href="{{url('/programmer/project')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> BACK</button></a>
                   <br/><br/>
+				  @if(Session::has('alert-success'))
+                <div class="alert alert-success">
+                    <div><h4>{{Session::get('alert-success')}}</h4></div>
+                </div>
+            @endif
                   <h4 class="card-title">Detail Project</h4>
                   <p class="card-description">
                     Form Project Programmer
                   </p>
-                 <form action="{{url('/programmer/tambahproject')}}" method="post">
+                 <form action="{{url('/programmer/dproject2')}}" method="post">
 				  {{ csrf_field() }}
           <div class="form-group">
-		  <input type="hidden" class="form-control" id="exampleInputName1" placeholder="Id Proyek" name="ID_TIKET"  value="{{$cetak1}}">
                       <label for="exampleInputName1">ID Proyek</label>
                       <input type="text" class="form-control" id="exampleInputName1" placeholder="Id Proyek" name="ID_PROYEK"  value="{{$cetak}}">
+					   <input type="text" class="form-control" id="exampleInputName1" placeholder="Id Proyek" name="ID_TIKET"  value="{{$cetak1}}">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">Nama Proyek</label>
@@ -44,22 +49,9 @@
                       <label for="exampleInputCity1">Status</label>
                       <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" >
                     </div>
-          <div class="form-group">
-                      <label for="exampleInputCity1">Aktifitas</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="To Do List" name="AKTIFITAS_TIKET" >
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputCity1">Progress</label>
-                      <input type="range" class="form-control" min="0" max="100" value="0" step="1" oninput="updateTextInput(this.value);" id="input1" />
-					  <output name='PROGRESS_TIKET' class="form-control" id="o1"></output>
-                    </div>
-                  <div class="form-group">
-                      <label for="exampleInputCity1">Timeline Aktifitas</label>
-                      <input type="date" class="form-control" id="exampleInputCity1" placeholder="Timeline Aktifitas" name="TIMELINE_TIKET" >
-                    </div>
-                    
+          
                   
-                    <button type="submit" class="btn btn-success mr-2">Submit</button>
+                    <a href="{{url('/programmer/dproject2')}}"><button type="submit" class="btn btn-success mr-2">Next</button></a>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
