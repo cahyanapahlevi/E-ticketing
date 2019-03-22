@@ -55,3 +55,4 @@ Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/tticket', 'ManagerController@tticket');
 Route::post('/manager/update', 'ManagerController@updateticket');
 Route::post('/manager/showreport', 'ManagerController@showreport');
+Route::post('/manager/aktifitas/tambah_komen','ManagerController@tambah_komen');
