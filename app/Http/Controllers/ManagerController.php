@@ -202,7 +202,44 @@ public function tticket(Request $request)
     }
     public function aktifitas()
     {
-        return view('manager/aktifitas');
+       //$id_manager= Session::get('ID');
+       
+        
+        //////////QUERY ASLI MYSQL
+        ////////////////////SELECT e.USERNAME_MANAGER, p.USERNAME_PROGRAMER, k.ID_KOMENTAR , k.ID, k.ISI_KOMENTAR FROM komentar k LEFT JOIN programer p ON p.ID_PROGRAMER=k.ID LEFT JOIN manager e ON k.ID=e.ID_MANAGER WHERE k.ID LIKE '%M%' OR k.ID LIKE '%P%' ORDER BY k.ID_KOMENTAR
+        $tabel_komen = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->get();
+        $tabel_proyek = DB::table('proyek')
+            ->join('tiket','tiket.ID_PROYEK','=','proyek.ID_PROYEK')
+            ->get();
+        
+        return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
+    }
+    
+    public function tambah_komen(Request $request)
+    {
+       
+        DB::table('komentar')->insert([
+            'ID' => $request -> id_manager,
+            'ISI_KOMENTAR' => $request -> komentar,
+            'ID_PROYEK' => $request -> id_proyek
+        ]);
+        
+       $tabel_komen = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->get();
+        $tabel_proyek = DB::table('proyek')
+            ->join('tiket','tiket.ID_PROYEK','=','proyek.ID_PROYEK')
+            ->get();
+        
+       return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
     }
     public function cetak()
     {
