@@ -88,7 +88,7 @@ class ManagerController extends Controller
 	  /*Penambahan pagination pada halaman report (rita)*/
         public function report()
     {
-         $page = DB::table('permintaan')->paginate(2);
+         $page = DB::table('proyek')->paginate(2);
         
         return view('manager/report',compact('page'));
     }
@@ -97,8 +97,8 @@ class ManagerController extends Controller
     {
         $month = $req->month;
         $year = $req->year;
-        $page =DB::table('permintaan')->whereYear('timeline', '=', $year)
-              ->whereMonth('timeline', '=', $month)
+        $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
+              ->whereMonth('DEADLINE_PROYEK', '=', $month)
               ->paginate(5);
             return view('manager/report',compact('page'));
     }
@@ -240,6 +240,12 @@ public function tticket(Request $request)
             ->get();
         
        return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
+    }
+    public function cetak()
+    {
+         $page1 = DB::table('proyek');
+        
+        return view('manager/printreport',compact('page1'));
     }
 
 }

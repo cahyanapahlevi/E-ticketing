@@ -38,11 +38,8 @@
           </select>
           &nbsp
           <button class="btn btn-primary btn-sm" name="filter"><i class="fa fa-search"></i> Search</button>         
-          </form>
-          <script>
-          <button class="btn btn-primary btn-sm" name="cetak"><i class="fa fa-print"></i> Cetak</button>
-    window.print();
-  </script>
+          </form><br/>
+          <a href="{{ url('/manager/cetak') }}" target="_blank"><button class="btn btn-primary btn-sm "  name="cetak"><i class="fa fa-print"></i> Cetak</button></a>
           
   <p></p>
                   <div class="table-responsive">

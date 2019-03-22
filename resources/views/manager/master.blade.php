@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.addons.css')}}">
   <link rel="stylesheet" href="{{asset('source/css/style.css')}}">
   <link rel="shortcut icon" href="{{asset('source/images/coco.png')}}" />
+
+
 </head>
 
 <body>
@@ -44,6 +46,5 @@
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
   <script src="{{asset('source/js/dashboard.js')}}"></script>
-</body>
-
+    </body>
 </html>
