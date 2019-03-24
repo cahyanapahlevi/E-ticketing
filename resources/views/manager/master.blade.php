@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.addons.css')}}">
   <link rel="stylesheet" href="{{asset('source/css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('source/css/select2.min.css')}}">
   <link rel="shortcut icon" href="{{asset('source/images/coco.png')}}" />
 
 
@@ -40,11 +41,18 @@
     </div>
   </div>
 
+
   <script src="{{asset('source/bootstrap/js/bootstrap.min.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
   <script src="{{asset('source/js/dashboard.js')}}"></script>
+  <script src="{{asset('source/js/select2.full.min.js')}}"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+  </script>
     </body>
 </html>

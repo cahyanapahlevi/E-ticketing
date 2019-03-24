@@ -66,13 +66,13 @@
                             {{ $t->PLATFORM_PROYEK}}
                           </td>
                           <td> 
-              {{ $t->PROGRAMER1}}
+              {{ $t->PROGRAMMER1}}
                           </td>
               <td> 
-              {{ $t->PROGRAMER2}}
+              {{ $t->PROGRAMMER2}}
                           </td>
               <td> 
-              {{ $t->ID_PROGRAMER}}
+              {{ $t->ID_PROGRAMMER}}
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
@@ -125,6 +125,12 @@
                         @endforeach
                       </tbody>
                     </table>
+          <br/>
+          <!--Penambahan untuk pagination (rita)-->
+  <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>
+          <div class="pagination">
+          {{ $lihat->links() }}
+          </div>
                   </div>
                 </div>
               </div>

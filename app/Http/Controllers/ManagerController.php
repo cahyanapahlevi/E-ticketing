@@ -247,5 +247,15 @@ public function tticket(Request $request)
         
         return view('manager/printreport',compact('page1'));
     }
-
+public function cari(Request $request)
+    {
+        $cari = $request->cari;
+        
+        $siswa = DB::table('tiket')
+        ->join('permintaan', 'tiket.id_permintaan', '=', 'permintaan.id_permintaan')
+        ->where('permintaan_app','like',"%".$cari."%")
+        ->get();
+        
+        return view('manager/aktifitas',compact('siswa'));
+    }
 }

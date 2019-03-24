@@ -41,35 +41,14 @@
                       <input type="text" class="form-control" id="exampleInputName1" placeholder="PLATFORM_PROYEK" name="PLATFORM_PROYEK" >
                     </div>
           <div class="form-group">
-                      <label for="exampleInputCity1">Programer 1</label>
-                      <select class="form-control" id="exampleFormControlSelect2" name="ID_PROGRAMER">
-          <option value="option_select" disabled selected>programer</option>
-          @foreach($users as $user)
+                      <label for="exampleInputCity1">Programer</label>          
+          <select class="form-control js-example-basic-multiple" name="ID_PROGRAMER[]" multiple="multiple">
+            
+                  @foreach($users as $user)
           <option value="{{ $user->ID_PROGRAMER}}">{{ $user->USERNAME_PROGRAMER}}</option>
           @endforeach
-          
-                    </select>
+                </select>
                     </div>
-          <div class="form-group">
-                    <label for="exampleFormControlSelect2">programer 2</label>
-                    <select class="form-control" id="exampleFormControlSelect2" name="PROGRAMER1">
-          <option value="option_select" disabled selected>programer</option>
-          @foreach($users as $user)
-          <option value="{{ $user->ID_PROGRAMER}}">{{ $user->USERNAME_PROGRAMER}}</option>
-          @endforeach
-                    </select>
-                  </div>
-          <div class="form-group">
-                    <label for="exampleFormControlSelect2">programmer 3</label>
-                    <select class="form-control" id="exampleFormControlSelect2" name="PROGRAMER2">
-          <option value="option_select" disabled selected>programer</option>
-          @foreach($users as $user)
-          <option value="{{ $user->ID_PROGRAMER}}">{{ $user->USERNAME_PROGRAMER}}</option>
-          @endforeach
-                    </select>
-                  </div>
-          
-                    
            <div class="form-group">
                       <label for="exampleInputCity1">Deadline</label>
                       <input type="date" class="form-control" id="exampleInputCity1" placeholder="DEADLINE_PROYEK" name="DEADLINE_PROYEK" >
