@@ -72,10 +72,10 @@
               {{ $t->ID_PROGRAMER}}
                           </td>
                              <td> 
-              {{ $t->PROGRAMER2}}
+              {{ $t->PROGRAMER1}}
                           </td>
                              <td> 
-              {{ $t->PROGRAMER3}}
+              {{ $t->PROGRAMER2}}
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
