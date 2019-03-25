@@ -7,6 +7,7 @@
               <div class="card">
                 <div class="card-body">
                  <h4>DATA PROYEK</h4>
+				 <a href="{{url('/manager/ticket')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> Kembali</button></a>
 				 <p></p>
                     @foreach($proyek as $p)
                      <div class="table-responsive">

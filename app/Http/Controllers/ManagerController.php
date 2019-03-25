@@ -63,7 +63,7 @@ class ManagerController extends Controller
     }
   public function ticket()
     {
-		$lihat = DB::table('proyek')->get()->all();
+		$lihat = DB::table('proyek')->paginate(2);
 				return view('manager/ticket',compact('lihat'));
     }
     public function dticket()
