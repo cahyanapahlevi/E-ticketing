@@ -43,7 +43,9 @@
               <th>
                             Status
                           </th>
-                          
+                          <th>
+                            Detail
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -65,14 +67,15 @@
                           <td>
                             {{ $t->PLATFORM_PROYEK}}
                           </td>
-                          <td> 
-              {{ $t->PROGRAMMER1}}
-                          </td>
+                          
               <td> 
+              {{ $t->ID_PROGRAMER}}
+                          </td>
+                             <td> 
               {{ $t->PROGRAMMER2}}
                           </td>
-              <td> 
-              {{ $t->ID_PROGRAMMER}}
+                             <td> 
+              {{ $t->PROGRAMMER3}}
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
@@ -120,11 +123,14 @@
     </div>
   </div>
                           </td>
-                          
+                          <td>
+                             <a href="{{url('manager/ticket/detail_tiket', $t->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>DETAIL</a>
+                          </td>
                         </tr>
                         @endforeach
                       </tbody>
                     </table>
+            
           <br/>
           <!--Penambahan untuk pagination (rita)-->
   <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>

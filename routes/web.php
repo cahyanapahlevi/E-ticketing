@@ -41,6 +41,7 @@ Route::get('/programmer/tambah','ProgrammerController@tambah');
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/ticket', 'ManagerController@ticket');
+Route::get('/manager/ticket/detail_tiket/{ID_PROYEK}', 'ManagerController@detail_tiket');
 Route::get('/manager/dticket', 'ManagerController@dticket');
 Route::get('/manager/eticket', 'ManagerController@eticket');
 Route::get('/manager/report', 'ManagerController@report');
@@ -57,6 +58,7 @@ Route::get('/manager/cari', 'ManagerController@cari');
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/tticket', 'ManagerController@tticket');
+Route::post('/manager/ticket/tambah_komen', 'ManagerController@tambah_komen');
 Route::post('/manager/update', 'ManagerController@updateticket');
 Route::post('/manager/showreport', 'ManagerController@showreport');
 

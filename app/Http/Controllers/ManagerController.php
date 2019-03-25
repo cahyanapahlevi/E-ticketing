@@ -81,6 +81,42 @@ class ManagerController extends Controller
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
         return view('manager/dticket',compact('users'),compact('cetak'));
     }
+    
+    public function detail_tiket($ID_PROYEK)
+    {
+		$proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
+        
+        $komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->get();
+        
+        return view('manager/detail_tiket',['proyek'=>$proyek,'komentar'=>$komentar]);
+    }
+    
+    public function tambah_komen(Request $request)
+    {
+       
+        DB::table('komentar')->insert([
+            'ID' => session::get('ID'),
+            'ISI_KOMENTAR' => $request -> ISI_KOMENTAR,
+            'ID_PROYEK' => $request -> ID_PROYEK
+        ]);
+        
+        $proyek = DB::table('proyek')->where('ID_PROYEK',$request->ID_PROYEK)->get();
+        
+       $komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->get();
+        
+       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
+    }
+    
 	public function eticket()
     {
         return view('manager/eticket');
@@ -220,33 +256,7 @@ public function tticket(Request $request)
         return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
     }
     
-    public function tambah_komen(Request $request)
-    {
-       
-        DB::table('komentar')->insert([
-            'ID' => $request -> id_manager,
-            'ISI_KOMENTAR' => $request -> komentar,
-            'ID_PROYEK' => $request -> id_proyek
-        ]);
-        
-       $tabel_komen = DB::table('komentar AS k')
-            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
-            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
-            ->where('k.ID','LIKE','%M%')
-            ->orWHere('k.ID','LIKE','%P%')
-            ->get();
-        $tabel_proyek = DB::table('proyek')
-            ->join('tiket','tiket.ID_PROYEK','=','proyek.ID_PROYEK')
-            ->get();
-        
-       return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
-    }
-    public function cetak()
-    {
-         $page1 = DB::table('proyek');
-        
-        return view('manager/printreport',compact('page1'));
-    }
+   
 public function cari(Request $request)
     {
         $cari = $request->cari;
