@@ -53,9 +53,12 @@
                 
               <div class="card">
                   <strong><h4>COMMENT BOX</h4></strong>
+                 
                     <table class="table table-bordered">
+                        
               @foreach($komentar as $k)
-             
+
+             @if($k->ID_PROYEK == Session::get('ID_PROYEK'))
 <tr>
                <td>
     <form>
@@ -81,8 +84,9 @@
     </form>
                    </td>
      </tr>
-             
+             @endif
               @endforeach
+                        
                         </table>
                      
                 </div>

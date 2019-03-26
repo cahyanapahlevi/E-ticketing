@@ -84,16 +84,19 @@ class ManagerController extends Controller
     
     public function detail_tiket($ID_PROYEK)
     {
-		$proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
-        
+        Session::put('ID_PROYEK',$ID_PROYEK);
+        $proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
+       
         $komentar = DB::table('komentar AS k')
+            
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
             ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
             ->where('k.ID','LIKE','%M%')
             ->orWHere('k.ID','LIKE','%P%')
+          
             ->get();
         
-        return view('manager/detail_tiket',['proyek'=>$proyek,'komentar'=>$komentar]);
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
     }
     
     public function tambah_komen(Request $request)
@@ -107,14 +110,18 @@ class ManagerController extends Controller
         
         $proyek = DB::table('proyek')->where('ID_PROYEK',$request->ID_PROYEK)->get();
         
+        
        $komentar = DB::table('komentar AS k')
+           
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
             ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
             ->where('k.ID','LIKE','%M%')
             ->orWHere('k.ID','LIKE','%P%')
+           
             ->get();
-        
+       
        return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
+        
     }
     
 	public function eticket()
