@@ -31,6 +31,7 @@ Route::get('/manager/logout', 'ManagerController@logout');
 Route::get('/programmer/home', 'ProgrammerController@home');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
 Route::get('/programmer/dticket', 'ProgrammerController@dticket');
+Route::get('/programmer/ticket/detail_tiket/{ID_PROYEK}', 'ProgrammerController@detail_tiket');
 Route::get('/programmer/project', 'ProgrammerController@project');
 Route::get('/programmer/dproject', 'ProgrammerController@dproject');
 Route::get('/programmer/edituser', 'ProgrammerController@edituser');
@@ -66,3 +67,4 @@ Route::post('/manager/showreport', 'ManagerController@showreport');
 //Route for proses data into database
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
 Route::post('/programmer/dproject2','ProgrammerController@dproject2');
+Route::post('/programmer/ticket/tambah_komen', 'ManagerController@tambah_komen');

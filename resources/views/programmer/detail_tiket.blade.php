@@ -1,13 +1,13 @@
-@extends('manager.master')
+@extends('programmer.master')
 
-@section('manager.content')
+@section('programmer.content')
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
                  <h4>DATA PROYEK</h4>
-				 <a href="{{url('/manager/ticket')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> Kembali</button></a>
+				 <a href="{{url('/programmer/ticket')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> Kembali</button></a>
 				 <p></p>
                     @foreach($proyek as $p)
                      <div class="table-responsive">
@@ -105,7 +105,7 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-            <form action="{{url('manager/ticket/tambah_komen')}}" method="POST">
+            <form action="{{url('programmer/ticket/tambah_komen')}}" method="POST">
                 
                  {{ csrf_field() }}
                 
