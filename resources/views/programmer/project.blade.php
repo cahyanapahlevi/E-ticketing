@@ -13,9 +13,10 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                         <th>
-                           Id Project
+						<th>
+                            No
                           </th>
+                       
                           <th>
                             Nama Project
                           </th>
@@ -34,53 +35,62 @@
                           <th>
                             Status
                           </th>
-              <th>
+						  <th>
                             Aktifitas Tiket
                           </th>
-              <th>
+						   <th>
                             Progress
                           </th>
-              <th>
+						  <th>
                             Timeline
                           </th>
-              <th>
+						   <th>
                             Action
                           </th>
                         </tr>
                       </thead>
                       <tbody>
+					  @php $no = 1; @endphp
+					  @foreach ($proyek as $p)
                         <tr>
-                          <td class="font-weight-medium">
-                            1
+                          <td>
+                          {{$no++}}
+                          </td>
+                        
+                          <td>
+						  {{$p->NAMA_PROYEK}}
                           </td>
                           <td>
-                            Herman Beck
+						  {{$p->INSTANSI_PROYEK}}
+                          </td>
+                          <td > 
+                           {{$p->DESKRIPSI_PROYEK}}
                           </td>
                           <td>
-                            Aplikasi Ternak
+                            {{$p->PLATFORM_PROYEK}}
                           </td>
+						  <td>
+						  {{$p->DEADLINE_PROYEK}}
+						  </td>
+						  <td>
+						  {{$p->STATUS_PROYEK}}
+						  </td>
+						  <td>
+						  {{$p->AKTIFITAS_TIKET}}
+						  </td>
+						  <td>
+						  {{$p->PROGRESS_TIKET}}
+						  </td>
+						  <td>
+						  {{$p->TIMELINE_TIKET}}
+						  </td>
                           <td>
-                            $ 77.99
-                          </td>
-                          <td class="text-danger"> 53.64%
-                            <i class="mdi mdi-arrow-down"></i>
-                          </td>
-                          <td>
-                            May 15, 2015
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
-                          </td>
-              <td>
-              </td>
-              <td>
-              </td>
-              <td>
-              </td>
-              <td>
-              <button type="button" class="btn btn-primary btn-info">Edit</button>
-              <button type="button" class="btn btn-danger btn-info">Delete</button>
-              </td>
+						<a href="{{url('programmer/project/edit', $p->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>Edit</a> 
+						|
+						<a href= "#"class='btn btn-mini btn-danger tipsy-kiri-atas'>Hapus</a></td>
+			  @endforeach
+             
+             
                         </tr>
                       </tbody>
                     </table>
@@ -91,3 +101,40 @@
           </div>
         </div>
 @endsection
+<script>
+$(document).ready(function () {
+    //Initialize tooltips
+    $('.nav-tabs > li a[title]').tooltip();
+    
+    //Wizard
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+        var $target = $(e.target);
+    
+        if ($target.parent().hasClass('disabled')) {
+            return false;
+        }
+    });
+
+    $(".next-step").click(function (e) {
+
+        var $active = $('.wizard .nav-tabs li.active');
+        $active.next().removeClass('disabled');
+        nextTab($active);
+
+    });
+    $(".prev-step").click(function (e) {
+
+        var $active = $('.wizard .nav-tabs li.active');
+        prevTab($active);
+
+    });
+});
+
+function nextTab(elem) {
+    $(elem).next().find('a[data-toggle="tab"]').click();
+}
+function prevTab(elem) {
+    $(elem).prev().find('a[data-toggle="tab"]').click();
+}
+</script>

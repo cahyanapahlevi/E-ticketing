@@ -10,6 +10,7 @@
 				 <a href="{{url('/manager/ticket')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> Kembali</button></a>
 				 <p></p>
                     @foreach($proyek as $p)
+				
                      <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
@@ -35,6 +36,7 @@
                         </tr>
                          </table>
                     </div>
+					
                     @endforeach
                 </div>
               </div>

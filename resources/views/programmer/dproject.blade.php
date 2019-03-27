@@ -13,50 +13,54 @@
                   <p class="card-description">
                     Form Project Programmer
                   </p>
-                  <form class="forms-sample">
+                  <form class="forms-sample" action="{{url('programmer/tambahproject')}}" method="post">
+				  {{ csrf_field() }}
           <div class="form-group">
                       <label for="exampleInputName1">ID Proyek</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Id Proyek" name="id_proyek" >
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Id Proyek" value="{{$cetak}}" name="ID_PROYEK" ><br/>
+					   <input type="text" value="{{$cetak2}}" name="ID_TIKET" >
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">Nama Proyek</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Nama Proyek" name="nama_proyek">
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Nama Proyek" name="NAMA_PROYEK"> 
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">Instansi</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Instansi" name="instansi" >
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Instansi" name="INSTANSI_PROYEK" >
                     </div>
           <div class="form-group">
                       <label for="exampleTextarea1">Deskripsi Proyek</label>
-                      <textarea class="form-control" id="exampleTextarea1" rows="2" name="deskripsi" ></textarea>
+                      <textarea class="form-control" id="exampleTextarea1" rows="2" name="DESKRIPSI_PROYEK" ></textarea>
                     </div>
           <div class="form-group">
                       <label for="exampleInputName1">Platform Proyek</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Platform Proyek" name="platform_proyek" >
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Platform Proyek" name="PLATFORM_PROYEK" >
                     </div>
            <div class="form-group">
                       <label for="exampleInputCity1">Dedline</label>
-                      <input type="date" class="form-control" id="exampleInputCity1" placeholder="Dedline" name="dedline" >
+                      <input type="date" class="form-control" id="exampleInputCity1" placeholder="Dedline" name="DEADLINE_PROYEK" >
                     </div>
           <div class="form-group">
                       <label for="exampleInputCity1">Status</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="status" >
+                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" >
                     </div>
-          <div class="form-group">
+			<div class="form-group">
                       <label for="exampleInputCity1">Aktifitas</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="To Do List" name="aktifitas_tiket" >
+                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="To Do List" name="AKTIFITAS_TIKET" >
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Progress</label>
-                      <input type="range" class="form-control" max="100" min="1" id="exampleInputCity1" placeholder="Progress" name="progress_tiket" >
+                      <input type="range" class="form-control" min="0" max="100" value="0" step="1" oninput="updateTextInput(this.value);"  />
+					  <input name="PROGRESS_TIKET" class="form-control" id="o1">
                     </div>
                   <div class="form-group">
                       <label for="exampleInputCity1">Timeline Aktifitas</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Timeline Aktifitas" name="timeline_tiket" >
+                      <input type="date" class="form-control" id="exampleInputCity1" placeholder="Timeline Aktifitas" name="TIMELINE_TIKET" >
                     </div>
+         
                     
                   
-                    <button type="submit" class="btn btn-success mr-2">Submit</button>
+					<button type="submit" class="btn btn-success mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                   </form>
                 </div>
@@ -66,3 +70,8 @@
           </div>
         </div>
 @endsection
+<script>
+function updateTextInput(val) {
+  document.getElementById('o1').value=val + " %";
+}
+</script>

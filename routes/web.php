@@ -36,7 +36,8 @@ Route::get('/programmer/dproject', 'ProgrammerController@dproject');
 Route::get('/programmer/edituser', 'ProgrammerController@edituser');
 Route::get('/programmer/aktifitas', 'ProgrammerController@aktifitas'); 
 Route::get('/programmer/tambah','ProgrammerController@tambah');
-
+Route::get('/programmer/dproject2', 'ProgrammerController@dproject2');
+Route::get('/programmer/project/edit/{ID_PROYEK}', 'ProgrammerController@edit');
 
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
@@ -65,4 +66,5 @@ Route::post('/manager/showreport', 'ManagerController@showreport');
 
 //Route for proses data into database
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
-Route::post('/programmer/dproject2','ProgrammerController@dproject2');
+Route::post('/programmer/tambahproject2','ProgrammerController@tambahproject2');
+Route::post('/programmer/updateproject','ProgrammerController@updateproject');

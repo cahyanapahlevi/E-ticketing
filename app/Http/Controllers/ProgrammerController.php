@@ -72,57 +72,139 @@ class ProgrammerController extends Controller
     }
     public function project()
     {
-    	return view('programmer/project');
+		$proyek = DB::table('proyek')
+		->join('tiket','proyek.ID_PROYEK', '=', 'tiket.ID_PROYEK')->get()->all();
+		
+    	return view ('programmer/project',compact('proyek'));
     }
     public function dproject()
-    {
+    
+		{
 		$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
-		if( !$deretakhir)
+		
+		if( ! $deretakhir)
 			$angka = 0;
 		else
-			$angka = substr($deretakhir->ID_PROYEK,3);
+			$angka = substr($deretakhir->ID_PROYEK,4);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
 			
-		$deretakhir1 = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
-		if( !$deretakhir1)
-			$angka1 = 0;
-		else
-			$angka1 = substr($deretakhir1->ID_TIKET,5);
-			$cetak1 = 'T'. sprintf('%03d', intval($angka1)+1);
-			
-			
-		$data = DB::table('proyek')
-		->join('tiket','proyek.ID_PROYEK','=','tiket.ID_TIKET')
-		->select('proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK','tiket.AKTIFITAS_TIKET','tiket.PROGRESS_TIKET','tiket.TIMELINE_TIKET')
-		->get();
+		$deretakhir2 = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
 		
-        return view('programmer/dproject', compact('angka','angka1','cetak','cetak1','data'));
-    }
+		if( ! $deretakhir2)
+			$angka2 = 0;
+		else
+			$angka2 = substr($deretakhir2->ID_TIKET,4);
+			$cetak2 = 'T'. sprintf('%04d', intval($angka2)+1);
+			
+        return view('programmer/dproject', compact('cetak','cetak2'));
+		}
+    
+	
 		public function tambahproject(Request $request)
 	{
+		
+		DB::transaction(function()use ($request){
+			$ID_PROYEK = $request->input('ID_PROYEK');
+		$ID_TIKET = $request->input('ID_TIKET');
+		$NAMA_PROYEK = $request->input('NAMA_PROYEK');
+		$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
+		$DESKRIPSI_PROYEK = $request->input('DESKRIPSI_PROYEK');
+		$PLATFORM_PROYEK = $request->input('PLATFORM_PROYEK');
+		$DEADLINE_PROYEK = $request->input('DEADLINE_PROYEK');
+		$STATUS_PROYEK = $request->input('STATUS_PROYEK');
+		$AKTIFITAS_TIKET = $request->input('AKTIFITAS_TIKET');
+		$PROGRESS_TIKET = $request->input('PROGRESS_TIKET');
+		$TIMELINE_TIKET = $request->input('TIMELINE_TIKET');
+$data=array('ID_PROYEK'=>$ID_PROYEK,"NAMA_PROYEK"=>$NAMA_PROYEK,"INSTANSI_PROYEK"=>$INSTANSI_PROYEK,"DESKRIPSI_PROYEK"=>$DESKRIPSI_PROYEK,"PLATFORM_PROYEK"=>$PLATFORM_PROYEK,"DEADLINE_PROYEK"=>$DEADLINE_PROYEK,"STATUS_PROYEK"=>$STATUS_PROYEK);
+
+$data2=array('ID_TIKET'=>$ID_TIKET,"ID_PROYEK"=>$ID_PROYEK,"AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIKET,"TIMELINE_TIKET"=>$TIMELINE_TIKET);
+
+		DB::table('proyek')->insert($data);
+	   DB::table('tiket')->insert($data2);
 	
-	/*$data = DB::table('proyek')->insert([
-		'ID_PROYEK' => $request->ID_PROYEK,
-		'NAMA_PROYEK' => $request->NAMA_PROYEK,
-		'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
-		'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
-		'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
-		'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
-		'STATUS_PROYEK' => $request->STATUS_PROYEK,
-		])->outputinserted.';'
-	'ID_TIKET'=> $request->ID_TIKET,
-	'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET,
-		'PROGRESS_TIKET' => $request->PROGRESS_TIKET,
-		'TIMELINE_TIKET' => $request->TIMELINE_TIKET
-	]);*/
-	return view('/manager/dproject');
- 
+		});
+		
+	
+	return redirect('/programmer/dproject');
+  
 	}
-public function dproject2()
-    {
-        return view('programmer/dproject2');
-    }	
 	
+	public function edit($ID_PROYEK)
+    {
+		$p = DB::table('proyek')
+		->join('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where('proyek.ID_PROYEK',$ID_PROYEK)->get()->all();
+        return view('programmer/eproject',compact('p'));
+    }
+	
+	public function updateproject(Request $request)
+{
+	DB::transaction(function()use ($request){
+		$NAMA_PROYEK = $request->input('NAMA_PROYEK');
+		$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
+		$DESKRIPSI_PROYEK = $request->input('DESKRIPSI_PROYEK');
+		$PLATFORM_PROYEK = $request->input('PLATFORM_PROYEK');
+		$DEADLINE_PROYEK = $request->input('DEADLINE_PROYEK');
+		$STATUS_PROYEK = $request->input('STATUS_PROYEK');
+		$AKTIFITAS_TIKET = $request->input('AKTIFITAS_TIKET');
+		$PROGRESS_TIKET = $request->input('PROGRESS_TIKET');
+		$TIMELINE_TIKET = $request->input('TIMELINE_TIKET');
+		
+$data=array("NAMA_PROYEK"=>$NAMA_PROYEK,"INSTANSI_PROYEK"=>$INSTANSI_PROYEK,"DESKRIPSI_PROYEK"=>$DESKRIPSI_PROYEK,"PLATFORM_PROYEK"=>$PLATFORM_PROYEK,"DEADLINE_PROYEK"=>$DEADLINE_PROYEK,"STATUS_PROYEK"=>$STATUS_PROYEK);
+
+$data2=array("AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIKET,"TIMELINE_TIKET"=>$TIMELINE_TIKET);
+
+		DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->update($data);
+	   DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->update($data2);
+	
+		});
+		
+	
+	return redirect('/programmer/project');
+	
+		
+
+	
+	}
+	
+	
+	
+	
+public function dproject2(Request $request)
+    {
+	$deretakhir = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
+	
+		
+		if( ! $deretakhir)
+			$angka = 0;
+		else
+			$angka = substr($deretakhir->ID_TIKET,4);
+			$cetak = 'TA'. sprintf('%04d', intval($angka)+1);
+			
+			
+		$deretakhir2 = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
+		
+		if( ! $deretakhir2)
+			$angka2 = 0;
+		else
+			$angka2 = substr($deretakhir->ID_PROYEK,4);
+			$cetak2 = 'PR'. sprintf('%04d', intval($angka2)+1);
+		
+		
+        return view('programmer/dproject2', compact('cetak','cetak2'));	
+	
+    }
+
+public function tambahproject2(Request $request)
+	{
+		DB::table('tiket')->insert([
+		'ID_TIKET'			=>$request->ID_TIKET,
+		'ID_PROYEK'			=>$request->ID_PROYEK,
+		'AKTIFITAS_TIKET' 	=> $request->AKTIFITAS_TIKET,
+		'PROGRESS_TIKET'	=> $request->PROGRESS_TIKET,
+		'TIMELINE_TIKET'	=> $request->TIMELINE_TIKET
+	]);
+	return redirect('/programmer/project');
+	}
     public function edituser()
     {
         return view('programmer/edituser');
