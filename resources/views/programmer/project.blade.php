@@ -87,7 +87,7 @@
                           <td>
 						<a href="{{url('programmer/project/edit', $p->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>Edit</a> 
 						|
-						<a href= "#"class='btn btn-mini btn-danger tipsy-kiri-atas'>Hapus</a></td>
+						<a href= "{{url('programmer/project/hapus', $p->ID_PROYEK)}}"class='btn btn-mini btn-danger tipsy-kiri-atas'>Hapus</a></td>
 			  @endforeach
              
              

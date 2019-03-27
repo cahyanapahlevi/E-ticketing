@@ -39,6 +39,7 @@ Route::get('/programmer/aktifitas', 'ProgrammerController@aktifitas');
 Route::get('/programmer/tambah','ProgrammerController@tambah');
 Route::get('/programmer/dproject2', 'ProgrammerController@dproject2');
 Route::get('/programmer/project/edit/{ID_PROYEK}', 'ProgrammerController@edit');
+Route::get('/programmer/project/hapus/{ID_PROYEK}','ProgrammerController@hapus');
 
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
@@ -56,6 +57,7 @@ Route::get('/manager/cetak', 'ManagerController@cetak');
 Route::get('/manager/cari', 'ManagerController@cari'); 
 
 
+
 //Route for proses data into database
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
@@ -69,3 +71,6 @@ Route::post('/manager/showreport', 'ManagerController@showreport');
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
 Route::post('/programmer/tambahproject2','ProgrammerController@tambahproject2');
 Route::post('/programmer/updateproject','ProgrammerController@updateproject');
+Route::post('/programmer/dproject2','ProgrammerController@dproject2');
+Route::post('/programmer/ticket/tambah_komen', 'ManagerController@tambah_komen');
+

@@ -179,7 +179,7 @@ $data2=array('ID_TIKET'=>$ID_TIKET,"ID_PROYEK"=>$ID_PROYEK,"AKTIFITAS_TIKET"=>$A
 		});
 		
 	
-	return redirect('/programmer/dproject');
+	return redirect('/programmer/project');
   
 	}
 	
@@ -207,8 +207,8 @@ $data=array("NAMA_PROYEK"=>$NAMA_PROYEK,"INSTANSI_PROYEK"=>$INSTANSI_PROYEK,"DES
 
 $data2=array("AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIKET,"TIMELINE_TIKET"=>$TIMELINE_TIKET);
 
-		DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->update($data);
-	   DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->update($data2);
+		DB::table('proyek')->where('ID_PROYEK',$request->ID_PROYEK)->update($data);
+	   DB::table('tiket')->where('ID_TIKET',$request->ID_TIKET)->update($data2);
 	
 		});
 		
@@ -220,9 +220,33 @@ $data2=array("AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIK
 	
 	}
 	
+	public function hapus(Request $request)
+{
+	DB::transaction(function()use ($request){
+		$ID_PROYEK = $request->get('ID_PROYEK');
+		$ID_TIKET = $request->get('ID_TIKET');
+		$NAMA_PROYEK = $request->get('NAMA_PROYEK');
+		$INSTANSI_PROYEK = $request->get('INSTANSI_PROYEK');
+		$DESKRIPSI_PROYEK = $request->get('DESKRIPSI_PROYEK');
+		$PLATFORM_PROYEK = $request->get('PLATFORM_PROYEK');
+		$DEADLINE_PROYEK = $request->get('DEADLINE_PROYEK');
+		$STATUS_PROYEK = $request->get('STATUS_PROYEK');
+		$AKTIFITAS_TIKET = $request->get('AKTIFITAS_TIKET');
+		$PROGRESS_TIKET = $request->get('PROGRESS_TIKET');
+		$TIMELINE_TIKET = $request->get('TIMELINE_TIKET');
+		
+$data=array("ID_PROYEK"=>$ID_PROYEK,"NAMA_PROYEK"=>$NAMA_PROYEK,"INSTANSI_PROYEK"=>$INSTANSI_PROYEK,"DESKRIPSI_PROYEK"=>$DESKRIPSI_PROYEK,"PLATFORM_PROYEK"=>$PLATFORM_PROYEK,"DEADLINE_PROYEK"=>$DEADLINE_PROYEK,"STATUS_PROYEK"=>$STATUS_PROYEK);
+
+$data2=array("ID_TIKET"=>$ID_TIKET,"AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIKET,"TIMELINE_TIKET"=>$TIMELINE_TIKET);
+
+		DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->delete($data);
+	   DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->delete($data2);
 	
+		});
+	return redirect('programer/project');
+}
 	
-	
+		
 public function dproject2(Request $request)
     {
 	$deretakhir = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
