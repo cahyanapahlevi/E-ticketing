@@ -44,22 +44,22 @@
                         <tr>
             @foreach ($siswa as $s)
                           <td>
-                            {{ $s->id_tiket}}
+                            {{ $s->ID_TIKET}}
                           </td>
                           <td>
-                            {{ $s->permintaan_app}}
+                            {{ $s->NAMA_PROYEK}}
                           </td>
               <td>
-                            {{ $s->task}}
+                            {{ $s->TASK}}
                           </td>
                           <td>
-                            {{ $s->aktifitas}}
+                            {{ $s->AKTIFITAS_TIKET}}
                           </td>
                          <td>
-                            {{ $s->progress}}
+                            {{ $s->PROGRESS_TIKET}}
                           </td>
                           <td>
-                            {{ $s->timeline2}}
+                            {{ $s->TIMELINE_TIKET}}
                           </td>
               
                         </tr>

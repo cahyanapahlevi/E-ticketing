@@ -84,7 +84,7 @@
                             {{ $t->STATUS_PROYEK}}
               <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
   
-</div>
+
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -100,7 +100,7 @@
          <form action="{{url('manager/update')}}" method="post">
        {{ csrf_field() }}
        <input type="hidden" name="ID_PROYEK" value="{{$t->ID_PROYEK}}" >
-        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" value="{{ $t->STATUS_PROYEK}}" readonly></input>
+        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" value="{{ $t->STATUS_PROYEK}}" readonly>
         
         <input type="radio" class="flat" name="STATUS_PROYEK"  value="$t->STATUS_PROYEK" checked>Open
                           

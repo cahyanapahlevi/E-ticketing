@@ -142,7 +142,7 @@
               <a class="dropdown-item mt-2" href="{{url('/programmer/edituser')}}">
                 Programmer Accounts
               </a>
-              <a class="dropdown-item">
+             <a class="dropdown-item" href="{{url('/programmer/logout')}}">
                 Sign Out
               </a>
             </div>
