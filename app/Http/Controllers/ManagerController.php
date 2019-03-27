@@ -110,7 +110,6 @@ class ManagerController extends Controller
         
         $proyek = DB::table('proyek')->where('ID_PROYEK',$request->ID_PROYEK)->get();
         
-        
        $komentar = DB::table('komentar AS k')
            
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -243,36 +242,27 @@ public function tticket(Request $request)
         
         return redirect('manager/ticket');
     }
-    public function aktifitas()
+  public function aktifitas()
     {
-       //$id_manager= Session::get('ID');
-       
-        
-        //////////QUERY ASLI MYSQL
-        ////////////////////SELECT e.USERNAME_MANAGER, p.USERNAME_PROGRAMER, k.ID_KOMENTAR , k.ID, k.ISI_KOMENTAR FROM komentar k LEFT JOIN programer p ON p.ID_PROGRAMER=k.ID LEFT JOIN manager e ON k.ID=e.ID_MANAGER WHERE k.ID LIKE '%M%' OR k.ID LIKE '%P%' ORDER BY k.ID_KOMENTAR
-        $tabel_komen = DB::table('komentar AS k')
-            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
-            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
-            ->where('k.ID','LIKE','%M%')
-            ->orWHere('k.ID','LIKE','%P%')
-            ->get();
-        $tabel_proyek = DB::table('proyek')
-            ->join('tiket','tiket.ID_PROYEK','=','proyek.ID_PROYEK')
-            ->get();
-        
-        return view('manager/aktifitas',['tabel_komen'=>$tabel_komen,'tabel_proyek'=>$tabel_proyek]);
+		
+	   $siswa = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+		
+		return view('manager/aktifitas',compact('siswa'));
     }
-    
-   
-public function cari(Request $request)
-    {
-        $cari = $request->cari;
-        
-        $siswa = DB::table('tiket')
-        ->join('permintaan', 'tiket.id_permintaan', '=', 'permintaan.id_permintaan')
-        ->where('permintaan_app','like',"%".$cari."%")
-        ->get();
-        
-        return view('manager/aktifitas',compact('siswa'));
-    }
+	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
+	public function cari(Request $request)
+	{
+		$cari = $request->cari;
+		
+		$siswa = DB::table('tiket')
+		->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+        ->where('NAMA_PROYEK','like',"%".$cari."%")
+		->paginate(2);
+		
+		return view('manager/aktifitas',compact('siswa'));
+	}
+
 }
