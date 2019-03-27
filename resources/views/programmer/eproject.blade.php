@@ -16,7 +16,7 @@
                     Form Edit Proyek
                   </p>
 				     	
-				  <form action="{{url('/programmer/project/updateproject')}}" method="post">
+				  <form action="{{url('/programmer/updateproject')}}" method="post">
 				  {{ csrf_field() }}
 				  @foreach($p as $t)
           <div class="form-group">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">Instansi</label>
-                      <input type="text" class="form-control" id="exampleInputName1" name="INSTANSI_PROYEK_PROYEK" value = "{{$t->INSTANSI_PROYEK}}" required="required"  placeholder="Instansi" >
+                      <input type="text" class="form-control" id="exampleInputName1" name="INSTANSI_PROYEK" value = "{{$t->INSTANSI_PROYEK}}" required="required"  placeholder="Instansi" >
                     </div>
           <div class="form-group">
                       <label for="exampleTextarea1">Deskripsi Proyek</label>
