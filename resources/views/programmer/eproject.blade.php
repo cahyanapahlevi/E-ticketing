@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Progress</label>
-                      <input type="range" class="form-control" min="0" max="100" value="0" step="1" oninput="updateTextInput(this.value);"  />
+                      <input type="range" class="form-control" min="0" max="100" value="{{$t->PROGRESS_TIKET}}" step="1" oninput="updateTextInput(this.value);"  />
 					  <input name="PROGRESS_TIKET" value = "{{$t->PROGRESS_TIKET}}" required="required" class="form-control" id="o1">
                     </div>
                   <div class="form-group">
