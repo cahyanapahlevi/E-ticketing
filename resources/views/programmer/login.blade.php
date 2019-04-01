@@ -71,10 +71,7 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> 12e31c9eb52579c8c113c469cf6f69f46073c6f1
   <script src="{{asset('source/vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
