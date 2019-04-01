@@ -13,26 +13,38 @@
                   <p class="card-description">
                     Pilihlah To Do List Yang Akan Dikerjakan
                   </p>
-                  <form class="forms-sample">
+                  <form class="forms-sample" action="{{url ('programmer/tticket')}}" method="post">
+				   {{ csrf_field() }}
                     <div class="form-group">
                       <label for="exampleInputName1">ID Aktifitas</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="ID AKtifitas">
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="ID Aktifitas" name="ID_TIKET">
                     </div>
-          <div class="form-group">
+					<div class="form-group">
+                      <label for="exampleInputCity1">Nama Proyek</label>
+                      <select class="form-control" id="exampleFormControlSelect2" name="ID_PROYEK">
+					<option value="option_select" disabled selected>Nama Proyek</option>
+					@foreach($user2 as $user1)
+					<option value="{{ $user1->ID_PROYEK}}">{{ $user1->NAMA_PROYEK}}</option>
+					@endforeach
+					
+                    </select>
+                    </div>
+					<div class="form-group">
                       <label for="exampleInputEmail3">Task</label>
-                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Pilih To Do List yang akan dikerjakan">
+                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Task" name="TASK">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">Aktifitas (To Do List)</label>
-                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Pilih To Do List yang akan dikerjakan">
+                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Pilih To Do List yang akan dikerjakan" name="AKTIFITAS_TIKET">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">Progress Aktifitas</label>
-                      <input type="range" class="form-control" id="exampleInputPassword4" placeholder="">
+					  <input type="range" class="form-control" min="0" max="100" value="0" step="1" oninput="updateTextInput(this.value);" />
+                      <input class="form-control" id="o1" placeholder="" name="PROGRESS_TIKET">
                     </div>
                    <div class="form-group">
                       <label for="exampleInputPassword4">Timeline</label>
-                      <input type="date" class="form-control" id="exampleInputPassword4" placeholder="">
+                      <input type="date" class="form-control" id="exampleInputEmail3" placeholder="" name="TIMELINE_TIKET">
                     </div>
                     
                    
@@ -52,3 +64,8 @@
     
     
 @endsection
+<script>
+function updateTextInput(val) {
+	document.getElementById('o1').value=val + "%";
+}
+</script>

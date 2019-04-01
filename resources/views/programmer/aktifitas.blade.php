@@ -9,20 +9,20 @@
                   <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan</h4>
           <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-outline-success">Tambah Aktifitas</button></a>
           <p></p>
-                  <div class="table-responsive">
+                 <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                          <th>
                             ID Tiket
                           </th>
-              <th>
+						  <th>
                             Nama Proyek
                           </th>
                           <th>
                             Task
                           </th>
-              <th>
+						  <th>
                             Aktifitas (To Do List)
                           </th>
                           <th>
@@ -38,33 +38,39 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td class="font-weight-medium">
-                            1
-                          </td>
-              <td>
-              </td>
+                          @foreach ($siswa as $s)
                           <td>
-                            Herman Beck
+                            {{ $s->ID_TIKET}}
                           </td>
                           <td>
-                            Aplikasi Mencari Jodoh
+                            {{ $s->NAMA_PROYEK}}
+                          </td>
+						  <td>
+                            {{ $s->TASK}}
                           </td>
                           <td>
-                            0%
+                            {{ $s->AKTIFITAS_TIKET}}
                           </td>
-                          <td class="text-danger"> 53.64%
-                            <i class="mdi mdi-arrow-down"></i>
+                         <td>
+                            {{ $s->PROGRESS_TIKET}}
                           </td>
                           <td>
-                           <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-primary btn-fw">Edit</button></a>
-               <a href="{{url('/programmer/dticket')}}"><button type="button" class="btn btn-danger btn-fw">Hapus</button></a>
+                            {{ $s->TIMELINE_TIKET}}
                           </td>
+						  <td>
+						  <a href="{{url('/programmer/editaktifitas', $s->ID_TIKET)}}"><button type="button" class="btn btn-danger btn-dm">Edit</button></a>
+							 <a href="{{url('/programmer/hapustiket', $s->ID_TIKET)}}"><button type="button" class="btn btn-warning btn-dm">Delete</button></a>
+						  </td>
                           
-              
+						  
                         </tr>
-           
+            @endforeach
                       </tbody>
                     </table>
+					<small>Jumlah Data :{{ $siswa->total() }}</small> <br/>
+				  <div class="pagination">
+					{{ $siswa->links() }}
+					</div>
                   </div>
                 </div>
               </div>

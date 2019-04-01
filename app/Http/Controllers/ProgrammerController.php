@@ -69,18 +69,22 @@ class ProgrammerController extends Controller
     }
    public function dticket()
     {
-        $users = DB::table('proyek')
+       $users = DB::table('proyek')
             ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
-			
+		$user2 = DB::table('tiket')
+            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->get()->all();	
 			$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
 		
-		if( ! $deretakhir)
-			$angka = 0;
-		else
+		if( ! $deretakhir){
+		$angka = 0;}
+		else{
 			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('programmer/dticket',compact('users'),compact('cetak'));
+		}
+			
+        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'user2'=>$user2]);
     }
     
     public function detail_tiket($ID_PROYEK)
@@ -283,10 +287,11 @@ public function tambahproject2(Request $request)
 	]);
 	return redirect('/programmer/project');
 	}
+    
     public function editprofile()
     {
 		$ID_PROGRAMER = Session::get('ID');
-		$tabel_programmer = DB::table('programmer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
+		$tabel_programmer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer]);
     }
 	
@@ -302,7 +307,108 @@ public function tambahproject2(Request $request)
 }
    public function aktifitas()
     {
-        return view('programmer/aktifitas');
+		
+	   $siswa = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+		
+		return view('programmer/aktifitas',compact('siswa'));
+    }
+	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
+	public function cari(Request $request)
+	{
+		$cari = $request->cari;
+		
+		$siswa = DB::table('proyek')
+        ->where('NAMA_PROYEK','like',"%".$cari."%") 
+		->paginate(2);
+		
+		return view('programmer/hasilcari',compact('siswa'));
+	}
+	
+	public function dataaktifitas()
+	{
+		 $dataak= DB::table('proyek')->paginate(2);
+		
+		return view('programmer/dataaktifitas',compact('dataak'));
+	}
+	public function detailaktifitas($ID_PROYEK)
+    {
+		Session::put('ID_PROYEK',$ID_PROYEK);
+	   $daktif = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+            ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+			
+			$sum = DB::table('tiket')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+			->sum('PROGRESS_TIKET');
+			
+			$avg = DB::table('tiket')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+			->average('PROGRESS_TIKET');
+		
+		return view('programmer/detailaktifitas',compact('daktif','sum','avg'));
+    }
+	public function hapustiket($ID_TIKET)
+	{
+	
+	DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->delete();
+	
+	return redirect('programmer/aktifitas');
+	}
+	public function editaktifitas($ID_TIKET)
+	{
+	
+	$eaktif = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			
+			->where('tiket.ID_TIKET','=',$ID_TIKET)
+            ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK', 'tiket.TIMELINE_TIKET')
+            ->paginate(2);
+		
+		return view('programmer/editaktifitas',compact('eaktif'));
+	}
+	public function updateaktifitas(Request $request)
+    {
+		
+	   DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_TIKET','=',$request->ID_TIKET)
+			->update([
+		
+		'TASK' => $request->TASK,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET,
+		'PROGRESS_TIKET' => $request->PROGRESS_TIKET,
+		'TIMELINE_TIKET' => $request->TIMELINE_TIKET
+	]);
+		
+		return redirect('programmer/aktifitas');
+    }
+	 public function dticketprog()
+    {
+        $users = DB::table('tiket')
+            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->get()->all();
+        return view('programmer/dticketprog',compact('users'));
+    }
+	public function tticket(Request $request)
+    {
+		
+        DB::table('tiket')->insert([
+		'ID_TIKET' => $request->ID_TIKET,
+		'TASK' => $request->TASK,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET,
+		'PROGRESS_TIKET' => $request->PROGRESS_TIKET,
+		'TIMELINE_TIKET' => $request->TIMELINE_TIKET,
+		'ID_PROYEK' => $request->ID_PROYEK
+		
+		
+		]);
+		
+		return redirect('programmer/aktifitas');
     }
 
 }
