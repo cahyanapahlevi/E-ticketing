@@ -82,31 +82,31 @@
                         <tr>
             @foreach ($page as $t)
                           <td class="font-weight-medium">
-              {{ $t->id_permintaan}}
+              {{ $t->ID_PROYEK}}
                           </td>
                           <td>
-              {{ $t->permintaan_app}}
+              {{ $t->NAMA_PROYEK}}
                           </td>
               <td>
-              {{ $t->instansi}}
+              {{ $t->INSTANSI_PROYEK}}
                           </td>
                           <td>
-              {{ $t->deskripsi}}
+              {{ $t->DESKRIPSI_PROYEK}}
                           </td>
                           <td>
-                            {{ $t->jenis_aplikasi}}
+                            {{ $t->PLATFORM_PROYEK}}
                           </td>
                           <td> 
-              {{ $t->programmer1}}
+              {{ $t->ID_PROGRAMER}}
                           </td>
               <td> 
-              {{ $t->programmer2}}
+              {{ $t->PROGRAMER1}}
                           </td>
               <td> 
-              {{ $t->id_programmer}}
+              {{ $t->PROGRAMER2}}
                           </td>
                           <td>
-                            {{ $t->timeline}}
+                            {{ $t->DEADLINE_PROYEK}}
                           </td>
               
                         </tr>
