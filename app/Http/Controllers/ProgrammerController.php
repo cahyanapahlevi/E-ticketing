@@ -283,10 +283,23 @@ public function tambahproject2(Request $request)
 	]);
 	return redirect('/programmer/project');
 	}
-    public function edituser()
+    public function editprofile()
     {
-        return view('programmer/edituser');
+		$ID_PROGRAMER = Session::get('ID');
+		$tabel_programmer = DB::table('programmer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
+	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer]);
     }
+	
+	public function update_profile(Request $request)
+{
+	
+	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
+		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
+		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER
+	]);
+	
+	return redirect('/programmer/home');
+}
    public function aktifitas()
     {
         return view('programmer/aktifitas');

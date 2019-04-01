@@ -38,6 +38,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{url('/manager/ticket')}}">Proyek Baru</a>
                 </li>
+				<li class="nav-item">
+                  <a class="nav-link" href="{{url('/manager/dataaktifitas')}}">Data Aktifitas</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{{url('/manager/aktifitas')}}">Aktivitas (To Do List)</a>
                 </li>

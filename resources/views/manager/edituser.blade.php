@@ -7,46 +7,38 @@
                <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <a href="{{url('/manager/home')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> BACK</button></a>
+                  <a href="{{url('/manager/home')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> Kembali</button></a>
                   <br/><br/>
-                  <h4 class="card-title">Basic form</h4>
-                  <p class="card-description">
-                    Basic form elements
+               
+			   <p></p>
+			   
+                  <p class="card-description" style="font-size:20px;" >
+                    Form Edit Profile
                   </p>
-                  <form class="forms-sample">
+				  
+				 
+
+                  
+				  @foreach($tabel_manager as $m)
+				  <form action="{{url('/manager/profile/update_profile')}}" method="post">
+				  {{ csrf_field() }}
                     <div class="form-group">
-                      <label for="exampleInputName1">Name</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-                    </div>
+                      
+                      <input type="hidden" class="form-control" name="ID_MANAGER"   value ="{{$m->ID_MANAGER}}" required="required" placeholder="ID MANAGER" readonly>
+                    </div> 
+               
                     <div class="form-group">
-                      <label for="exampleInputEmail3">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                      <label for="exampleInputPassword4">User Name</label>
+                      <input type="text" class="form-control" name="USERNAME_MANAGER" value ="{{$m->USERNAME_MANAGER}}" required="required" placeholder="USERNAME MANAGER">
                     </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword4">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                 <div class="form-group">
+                      <label for="exampleInputCity1">Password</label>
+                      <input type="password" class="form-control" name="PASSWORD_MANAGER" value ="{{$m->PASSWORD_MANAGER}}" required="required" placeholder="PASSWORD MANAGER">
                     </div>
-                    <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="img[]" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputCity1">City</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleTextarea1">Textarea</label>
-                      <textarea class="form-control" id="exampleTextarea1" rows="2"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button type="submit" class="btn btn-success mr-2">Kirim</button>
+                    <button class="btn btn-light">Batal</button>
                   </form>
+				  @endforeach
                 </div>
               </div>
             </div>

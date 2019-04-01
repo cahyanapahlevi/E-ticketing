@@ -34,6 +34,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{url('/programmer/ticket')}}">Proyek Baru</a>
                 </li>
+				<li class="nav-item">
+                  <a class="nav-link" href="{{url('/programmer/dataaktifitas')}}">Data Aktifitas</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{{url('/programmer/aktifitas')}}">Aktivitas (To Do List)</a>
                 </li>

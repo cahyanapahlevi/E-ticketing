@@ -152,28 +152,46 @@ class ManagerController extends Controller
     }
     public function edituser()
     {
-		$tabel_programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
-        return view('manager/edituser');
+		$ID_MANAGER = Session::get('ID');
+		$tabel_manager = DB::table('manager')->where('ID_MANAGER',$ID_MANAGER)->get();
+	return view('manager/edituser', ['tabel_manager'=>$tabel_manager]);
     }
 	
+	public function update_profile(Request $request)
+{
+	
+	DB::table('manager')->where('ID_MANAGER',$request->ID_MANAGER)->update([
+		'USERNAME_MANAGER' => $request->USERNAME_MANAGER,
+		'PASSWORD_MANAGER' => $request->PASSWORD_MANAGER
+	]);
+	
+	return redirect('/manager/home');
+}
+		
 	public function hapus($ID_PROGRAMER)
 {
 	DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->delete();
 	return redirect('manager/user');
 }
 	
-	public function tambah()
-    
+	public function tambah(Request $request)
 	{
-		$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
+		$ID_PROGRAMER = $request->get('ID_PROGRAMER');
 		
-		if( ! $deretakhir)
-			$angka = 0;
-		else
-			$angka = substr($deretakhir->ID_PROGRAMER,3);
-			$cetak = 'P'. sprintf('%03d', intval($angka)+1);
+		 $numeric_id = intval(substr($ID_PROGRAMER, 1)); //retrieve numeric value of 'V001' (1)
+  $numeric_id++; //increment
+  if(mb_strlen($numeric_id) == 1)
+  {
+     $zero_string = '00';
+  }elseif(mb_strlen($numeric_id) == 2)
+  {
+     $zero_string = '0';
+  }else{
+     $zero_string = '';
+  }
+  $new_id = 'P'.$zero_string.$numeric_id;
 		
-        return view('manager/tuser', compact('cetak'));
+		return view('manager/tuser', compact('new_id'));
     }
 	public function tambahuser(Request $request)
 {
@@ -265,4 +283,99 @@ public function tticket(Request $request)
 		return view('manager/aktifitas',compact('siswa'));
 	}
 
+	/*Penambahan untuk menu baru dat aktifitas*/
+	public function dataaktifitas()
+	{
+		 $dataak= DB::table('proyek')->paginate(2);
+		
+		return view('manager/dataaktifitas',compact('dataak'));
+	}
+	public function taktifitas()
+	{
+		$aktif = DB::table('tiket')
+            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->get()->all();
+        return view('manager/taktifitas',compact('aktif'));
+	}
+	public function tambahaktifitas(Request $request)
+    {
+		
+        DB::table('tiket')->insert([
+		'ID_PROYEK' => $request->ID_PROYEK,
+		'ID_TIKET' => $request->ID_TIKET,
+		'TASK' => $request->TASK,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET
+		
+		]);
+		
+		return redirect('manager/dataaktifitas');
+    }
+	public function detailaktifitas($ID_PROYEK)
+    {
+		Session::put('ID_PROYEK',$ID_PROYEK);
+	   $daktif = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+            ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+			
+			$sum = DB::table('tiket')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+			->sum('PROGRESS_TIKET');
+			
+			$avg = DB::table('tiket')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+			->average('PROGRESS_TIKET');
+		
+		return view('manager/detailaktifitas',compact('daktif','sum','avg'));
+    }
+	public function editaktifitas($ID_PROYEK)
+    {
+	   $eaktif = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
+            ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+		
+		return view('manager/editaktifitas',compact('eaktif'));
+    }
+	public function updateaktifitas(Request $request)
+    {
+		$ID_PROYEK=Session::get('ID_PROYEK');
+	   DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_TIKET','=',$request->ID_TIKET)
+			->update([
+		
+		'NAMA_PROYEK' => $request->NAMA_PROYEK,
+		'TASK' => $request->TASK,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET
+		
+	]);
+	
+	/*$daktif = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+			->where('tiket.ID_PROYEK','=',$request->ID_PROYEK)
+            ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);*/
+           
+		
+		return redirect('manager/detailaktifitas/'.$ID_PROYEK);
+    }
+	public function hapusproyek($ID_PROYEK)
+	{
+	
+	DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->delete();
+		DB::table('tiket')->where('ID_PROYEK',$ID_PROYEK)->delete();
+	
+	return redirect('manager/dataaktifitas');
+	}
+	
+	public function hapustiket($ID_TIKET)
+	{
+		$ID_PROYEK = Session::get('ID_PROYEK');
+		DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->delete();
+	
+	return redirect('manager/detailaktifitas/'.$ID_PROYEK);
+	}
 }

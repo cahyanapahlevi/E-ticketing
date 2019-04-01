@@ -139,8 +139,8 @@
                   </div>
                 </div>
               </a>
-              <a class="dropdown-item mt-2" href="{{url('/manager/edituser')}}">
-                Manage Accounts
+              <a class="dropdown-item mt-2" href="{{url('/manager/editprofil')}}">
+                My Profile
               </a>
               <a class="dropdown-item" href="{{url('/manager/logout')}}">
                 Sign Out
@@ -153,4 +153,3 @@
         </button>
       </div>
     </nav>
-    
