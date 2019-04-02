@@ -122,7 +122,7 @@
           </li>
           <li class="nav-item dropdown d-none d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <span class="profile-text">Hello, {{\Session::get('nama')}}</span>
+              <span class="profile-text">Hello, {{\Session::get('NAMA_PROGRAMER')}}</span>
               <img class="img-xs rounded-circle" src="{{asset('source/images/faces/face1.jpg')}}" alt="Profile image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
@@ -142,7 +142,7 @@
               <a class="dropdown-item mt-2" href="{{url('/programmer/editprofil')}}">
                 My Profile
               </a>
-              <a class="dropdown-item" href="{{url('/programmer/logout')}}">
+              <a class="dropdown-item" href="{{url('/programmer/logout_p')}}">
                 Sign Out
               </a>
             </div>

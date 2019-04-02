@@ -21,9 +21,9 @@ class ProgrammerController extends Controller
         $data1 = DB::table('programer')->where('USERNAME_PROGRAMER',$username_programer)->first();
         if($data1){ 
             if(DB::table('programer')->where('PASSWORD_PROGRAMER',$password)->first()){
-                Session::put('ID',$data1->ID_PROGRAMER);
-                Session::put('nama',$data1->USERNAME_PROGRAMER);
-                Session::put('login',TRUE);
+                Session::put('ID_PROGRAMER',$data1->ID_PROGRAMER);
+                Session::put('NAMA_PROGRAMER',$data1->USERNAME_PROGRAMER);
+                Session::put('login_p',TRUE);
                 return redirect('programmer/home');
             }
             else{
@@ -49,13 +49,13 @@ class ProgrammerController extends Controller
             }*/
         
 }
-     public function logout(){
+     public function logout_p(){
         Session::flush();
         return redirect('programmer')->with('alert-success','Kamu sudah logout');
     }
     public function home()
     {
-          if(!Session::get('login')){
+          if(!Session::get('login_p')){
             return redirect('programmer')->with('alert','Kamu harus login dulu');
         }
         else{
@@ -64,11 +64,21 @@ class ProgrammerController extends Controller
     }
     public function ticket()
     {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
     	$lihat = DB::table('proyek')->paginate(2);
 				return view('programmer/ticket',compact('lihat'));
+        }
     }
+    
    public function dticket()
     {
+       if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
        $users = DB::table('proyek')
             ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
@@ -85,10 +95,15 @@ class ProgrammerController extends Controller
 		}
 			
         return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'user2'=>$user2]);
+        }
     }
     
     public function detail_tiket($ID_PROYEK)
     {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
         Session::put('ID_PROYEK',$ID_PROYEK);
         $proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
        
@@ -102,13 +117,17 @@ class ProgrammerController extends Controller
             ->get();
         
             return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
+        }
     }
     
     public function tambah_komen(Request $request)
     {
-       
+       if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
         DB::table('komentar')->insert([
-            'ID' => session::get('ID'),
+            'ID' => Session::get('ID_PROGRAMER'),
             'ISI_KOMENTAR' => $request -> ISI_KOMENTAR,
             'ID_PROYEK' => $request -> ID_PROYEK
         ]);
@@ -125,19 +144,28 @@ class ProgrammerController extends Controller
             ->get();
        
        return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
-        
+        }
     }
     
     public function project()
     {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		$proyek = DB::table('proyek')
 		->join('tiket','proyek.ID_PROYEK', '=', 'tiket.ID_PROYEK')->get()->all();
 		
     	return view ('programmer/project',compact('proyek'));
+        }
     }
-    public function dproject()
     
+    public function dproject()
 		{
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
 		
 		if( ! $deretakhir)
@@ -156,11 +184,14 @@ class ProgrammerController extends Controller
 			
         return view('programmer/dproject', compact('cetak','cetak2'));
 		}
+    }
     
-	
 		public function tambahproject(Request $request)
 	{
-		
+		if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		DB::transaction(function()use ($request){
 			$ID_PROYEK = $request->input('ID_PROYEK');
 		$ID_TIKET = $request->input('ID_TIKET');
@@ -184,18 +215,27 @@ $data2=array('ID_TIKET'=>$ID_TIKET,"ID_PROYEK"=>$ID_PROYEK,"AKTIFITAS_TIKET"=>$A
 		
 	
 	return redirect('/programmer/project');
-  
+        }
 	}
 	
 	public function edit($ID_PROYEK)
     {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		$p = DB::table('proyek')
 		->join('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where('proyek.ID_PROYEK',$ID_PROYEK)->get()->all();
         return view('programmer/eproject',compact('p'));
+        }
     }
 	
 	public function updateproject(Request $request)
 {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	DB::transaction(function()use ($request){
 		$NAMA_PROYEK = $request->input('NAMA_PROYEK');
 		$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
@@ -221,11 +261,15 @@ $data2=array("AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIK
 	
 		
 
-	
+        }
 	}
 	
 	public function hapus(Request $request)
 {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	DB::transaction(function()use ($request){
 		$ID_PROYEK = $request->get('ID_PROYEK');
 		$ID_TIKET = $request->get('ID_TIKET');
@@ -248,11 +292,15 @@ $data2=array("ID_TIKET"=>$ID_TIKET,"AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS
 	
 		});
 	return redirect('programer/project');
+        }
 }
-	
-		
+
 public function dproject2(Request $request)
     {
+    if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	$deretakhir = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
 	
 		
@@ -273,11 +321,15 @@ public function dproject2(Request $request)
 		
 		
         return view('programmer/dproject2', compact('cetak','cetak2'));	
-	
+        }
     }
 
 public function tambahproject2(Request $request)
 	{
+    if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		DB::table('tiket')->insert([
 		'ID_TIKET'			=>$request->ID_TIKET,
 		'ID_PROYEK'			=>$request->ID_PROYEK,
@@ -286,38 +338,58 @@ public function tambahproject2(Request $request)
 		'TIMELINE_TIKET'	=> $request->TIMELINE_TIKET
 	]);
 	return redirect('/programmer/project');
+        }
 	}
     
     public function editprofile()
     {
-		$ID_PROGRAMER = Session::get('ID');
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
+		$ID_PROGRAMER = Session::get('ID_PROGRAMER');
 		$tabel_programmer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer]);
+        }
     }
 	
 	public function update_profile(Request $request)
 {
-	
+	if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
 		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
 		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER
 	]);
 	
 	return redirect('/programmer/home');
+        }
 }
+    
    public function aktifitas()
     {
-		
+		if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	   $siswa = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
 		return view('programmer/aktifitas',compact('siswa'));
+        }
     }
+    
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
 	public function cari(Request $request)
 	{
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		$cari = $request->cari;
 		
 		$siswa = DB::table('proyek')
@@ -325,16 +397,27 @@ public function tambahproject2(Request $request)
 		->paginate(2);
 		
 		return view('programmer/hasilcari',compact('siswa'));
+        }
 	}
 	
 	public function dataaktifitas()
 	{
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		 $dataak= DB::table('proyek')->paginate(2);
 		
 		return view('programmer/dataaktifitas',compact('dataak'));
+        }
 	}
+    
 	public function detailaktifitas($ID_PROYEK)
     {
+        if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 		Session::put('ID_PROYEK',$ID_PROYEK);
 	   $daktif = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
@@ -351,17 +434,27 @@ public function tambahproject2(Request $request)
 			->average('PROGRESS_TIKET');
 		
 		return view('programmer/detailaktifitas',compact('daktif','sum','avg'));
+        }
     }
+    
 	public function hapustiket($ID_TIKET)
 	{
-	
+	if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->delete();
 	
 	return redirect('programmer/aktifitas');
+        }
 	}
+    
 	public function editaktifitas($ID_TIKET)
 	{
-	
+	if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	$eaktif = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
 			
@@ -370,10 +463,15 @@ public function tambahproject2(Request $request)
             ->paginate(2);
 		
 		return view('programmer/editaktifitas',compact('eaktif'));
+        }
 	}
+    
 	public function updateaktifitas(Request $request)
     {
-		
+		if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
 	   DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
 			->where('tiket.ID_TIKET','=',$request->ID_TIKET)
@@ -386,17 +484,28 @@ public function tambahproject2(Request $request)
 	]);
 		
 		return redirect('programmer/aktifitas');
+        }
     }
+    
 	 public function dticketprog()
     {
+         if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
         $users = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
         return view('programmer/dticketprog',compact('users'));
+        }
     }
+    
 	public function tticket(Request $request)
     {
-		
+		if(!Session::get('login_p')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
         DB::table('tiket')->insert([
 		'ID_TIKET' => $request->ID_TIKET,
 		'TASK' => $request->TASK,
@@ -409,6 +518,7 @@ public function tambahproject2(Request $request)
 		]);
 		
 		return redirect('programmer/aktifitas');
+        }
     }
 
 }

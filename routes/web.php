@@ -20,7 +20,7 @@ Route::get('/', function () {
 //programmer
 Route::get('/programmer','ProgrammerController@login');
 Route::post('/programmer/masuk', 'ProgrammerController@proseslogin');
-Route::get('/programmer/logout', 'ProgrammerController@logout');
+Route::get('/programmer/logout_p', 'ProgrammerController@logout_p');
 
 //manager
 Route::get('/manager', 'ManagerController@login');
