@@ -52,6 +52,9 @@ Route::get('/programmer/cari', 'ProgrammerController@cari');
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
+Route::get('/manager/open/{ID_PROYEK}', 'ManagerController@open');
+Route::get('/manager/progress/{ID_PROYEK}', 'ManagerController@progress');
+Route::get('/manager/closed/{ID_PROYEK}', 'ManagerController@closed');
 Route::get('/manager/ticket', 'ManagerController@ticket');
 Route::get('/manager/ticket/detail_tiket/{ID_PROYEK}', 'ManagerController@detail_tiket');
 Route::get('/manager/dticket', 'ManagerController@dticket');

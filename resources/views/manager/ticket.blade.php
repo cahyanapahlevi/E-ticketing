@@ -29,13 +29,7 @@
                             Platform Proyek
                           </th>
                           <th>
-                            Programmer1
-                          </th>
-                          <th>
-                            Programmer2
-                          </th>
-              <th>
-                            Programmer3
+                            Programmer
                           </th>
               <th>
                             Dedline
@@ -71,57 +65,40 @@
               <td> 
               {{ $t->ID_PROGRAMER}}
                           </td>
-                             <td> 
-              {{ $t->PROGRAMER1}}
-                          </td>
-                             <td> 
-              {{ $t->PROGRAMER2}}
-                          </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
                           </td>
               <td>
-                            {{ $t->STATUS_PROYEK}}
-              <button type="button" class="btn btn-icons btn-inverse-primary" data-toggle="modal" data-target="#myModal"><i class="mdi mdi-refresh"></i></button>
-  
-
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Status</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-         <form action="{{url('manager/update')}}" method="post">
-       {{ csrf_field() }}
-       <input type="hidden" name="ID_PROYEK" value="{{$t->ID_PROYEK}}" >
-        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Status" name="STATUS_PROYEK" value="{{ $t->STATUS_PROYEK}}" readonly>
-        
-        <input type="radio" class="flat" name="STATUS_PROYEK"  value="$t->STATUS_PROYEK" checked>Open
-                          
-<br>
-<input type="radio" value="progress" class="flat" name="STATUS_PROYEK" value="Progress">Progress
-                         
-<br>
-<input type="radio" value="done" class="flat" name="STATUS_PROYEK" value="Done">Done
-          <br>                 
-      <input type="submit" class="btn btn-primary btn-fw" data-dismiss="modal" name="submit">  
-    </form> 
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          
-        </div>
-        
-      </div>
-    </div>
-  </div>
+              <div class="ticket-actions col-md-2">
+                        <div class="btn-group dropdown">
+            @if ($t->STATUS_PROYEK === 'Open')
+    <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i class="fa fa-check fa-fw"></i> {{ $t->STATUS_PROYEK}}
+                          </button>
+@elseif ($t->STATUS_PROYEK === 'On Progress')
+    <button type="button" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-history fa-fw"></i> {{ $t->STATUS_PROYEK}}
+                          </button>
+@elseif ($t->STATUS_PROYEK === 'Closed')
+    <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <i class="fa fa-times  fa-fw"></i> {{ $t->STATUS_PROYEK}}
+                          </button>
+@else
+    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         {{ $t->STATUS_PROYEK}}
+                          </button>
+@endif
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{url('manager/open',$t->ID_PROYEK)}}">
+                              <i class="fa fa-check text-success fa-fw"></i>Open</a>
+                            <a class="dropdown-item" href="{{url('manager/progress',$t->ID_PROYEK)}}">
+                              <i class="fa fa-history fa-fw"></i>On Progress</a>
+                            <a class="dropdown-item" href="{{url('manager/closed',$t->ID_PROYEK)}}" >
+                              <i class="fa fa-times text-danger fa-fw"></i>Closed</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                           </td>
                           <td>
                              <a href="{{url('manager/ticket/detail_tiket', $t->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>DETAIL</a>
@@ -130,19 +107,13 @@
                         @endforeach
                       </tbody>
                     </table>
-            
-          <br/>
-          <!--Penambahan untuk pagination (rita)-->
-  <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>
-          <div class="pagination">
-          {{ $lihat->links() }}
-          </div>
                   </div>
-                </div>
+                  <!--Penambahan untuk pagination (rita)-->
+  <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>
+          {{ $lihat->links() }}
+                </div>          
               </div>
             </div>
-          </div>
-        </div>
-    
+          </div>   
     
 @endsection

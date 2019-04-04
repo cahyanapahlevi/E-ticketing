@@ -81,6 +81,24 @@ class ManagerController extends Controller
             ->update(['BACA' => 'SUDAH']);
         return redirect('manager/ticket/detail_tiket/'.$ID_PROYEK);
     }
+    public function open($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Open']);
+        return redirect('manager/ticket/');
+    }
+     public function progress($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'On Progress']);
+        return redirect('manager/ticket/');
+    }
+     public function closed($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Closed']);
+        return redirect('manager/ticket/');
+    }
     
   public function ticket()
     {
