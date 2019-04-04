@@ -209,6 +209,11 @@ class ManagerController extends Controller
     {
         return view('manager/eticket');
     }
+    public function cetak()
+    {
+        $page1 = DB::table('proyek')->get()->all();
+        return view('manager/cetak',compact('page1'));
+    }
 	  /*Penambahan pagination pada halaman report (rita)*/
         public function report()
     {
