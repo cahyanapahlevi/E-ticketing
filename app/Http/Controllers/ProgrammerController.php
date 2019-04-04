@@ -49,7 +49,7 @@ class ProgrammerController extends Controller
             }*/
         
 }
-     public function logout(){
+     public function logout_p(){
         Session::flush();
         return redirect('programmer')->with('alert-success','Kamu sudah logout');
     }
