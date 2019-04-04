@@ -23,7 +23,10 @@ class ManagerController extends Controller
                 Session::put('ID_MANAGER',$data->ID_MANAGER);
                 Session::put('NAMA_MANAGER',$data->USERNAME_MANAGER);
                 Session::put('login_m',TRUE);
+                
+                //$cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
                 return redirect('manager/home');
+                // return redirect('manager/home',['cek_project'=>$cek_project]);
             }
             else{
 
@@ -54,7 +57,7 @@ class ManagerController extends Controller
     }
     public function home()
     {
-        $cek_project = DB::table('proyek')->orderBy('ID_PROYEK','desc')->limit(5);
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         $cek_komentar = DB::table('komentar')->get();
           if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
@@ -65,17 +68,19 @@ class ManagerController extends Controller
     }
   public function ticket()
     {
+      $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
       if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$lihat = DB::table('proyek')->paginate(2);
-				return view('manager/ticket',compact('lihat'));
+				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project]);
         }
     }
     
     public function dticket()
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -91,12 +96,13 @@ class ManagerController extends Controller
 		else
 			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users'),compact('cetak'));
+        return view('manager/dticket',compact('users'),compact('cetak'),['cek_project'=>$cek_project]);
         }
     }
     
     public function detail_tiket($ID_PROYEK)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -113,12 +119,13 @@ class ManagerController extends Controller
           
             ->get();
         
-            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project]);
         }
     }
     
     public function tambah_komen(Request $request)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
        if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -141,7 +148,7 @@ class ManagerController extends Controller
            
             ->get();
        
-       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek]);
+       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project]);
         }
         
     }
@@ -153,18 +160,20 @@ class ManagerController extends Controller
 	  /*Penambahan pagination pada halaman report (rita)*/
         public function report()
     {
+            $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/report',compact('page'));
+        return view('manager/report',compact('page'),['cek_project'=>$cek_project]);
         }
     }
     /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
      public function showreport(Request $req)
     {
+         $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
          if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -174,34 +183,37 @@ class ManagerController extends Controller
         $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
               ->whereMonth('DEADLINE_PROYEK', '=', $month)
               ->paginate(5);
-            return view('manager/report',compact('page'));
+            return view('manager/report',compact('page'),['cek_project'=>$cek_project]);
         }
     }
 	    public function user()
     {
+            $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$programer = DB::table('programer')->get();
 		
-        return view('manager/user',['programer' => $programer]);
+        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project]);
         }
     }
     public function edituser()
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$ID_MANAGER = Session::get('ID_MANAGER');
 		$tabel_manager = DB::table('manager')->where('ID_MANAGER',$ID_MANAGER)->get();
-	return view('manager/edituser', ['tabel_manager'=>$tabel_manager]);
+	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project]);
         }
     }
 	
 	public function update_profile(Request $request)
 {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -217,6 +229,7 @@ class ManagerController extends Controller
 		
 	public function hapus($ID_PROGRAMER)
 {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -228,6 +241,7 @@ class ManagerController extends Controller
 	
 	public function tambah(Request $request)
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -247,11 +261,12 @@ class ManagerController extends Controller
   }
   $new_id = 'P'.$zero_string.$numeric_id;
 		
-		return view('manager/tuser', compact('new_id'));
+		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project]);
         }
     }
 	public function tambahuser(Request $request)
 {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -272,19 +287,21 @@ class ManagerController extends Controller
 
 public function edit($ID_PROGRAMER)
 {
+    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 	$programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
-	return view('manager/euser',['programer' => $programer]);
+	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project]);
         }
 }
 
 
 public function update(Request $request)
 {
+    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -303,6 +320,7 @@ public function update(Request $request)
     
 public function tticket(Request $request)
     {
+    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -325,6 +343,7 @@ public function tticket(Request $request)
     }
     public function updateticket(Request $request)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -339,6 +358,7 @@ public function tticket(Request $request)
     
   public function aktifitas()
     {
+      $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -348,12 +368,13 @@ public function tticket(Request $request)
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'));
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project]);
         }
     }
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
 	public function cari(Request $request)
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -365,24 +386,26 @@ public function tticket(Request $request)
         ->where('NAMA_PROYEK','like',"%".$cari."%")
 		->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'));
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project]);
         }
 	}
 
 	/*Penambahan untuk menu baru dat aktifitas*/
 	public function dataaktifitas()
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		 $dataak= DB::table('proyek')->paginate(2);
 		
-		return view('manager/dataaktifitas',compact('dataak'));
+		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project]);
         }
 	}
 	public function taktifitas()
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -390,11 +413,12 @@ public function tticket(Request $request)
 		$aktif = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
-        return view('manager/taktifitas',compact('aktif'));
+        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project]);
         }
 	}
 	public function tambahaktifitas(Request $request)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -413,6 +437,7 @@ public function tticket(Request $request)
     
 	public function detailaktifitas($ID_PROYEK)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -432,12 +457,13 @@ public function tticket(Request $request)
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->average('PROGRESS_TIKET');
 		
-		return view('manager/detailaktifitas',compact('daktif','sum','avg'));
+		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project]);
         }
     }
     
 	public function editaktifitas($ID_PROYEK)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -448,12 +474,13 @@ public function tticket(Request $request)
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/editaktifitas',compact('eaktif'));
+		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project]);
         }
     }
     
 	public function updateaktifitas(Request $request)
     {
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -483,6 +510,7 @@ public function tticket(Request $request)
     
 	public function hapusproyek($ID_PROYEK)
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -496,6 +524,7 @@ public function tticket(Request $request)
 	
 	public function hapustiket($ID_TIKET)
 	{
+        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }

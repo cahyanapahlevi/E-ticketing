@@ -10,60 +10,29 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
+           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-file-document-box"></i>
-              <span class="count">7</span>
+                <span class="count">{{$cek_project->count()}}</span>
             </a>
+              <!------NOTIFIKASI---->
+              
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-              <div class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 7 unread mails
-                </p>
-                <span class="badge badge-info badge-pill float-right">View all</span>
-              </div>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <img src="{{asset('source/images/faces/face4.jpg')}}" alt="image" class="profile-pic">
-                </div>
+                <div class="dropdown-divider"></div>
+                 @foreach($cek_project as $cp)
+              <a class="dropdown-item preview-item" href="{{url('manager/ticket/detail_tiket',$cp->ID_PROYEK)}}">
                 <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">David Grey
-                    <span class="float-right font-weight-light small-text">1 Minutes ago</span>
+                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$cp->NAMA_PROYEK}}
+                    <span class="float-right font-weight-light small-text">Di, {{$cp->INSTANSI_PROYEK}}</span>
                   </h6>
                   <p class="font-weight-light small-text">
-                    The meeting is cancelled
+                    {{$cp->DESKRIPSI_PROYEK}}
                   </p>
                 </div>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <img src="{{asset('source/images/faces/face2.jpg')}}" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">Tim Cook
-                    <span class="float-right font-weight-light small-text">15 Minutes ago</span>
-                  </h6>
-                  <p class="font-weight-light small-text">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <img src="{{asset('source/images/faces/face3.jpg')}}" alt="image" class="profile-pic">
-                </div>
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark"> Johnson
-                    <span class="float-right font-weight-light small-text">18 Minutes ago</span>
-                  </h6>
-                  <p class="font-weight-light small-text">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
+                 @endforeach
             </div>
+               <!-----BATAS AKHIR----->
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">

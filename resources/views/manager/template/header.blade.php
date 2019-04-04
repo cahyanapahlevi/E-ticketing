@@ -13,22 +13,26 @@
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-file-document-box"></i>
+                <span class="count">{{$cek_project->count()}}</span>
             </a>
+              <!------NOTIFIKASI---->
               
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" href="#">
+                <div class="dropdown-divider"></div>
+                 @foreach($cek_project as $cp)
+              <a class="dropdown-item preview-item" href="{{url('manager/ticket/detail_tiket',$cp->ID_PROYEK)}}">
                 <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">
-                    <span class="float-right font-weight-light small-text"></span>
+                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$cp->NAMA_PROYEK}}
+                    <span class="float-right font-weight-light small-text">Di, {{$cp->INSTANSI_PROYEK}}</span>
                   </h6>
                   <p class="font-weight-light small-text">
-                    
+                    {{$cp->DESKRIPSI_PROYEK}}
                   </p>
                 </div>
               </a>
+                 @endforeach
             </div>
-               
+               <!-----BATAS AKHIR----->
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">

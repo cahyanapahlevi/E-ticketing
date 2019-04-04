@@ -89,7 +89,7 @@ Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
 Route::post('/programmer/tambahproject2','ProgrammerController@tambahproject2');
 Route::post('/programmer/updateproject','ProgrammerController@updateproject');
 Route::post('/programmer/dproject2','ProgrammerController@dproject2');
-Route::post('/programmer/ticket/tambah_komen', 'ManagerController@tambah_komen');
+Route::post('/programmer/ticket/tambah_komen', 'ProgrammerController@tambah_komen');
 Route::post('/programmer/profile/update_profile','ProgrammerController@update_profile');
 Route::post('/programmer/updateaktifitas', 'ProgrammerController@updateaktifitas');//tambahan untuk edit aktifitas (rita)
 Route::post('/programmer/tticket', 'ProgrammerController@tticket');
