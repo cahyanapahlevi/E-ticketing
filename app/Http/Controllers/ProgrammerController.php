@@ -21,8 +21,8 @@ class ProgrammerController extends Controller
         $data1 = DB::table('programer')->where('USERNAME_PROGRAMER',$username_programer)->first();
         if($data1){ 
             if(DB::table('programer')->where('PASSWORD_PROGRAMER',$password)->first()){
-                Session::put('ID',$data1->ID_PROGRAMER);
-                Session::put('nama',$data1->USERNAME_PROGRAMER);
+                Session::put('ID_PROGRAMER',$data1->ID_PROGRAMER);
+                Session::put('NAMA_PROGRAMER',$data1->USERNAME_PROGRAMER);
                 Session::put('login',TRUE);
                 return redirect('programmer/home');
             }
