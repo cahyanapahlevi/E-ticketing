@@ -121,7 +121,7 @@ class ProgrammerController extends Controller
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
 		}
 			
-        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak],compact('proyek'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar],compact('proyek'));
     }
     public function myformAjax($id)
     {
@@ -181,7 +181,7 @@ class ProgrammerController extends Controller
             ->limit(5)
             ->get();
         DB::table('komentar')->insert([
-            'ID' => session::get('ID'),
+            'ID' => session::get('ID_PORGRAMER'),
             'ISI_KOMENTAR' => $request -> ISI_KOMENTAR,
             'ID_PROYEK' => $request -> ID_PROYEK
         ]);
