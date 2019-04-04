@@ -20,7 +20,7 @@ Route::get('/', function () {
 //programmer
 Route::get('/programmer','ProgrammerController@login');
 Route::post('/programmer/masuk', 'ProgrammerController@proseslogin');
-Route::get('/programmer/logout', 'ProgrammerController@logout');
+Route::get('/programmer/logout_p', 'ProgrammerController@logout_p');
 
 //manager
 Route::get('/manager', 'ManagerController@login');
@@ -29,6 +29,7 @@ Route::get('/manager/logout', 'ManagerController@logout');
 
 //route programmer get page
 Route::get('/programmer/home', 'ProgrammerController@home');
+Route::get('/programmer/baca/{ID_PROYEK}', 'ProgrammerController@baca');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
 Route::get('/programmer/dticket',array('as'=>'myform','uses'=>'ProgrammerController@dticket'));
 Route::get('/programmer/dticket/myform/ajax/{id}',array('as'=>'myform.ajax','uses'=>'ProgrammerController@myformAjax'));
@@ -50,6 +51,7 @@ Route::get('/programmer/cari', 'ProgrammerController@cari');
 
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
+Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
 Route::get('/manager/ticket', 'ManagerController@ticket');
 Route::get('/manager/ticket/detail_tiket/{ID_PROYEK}', 'ManagerController@detail_tiket');
 Route::get('/manager/dticket', 'ManagerController@dticket');
@@ -74,6 +76,7 @@ Route::get('/manager/hapustiket/{ID_TIKET}', 'ManagerController@hapustiket');//
 
 
 //Route for proses data into database
+Route::post('/manager/baca', 'ManagerController@baca');
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/profile/update_profile','ManagerController@update_profile');
@@ -86,11 +89,12 @@ Route::post('/manager/updateaktifitas', 'ManagerController@updateaktifitas');//t
 
 
 //Route for proses data into database
+Route::post('/programmer/baca', 'ProgrammerController@baca');
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
 Route::post('/programmer/tambahproject2','ProgrammerController@tambahproject2');
 Route::post('/programmer/updateproject','ProgrammerController@updateproject');
 Route::post('/programmer/dproject2','ProgrammerController@dproject2');
-Route::post('/programmer/ticket/tambah_komen', 'ManagerController@tambah_komen');
+Route::post('/programmer/ticket/tambah_komen', 'ProgrammerController@tambah_komen');
 Route::post('/programmer/profile/update_profile','ProgrammerController@update_profile');
 Route::post('/programmer/updateaktifitas', 'ProgrammerController@updateaktifitas');//tambahan untuk edit aktifitas (rita)
 Route::post('/programmer/tticket', 'ProgrammerController@tticket');
