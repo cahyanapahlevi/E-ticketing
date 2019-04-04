@@ -211,7 +211,7 @@ class ManagerController extends Controller
     }
     public function cetak()
     {
-        $page1 = DB::table('proyek')->get()->all();
+        $page1 = DB::table('proyek')->paginate(10);
         return view('manager/cetak',compact('page1'));
     }
 	  /*Penambahan pagination pada halaman report (rita)*/
