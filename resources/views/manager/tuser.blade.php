@@ -22,7 +22,7 @@
 				  {{ csrf_field() }}
                     <div class="form-group">
                       <label for="exampleInputName1">ID Programmer</label>
-                      <input type="text" class="form-control" name="ID_PROGRAMER" value="{{$cetak}}" required="required" placeholder="ID_PROGRAMER">
+                      <input type="text" class="form-control" name="ID_PROGRAMER" value="{{$new_id}}" required="required" placeholder="ID_PROGRAMER" readonly>
                     </div>
                   <!-- <div class="form-group">
                       <label for="exampleTextarea1">ID Aplikasi</label>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">Bidang</label>
-                      <input type="text" class="form-control" name="BIDANG_PROGRAMER" required="required" placeholder="BIDANG_PROGRAMER">
+                      <input type="text" class="form-control" name="BIDANG_PROGRAMER" placeholder="BIDANG_PROGRAMER">
                     </div>
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     <button class="btn btn-light">Batal</button>

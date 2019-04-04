@@ -72,9 +72,9 @@ class ProgrammerController extends Controller
        $users = DB::table('proyek')
             ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
-		$user2 = DB::table('tiket')
-            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
-            ->get()->all();	
+			
+		   
+		 $proyek = DB::table('proyek')->pluck("NAMA_PROYEK","ID_PROYEK")->all();
 			$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
 		
 		if( ! $deretakhir){
@@ -84,9 +84,16 @@ class ProgrammerController extends Controller
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
 		}
 			
-        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'user2'=>$user2]);
+        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak],compact('proyek'));
     }
-    
+    public function myformAjax($id)
+    {
+        $cities = DB::table("tiket")
+                    ->where("ID_PROYEK",$id)
+                    ->pluck("TASK","AKTIFITAS_TIKET")->all();
+        return json_encode($cities);
+    }
+
     public function detail_tiket($ID_PROYEK)
     {
         Session::put('ID_PROYEK',$ID_PROYEK);

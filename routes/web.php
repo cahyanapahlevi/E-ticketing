@@ -30,7 +30,8 @@ Route::get('/manager/logout', 'ManagerController@logout');
 //route programmer get page
 Route::get('/programmer/home', 'ProgrammerController@home');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
-Route::get('/programmer/dticket', 'ProgrammerController@dticket');
+Route::get('/programmer/dticket',array('as'=>'myform','uses'=>'ProgrammerController@dticket'));
+Route::get('/programmer/dticket/myform/ajax/{id}',array('as'=>'myform.ajax','uses'=>'ProgrammerController@myformAjax'));
 Route::get('/programmer/ticket/detail_tiket/{ID_PROYEK}', 'ProgrammerController@detail_tiket');
 Route::get('/programmer/project', 'ProgrammerController@project');
 Route::get('/programmer/dproject', 'ProgrammerController@dproject');
