@@ -24,7 +24,7 @@ class ManagerController extends Controller
                 Session::put('NAMA_MANAGER',$data->USERNAME_MANAGER);
                 Session::put('login_m',TRUE);
                 
-                //$cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+                //$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
                 return redirect('manager/home');
                 // return redirect('manager/home',['cek_project'=>$cek_project]);
             }
@@ -57,8 +57,16 @@ class ManagerController extends Controller
     }
     public function home()
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
-        $cek_komentar = DB::table('komentar')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
           if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -66,21 +74,47 @@ class ManagerController extends Controller
             return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
+    
+    public function baca($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['BACA' => 'SUDAH']);
+        return redirect('manager/ticket/detail_tiket/'.$ID_PROYEK);
+    }
+    
   public function ticket()
     {
-      $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+      $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+      $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
       if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$lihat = DB::table('proyek')->paginate(2);
-				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project]);
+				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     
     public function dticket()
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -96,13 +130,22 @@ class ManagerController extends Controller
 		else
 			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users'),compact('cetak'),['cek_project'=>$cek_project]);
+        return view('manager/dticket',compact('users'),compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     
     public function detail_tiket($ID_PROYEK)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -119,13 +162,22 @@ class ManagerController extends Controller
           
             ->get();
         
-            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project]);
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     
     public function tambah_komen(Request $request)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
        if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -148,7 +200,7 @@ class ManagerController extends Controller
            
             ->get();
        
-       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project]);
+       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
         
     }
@@ -160,20 +212,38 @@ class ManagerController extends Controller
 	  /*Penambahan pagination pada halaman report (rita)*/
         public function report()
     {
-            $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+            $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+            $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/report',compact('page'),['cek_project'=>$cek_project]);
+        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
      public function showreport(Request $req)
     {
-         $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
          if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -183,37 +253,64 @@ class ManagerController extends Controller
         $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
               ->whereMonth('DEADLINE_PROYEK', '=', $month)
               ->paginate(5);
-            return view('manager/report',compact('page'),['cek_project'=>$cek_project]);
+            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
 	    public function user()
     {
-            $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+            $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+            $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$programer = DB::table('programer')->get();
 		
-        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project]);
+        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     public function edituser()
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$ID_MANAGER = Session::get('ID_MANAGER');
 		$tabel_manager = DB::table('manager')->where('ID_MANAGER',$ID_MANAGER)->get();
-	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project]);
+	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
 	
 	public function update_profile(Request $request)
 {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -229,7 +326,16 @@ class ManagerController extends Controller
 		
 	public function hapus($ID_PROGRAMER)
 {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -241,7 +347,16 @@ class ManagerController extends Controller
 	
 	public function tambah(Request $request)
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -261,12 +376,21 @@ class ManagerController extends Controller
   }
   $new_id = 'P'.$zero_string.$numeric_id;
 		
-		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project]);
+		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
 	public function tambahuser(Request $request)
 {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -287,21 +411,39 @@ class ManagerController extends Controller
 
 public function edit($ID_PROGRAMER)
 {
-    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+    $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+    $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 	$programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
-	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project]);
+	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
 }
 
 
 public function update(Request $request)
 {
-    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+    $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+    $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -320,7 +462,16 @@ public function update(Request $request)
     
 public function tticket(Request $request)
     {
-    $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+    $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+    $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -335,7 +486,8 @@ public function tticket(Request $request)
         'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
         'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
         'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
-        'STATUS_PROYEK' => $request->STATUS_PROYEK
+        'STATUS_PROYEK' => $request->STATUS_PROYEK,
+            'BACA' => 'BELUM'
 ]);
 				return redirect('manager/ticket');
         
@@ -343,7 +495,16 @@ public function tticket(Request $request)
     }
     public function updateticket(Request $request)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -358,7 +519,16 @@ public function tticket(Request $request)
     
   public function aktifitas()
     {
-      $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+      $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+      $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -368,13 +538,22 @@ public function tticket(Request $request)
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
 	public function cari(Request $request)
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -386,26 +565,44 @@ public function tticket(Request $request)
         ->where('NAMA_PROYEK','like',"%".$cari."%")
 		->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
 	}
 
 	/*Penambahan untuk menu baru dat aktifitas*/
 	public function dataaktifitas()
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		 $dataak= DB::table('proyek')->paginate(2);
 		
-		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project]);
+		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
 	}
 	public function taktifitas()
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -413,12 +610,21 @@ public function tticket(Request $request)
 		$aktif = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
-        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project]);
+        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
 	}
 	public function tambahaktifitas(Request $request)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -437,7 +643,16 @@ public function tticket(Request $request)
     
 	public function detailaktifitas($ID_PROYEK)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -457,13 +672,22 @@ public function tticket(Request $request)
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->average('PROGRESS_TIKET');
 		
-		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project]);
+		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
     
 	public function editaktifitas($ID_PROYEK)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -474,13 +698,22 @@ public function tticket(Request $request)
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project]);
+		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar ]);
         }
     }
     
 	public function updateaktifitas(Request $request)
     {
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -510,7 +743,16 @@ public function tticket(Request $request)
     
 	public function hapusproyek($ID_PROYEK)
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -524,7 +766,16 @@ public function tticket(Request $request)
 	
 	public function hapustiket($ID_TIKET)
 	{
-        $cek_project = DB::table('proyek')->where('STATUS_PROYEK','=','open')->orderBy('ID_PROYEK','desc')->get();
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+        $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }

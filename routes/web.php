@@ -29,6 +29,7 @@ Route::get('/manager/logout', 'ManagerController@logout');
 
 //route programmer get page
 Route::get('/programmer/home', 'ProgrammerController@home');
+Route::get('/programmer/baca/{ID_PROYEK}', 'ProgrammerController@baca');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
 Route::get('/programmer/dticket', 'ProgrammerController@dticket');
 Route::get('/programmer/ticket/detail_tiket/{ID_PROYEK}', 'ProgrammerController@detail_tiket');
@@ -49,6 +50,7 @@ Route::get('/programmer/cari', 'ProgrammerController@cari');
 
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
+Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
 Route::get('/manager/ticket', 'ManagerController@ticket');
 Route::get('/manager/ticket/detail_tiket/{ID_PROYEK}', 'ManagerController@detail_tiket');
 Route::get('/manager/dticket', 'ManagerController@dticket');
@@ -73,6 +75,7 @@ Route::get('/manager/hapustiket/{ID_TIKET}', 'ManagerController@hapustiket');//
 
 
 //Route for proses data into database
+Route::post('/manager/baca', 'ManagerController@baca');
 Route::post('/manager/tambahuser','ManagerController@tambahuser');
 Route::post('/manager/user/update','ManagerController@update');
 Route::post('/manager/profile/update_profile','ManagerController@update_profile');
@@ -85,6 +88,7 @@ Route::post('/manager/updateaktifitas', 'ManagerController@updateaktifitas');//t
 
 
 //Route for proses data into database
+Route::post('/programmer/baca', 'ProgrammerController@baca');
 Route::post('/programmer/tambahproject','ProgrammerController@tambahproject');
 Route::post('/programmer/tambahproject2','ProgrammerController@tambahproject2');
 Route::post('/programmer/updateproject','ProgrammerController@updateproject');
