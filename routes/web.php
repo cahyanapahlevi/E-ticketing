@@ -54,6 +54,9 @@ Route::get('/programmer/get-Aktifitas_Tiket','ProgrammerController@getAktivitas_
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
+Route::get('/manager/open/{ID_PROYEK}', 'ManagerController@open');
+Route::get('/manager/progress/{ID_PROYEK}', 'ManagerController@progress');
+Route::get('/manager/closed/{ID_PROYEK}', 'ManagerController@closed');
 Route::get('/manager/ticket', 'ManagerController@ticket');
 Route::get('/manager/ticket/detail_tiket/{ID_PROYEK}', 'ManagerController@detail_tiket');
 Route::get('/manager/dticket', 'ManagerController@dticket');
@@ -74,6 +77,9 @@ Route::get('/manager/detailaktifitas/{ID_PROYEK}', 'ManagerController@detailakti
 Route::get('/manager/editaktifitas/{ID_PROYEK}', 'ManagerController@editaktifitas');//tambahan untuk cari data proyek (rita)
 Route::get('/manager/hapusproyek/{ID_PROYEK}', 'ManagerController@hapusproyek');//
 Route::get('/manager/hapustiket/{ID_TIKET}', 'ManagerController@hapustiket');//
+Route::get('/manager/proyek', 'ManagerController@proyek'); 
+Route::get('/manager/reportproyek', 'ManagerController@reportproyek');//tambahan untuk dropdown report (rita)
+Route::get('/manager/reportorang', 'ManagerController@reportorang');//tambahan untuk dropdown report (rita)
 
 
 

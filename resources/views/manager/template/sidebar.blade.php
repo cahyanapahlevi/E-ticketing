@@ -47,11 +47,26 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url('/manager/report')}}">
+            <!--Tambahan sidebar report rita-->
+		   <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon fa fa-archive"></i>
               <span class="menu-title">Report</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url('/manager/report')}}"> Report Bulanan </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url('/manager/reportproyek')}}"> Report Per-Proyek </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url('/manager/reportorang')}}"> Report Per-Orang </a>
+                </li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url('/manager/user')}}">

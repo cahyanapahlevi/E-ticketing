@@ -68,7 +68,9 @@ Route::get('/manager/detailaktifitas/{ID_PROYEK}', 'ManagerController@detailakti
 Route::get('/manager/editaktifitas/{ID_PROYEK}', 'ManagerController@editaktifitas');//tambahan untuk cari data proyek (rita)
 Route::get('/manager/hapusproyek/{ID_PROYEK}', 'ManagerController@hapusproyek');//
 Route::get('/manager/hapustiket/{ID_TIKET}', 'ManagerController@hapustiket');//
-
+Route::get('/manager/proyek', 'ManagerController@proyek'); 
+Route::get('/manager/reportproyek', 'ManagerController@reportproyek');//tambahan untuk dropdown report (rita)
+Route::get('/manager/reportorang', 'ManagerController@reportorang');//tambahan untuk dropdown report (rita)
 
 
 //Route for proses data into database

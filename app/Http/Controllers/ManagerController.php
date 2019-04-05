@@ -57,6 +57,7 @@ class ManagerController extends Controller
     }
     public function home()
     {
+        $pm= DB::table('proyek')->get();
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
         $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -71,7 +72,7 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm]);
         }
     }
     
@@ -80,6 +81,24 @@ class ManagerController extends Controller
             ->where('ID_PROYEK',$ID_PROYEK)
             ->update(['BACA' => 'SUDAH']);
         return redirect('manager/ticket/detail_tiket/'.$ID_PROYEK);
+    }
+    public function open($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Open']);
+        return redirect('manager/ticket/');
+    }
+     public function progress($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'On Progress']);
+        return redirect('manager/ticket/');
+    }
+     public function closed($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Closed']);
+        return redirect('manager/ticket/');
     }
     
   public function ticket()
@@ -98,6 +117,7 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
+            //$lihat = DB::table('proyek')->join('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')->select('proyek.ID_PROYEK', 'proyek.NAMA_PROYEK', 'proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','programer.USERNAME_PROGRAMER','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK')->paginate(2);
 		$lihat = DB::table('proyek')->paginate(2);
 				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
@@ -123,14 +143,14 @@ class ManagerController extends Controller
             ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
 			
-			$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
+			$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
 		
 		if( ! $deretakhir)
 			$angka = 0;
 		else
-			$angka = substr($deretakhir->ID_PROGRAMER,3);
+			$angka = substr($deretakhir->ID_PROYEK,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users'),compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar'));
         }
     }
     
@@ -261,6 +281,46 @@ class ManagerController extends Controller
             return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
+    
+    /*Penambahan untuk menu dropdown report*/
+	public function reportproyek()
+    {
+        
+         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+         $page = DB::table('proyek')->paginate(2);
+        
+        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+    }
+	public function reportorang()
+    {
+        
+         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+        $siswa = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+        
+        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+    }
+    
 	    public function user()
     {
             $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
@@ -481,19 +541,18 @@ public function tticket(Request $request)
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-        DB::table('proyek')->insert([
-        'ID_PROYEK' => $request->ID_PROYEK,
-        'ID_PROGRAMER' => $request->ID_PROGRAMER,
-        'PROGRAMER1' => $request->PROGRAMER1,
-        'PROGRAMER2' => $request->PROGRAMER2,
-        'NAMA_PROYEK' => $request->NAMA_PROYEK,
-        'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
-        'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
-        'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
-        'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
-        'STATUS_PROYEK' => $request->STATUS_PROYEK,
-            'BACA' => 'BELUM'
-]);
+$ID_PROYEK = $request->input('ID_PROYEK');
+$ID_MANAGER = $request->input('ID_MANAGER');
+$ID_PROGRAMER = $request->input('ID_PROGRAMER');
+$NAMA_PROYEK = $request->input('NAMA_PROYEK');
+$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
+$DESKRIPSI_PROYEK = $request->input('DESKRIPSI_PROYEK');
+$PLATFORM_PROYEK = $request->input('PLATFORM_PROYEK');
+$STATUS_PROYEK = $request->input('STATUS_PROYEK');
+$DEADLINE_PROYEK = $request->input('DEADLINE_PROYEK');
+$prog = implode(", ", $ID_PROGRAMER);
+$data=array('ID_PROYEK'=>$ID_PROYEK,'ID_MANAGER'=>$ID_MANAGER,'ID_PROGRAMER'=>$prog,'NAMA_PROYEK'=>$NAMA_PROYEK,'INSTANSI_PROYEK'=>$INSTANSI_PROYEK,'DESKRIPSI_PROYEK'=>$DESKRIPSI_PROYEK,'PLATFORM_PROYEK'=>$PLATFORM_PROYEK,'STATUS_PROYEK'=>$STATUS_PROYEK,'BACA'=>'BELUM','DEADLINE_PROYEK'=>$DEADLINE_PROYEK);
+DB::table('proyek')->insert($data);
 				return redirect('manager/ticket');
         
         }
@@ -790,5 +849,21 @@ public function tticket(Request $request)
 	
 	return redirect('manager/detailaktifitas/'.$ID_PROYEK);
         }
+	}
+    
+    public function proyek()
+	{
+		 $pm= DB::table('proyek')->paginate(2);
+		$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
 	}
 }

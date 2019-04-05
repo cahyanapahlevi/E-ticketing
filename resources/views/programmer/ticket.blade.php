@@ -126,6 +126,12 @@
                         @endforeach
                       </tbody>
                     </table>
+                       <br/>
+          <!--Penambahan untuk pagination (rita)-->
+  <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>
+          <div class="pagination">
+          {{ $lihat->links() }}
+          </div>
                   </div>
                 </div>
               </div>
