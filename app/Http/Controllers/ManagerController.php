@@ -850,4 +850,20 @@ DB::table('proyek')->insert($data);
 	return redirect('manager/detailaktifitas/'.$ID_PROYEK);
         }
 	}
+    
+    public function proyek()
+	{
+		 $pm= DB::table('proyek')->paginate(2);
+		$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+	}
 }
