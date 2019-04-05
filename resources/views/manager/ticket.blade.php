@@ -62,8 +62,8 @@
                             {{ $t->PLATFORM_PROYEK}}
                           </td>      
               <td>
-                @if ($t->USERNAME_PROGRAMER != "")
-  @foreach(explode(',', $t->USERNAME_PROGRAMER) as $info) 
+                @if ($t->ID_PROGRAMER != "")
+  @foreach(explode(',', $t->ID_PROGRAMER) as $info) 
     <option>{{$info}}</option>
   @endforeach
 @endif
@@ -101,7 +101,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+               
                           </td>
                           <td>
                              <a href="{{url('manager/ticket/detail_tiket', $t->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>DETAIL</a>
@@ -110,13 +110,17 @@
                         @endforeach
                       </tbody>
                     </table>
-                  </div>
-                  <!--Penambahan untuk pagination (rita)-->
+                       <br/>
+                       <!--Penambahan untuk pagination (rita)-->
   <small>Jumlah Data : {{ $lihat->total() }}</small> <br/>
+          <div class="pagination">
           {{ $lihat->links() }}
+          </div>
+                  </div>
+                  
                 </div>          
               </div>
             </div>
           </div>   
-    
+</div>
 @endsection

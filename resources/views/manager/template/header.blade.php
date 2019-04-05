@@ -31,10 +31,10 @@
                 <div class="preview-item-content flex-grow">
                   <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$cp->NAMA_PROYEK}}</h6>
                     <span class="float-right font-weight-light small-text">Di, {{$cp->INSTANSI_PROYEK}}</span>
-                  
+                  <br><br>
                   <p class="font-weight-light small-text">
                     {{$cp->DESKRIPSI_PROYEK}}
-                  </p>
+                  </p><br>
                 </div>
               </a>
                  @endforeach
