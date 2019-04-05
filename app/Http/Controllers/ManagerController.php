@@ -57,6 +57,7 @@ class ManagerController extends Controller
     }
     public function home()
     {
+        $pm= DB::table('proyek')->get();
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
         $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -71,7 +72,7 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm]);
         }
     }
     
@@ -280,6 +281,46 @@ class ManagerController extends Controller
             return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
+    
+    /*Penambahan untuk menu dropdown report*/
+	public function reportproyek()
+    {
+        
+         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+         $page = DB::table('proyek')->paginate(2);
+        
+        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+    }
+	public function reportorang()
+    {
+        
+         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+        $siswa = DB::table('tiket')
+            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
+            ->paginate(2);
+        
+        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+    }
+    
 	    public function user()
     {
             $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();

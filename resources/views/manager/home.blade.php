@@ -11,9 +11,9 @@
                       <i class="mdi mdi-cube text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <p class="mb-0 text-right">Project</p>
-                      <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">5</h3>
+                      <a href="{{url('/manager/proyek')}}"><p class="mb-0 text-right">Project</p></a><!--Tambahan rita-->
+                     <div class="fluid-container">
+                        <h3 class="font-weight-medium text-right mb-0">{{ $pm->count() }}</h3><!--Tambahan rita-->
                       </div>
                     </div>
                   </div>
