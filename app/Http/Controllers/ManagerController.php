@@ -116,7 +116,11 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-		$lihat = DB::table('proyek')->paginate(2);
+            $lihat = DB::table('proyek')
+            ->join('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
+            ->select('proyek.ID_PROYEK', 'proyek.NAMA_PROYEK', 'proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','programer.USERNAME_PROGRAMER','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK')
+            ->paginate(2);
+		//$lihat = DB::table('proyek')->paginate(2);
 				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
@@ -148,7 +152,7 @@ class ManagerController extends Controller
 		else
 			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users'),compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar'));
         }
     }
     
@@ -499,19 +503,17 @@ public function tticket(Request $request)
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-        DB::table('proyek')->insert([
-        'ID_PROYEK' => $request->ID_PROYEK,
-        'ID_PROGRAMER' => $request->ID_PROGRAMER,
-        'PROGRAMER1' => $request->PROGRAMER1,
-        'PROGRAMER2' => $request->PROGRAMER2,
-        'NAMA_PROYEK' => $request->NAMA_PROYEK,
-        'INSTANSI_PROYEK' => $request->INSTANSI_PROYEK,
-        'DESKRIPSI_PROYEK' => $request->DESKRIPSI_PROYEK,
-        'PLATFORM_PROYEK' => $request->PLATFORM_PROYEK,
-        'DEADLINE_PROYEK' => $request->DEADLINE_PROYEK,
-        'STATUS_PROYEK' => $request->STATUS_PROYEK,
-            'BACA' => 'BELUM'
-]);
+$ID_PROYEK = $request->input('ID_PROYEK');
+$ID_MANAGER = $request->input('ID_MANAGER');
+$ID_PROGRAMER = $request->input('ID_PROGRAMER');
+$NAMA_PROYEK = $request->input('NAMA_PROYEK');
+$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
+$DESKRIPSI_PROYEK = $request->input('DESKRIPSI_PROYEK');
+$PLATFORM_PROYEK = $request->input('PLATFORM_PROYEK');
+$STATUS_PROYEK = $request->input('STATUS_PROYEK');
+$prog = implode(", ", $ID_PROGRAMER);
+$data=array('ID_PROYEK'=>$ID_PROYEK,'ID_MANAGER'=>$ID_MANAGER,'ID_PROGRAMER'=>$prog,'NAMA_PROYEK'=>$NAMA_PROYEK,'INSTANSI_PROYEK'=>$INSTANSI_PROYEK,'DESKRIPSI_PROYEK'=>$DESKRIPSI_PROYEK,'PLATFORM_PROYEK'=>$PLATFORM_PROYEK,'STATUS_PROYEK'=>$STATUS_PROYEK,'BACA'=>'BELUM');
+DB::table('proyek')->insert($data);
 				return redirect('manager/ticket');
         
         }

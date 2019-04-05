@@ -62,13 +62,7 @@
                             Platform Proyek
                           </th>
                           <th>
-                            Programmer1
-                          </th>
-                          <th>
-                            Programmer2
-                          </th>
-              <th>
-                            Programmer3
+                            Programmer
                           </th>
               <th>
                             Deadline Proyek
@@ -98,12 +92,6 @@
                           </td>
                           <td> 
               {{ $t->ID_PROGRAMER}}
-                          </td>
-              <td> 
-              {{ $t->PROGRAMER1}}
-                          </td>
-              <td> 
-              {{ $t->PROGRAMER2}}
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}

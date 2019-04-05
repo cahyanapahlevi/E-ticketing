@@ -60,10 +60,13 @@
                           </td>
                           <td>
                             {{ $t->PLATFORM_PROYEK}}
-                          </td>
-                          
-              <td> 
-              {{ $t->ID_PROGRAMER}}
+                          </td>      
+              <td>
+                @if ($t->USERNAME_PROGRAMER != "")
+  @foreach(explode(',', $t->USERNAME_PROGRAMER) as $info) 
+    <option>{{$info}}</option>
+  @endforeach
+@endif
                           </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}

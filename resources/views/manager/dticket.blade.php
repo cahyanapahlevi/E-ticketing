@@ -9,11 +9,6 @@
                 <div class="card-body">
                   <a href="{{url('/manager/ticket')}}"><button type="button" class="btn btn-outline-warning"> <i class="menu-icon mdi mdi-reply"></i> BACK</button></a>
                   <br/><br/>
-				  @if(Session::has('alert-warning'))
-                <div class="alert alert-warning">
-                    <div>{{Session::get('alert-warning')}}</div>
-                </div>
-            @endif
                   <h4 class="card-title">Tiket</h4>
                   <p class="card-description">
                     Form Permintaan Tiket
@@ -23,6 +18,9 @@
           <div class="form-group">
                       <label for="exampleInputName1">ID Proyek</label>
                       <input type="text" class="form-control" id="exampleInputName1"  value="{{$cetak}}" placeholder="ID PROYEK" name="ID_PROYEK" readonly >
+                      
+                      <input type="hidden" class="form-control" id="exampleInputName1"  value="{{\Session::get('ID_MANAGER')}}" name="ID_MANAGER">
+                      
                     </div>
                     <div class="form-group">
                       <label for="exampleInputName1">Nama Proyek</label>
