@@ -48,7 +48,9 @@ Route::get('/programmer/hapustiket/{ID_TIKET}', 'ProgrammerController@hapustiket
 Route::get('/programmer/editaktifitas/{ID_TIKET}', 'ProgrammerController@editaktifitas');//tambahan edit tiket (aktifitas) (rita)
 Route::get('/programmer/dticketprog', 'ProgrammerController@dticketprog');
 Route::get('/programmer/cari', 'ProgrammerController@cari'); 
-
+Route::get('/programmer/dependent-dropdown','ProgrammerController@dticket');
+Route::get('/programmer/get-Task','ProgrammerController@getTask');
+Route::get('/programmer/get-Aktifitas_Tiket','ProgrammerController@getAktivitas_Tiket');
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');

@@ -94,7 +94,7 @@ class ProgrammerController extends Controller
     	$lihat = DB::table('proyek')->paginate(2);
 				return view('programmer/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
     }
-   public function dticket()
+   public function dticket(Request $request)
     {
        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
@@ -123,6 +123,27 @@ class ProgrammerController extends Controller
 			
         return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar],compact('proyek'));
     }
+		public function dticket2()
+		{
+		
+        $proyek = DB::table("proyek")->pluck("NAMA_PROYEK","ID_PROYEK");
+		return view('dticket',compact('proyek'));
+		}
+		public function getTask(Request $request)
+		{
+        $tiket = DB::table("tiket")
+                    ->where("NAMA_PROYEK",$request->NAMA_PROYEK)
+                    ->pluck("TASK");
+        return response()->json($tiket);
+		}
+		public function getAktifitas_Tiket(Request $request)
+		{
+        $tiket = DB::table("tiket")
+                    ->where("NAMA_PROYEK",$request->NAMA_PROYEK)
+                    ->pluck("AKTIFITAS_TIKET");
+        return response()->json($tiket);
+		}
+	
     public function myformAjax($id)
     {
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();

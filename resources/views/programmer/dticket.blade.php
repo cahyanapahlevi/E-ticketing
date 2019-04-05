@@ -18,7 +18,7 @@
                    
 					<div class="form-group">
                       <label for="exampleInputCity1">Nama Proyek</label>
-                      <select class="form-control" name="ID_PROYEK">
+                      <select class="form-control" name="NAMA_PROYEK" id="NAMA_PROYEK">
 					<option value="option_select" disabled selected>Nama Proyek</option>
 					 @foreach ($proyek as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
@@ -29,13 +29,13 @@
 
 					<div class="form-group">
                       <label for="exampleInputEmail3">Task</label>
-                      <select name="TASK" class="form-control input-lg">
+                      <select name="TASK" id="TASK"  class="form-control input-lg">
 					  <option value="">pilih task</option>
 					</select>
 					 </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">Aktifitas (To Do List)</label>
-                       <select name="AKTIFITAS" class="form-control input-lg ">
+                       <select name="AKTIFITAS_TIKET" id="AKTIFITAS_TIKET" class="form-control input-lg ">
 					  <option value="">pilih  aktifitas</option>
 					</select>
                     </div>
@@ -72,7 +72,7 @@ function updateTextInput(val) {
 }
 </script>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
     $(document).ready(function() {
         $('select[name="proyek"]').on('change', function() {
             var id_proyek = $(this).val();
@@ -103,4 +103,58 @@ function updateTextInput(val) {
         });
     });
 </script>
+
+-->
+
+<script type="text/javascript">
+    $('#NAMA_PROYEK').change(function(){
+    var NAMA_PROYEK = $(this).val();    
+    if(NAMA_PROYEK){
+        $.ajax({
+           type:"GET",
+           url:"{{url('programmer/get-Task')}}?NAMA_PROYEK="+NAMA_PROYEK,
+           success:function(res){               
+            if(res){
+                $("#TASK").empty();
+                $("#TASK").append('<option>Select</option>');
+                $.each(res,function(key,value){
+                    $("#TASK").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#TASK").empty();
+            }
+           }
+        });
+    }else{
+        $("#TASK").empty();
+        $("#AKTIFITAS_TIKET").empty();
+    }      
+   });
+    $('#TASK').on('change',function(){
+    var TASK = $(this).val();    
+    if(TASK){
+        $.ajax({
+           type:"GET",
+           url:"{{url('programmer/get-Aktifitas_Tiket')}}?TASK="+TASKID,
+           success:function(res){               
+            if(res){
+                $("#AKTIFITAS_TIKET").empty();
+                $.each(res,function(key,value){
+                    $("#AKTIFITAS_TIKET").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#AKTIFITAS_TIKET").empty();
+            }
+           }
+        });
+    }else{
+        $("#AKTIFITAS_TIKET").empty();
+    }
+        
+   });
+</script>
+
+
 
