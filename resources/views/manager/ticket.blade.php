@@ -62,8 +62,8 @@
                             {{ $t->PLATFORM_PROYEK}}
                           </td>      
               <td>
-                @if ($t->USERNAME_PROGRAMER != "")
-  @foreach(explode(',', $t->USERNAME_PROGRAMER) as $info) 
+                @if ($t->ID_PROGRAMER != "")
+  @foreach(explode(',', $t->ID_PROGRAMER) as $info) 
     <option>{{$info}}</option>
   @endforeach
 @endif

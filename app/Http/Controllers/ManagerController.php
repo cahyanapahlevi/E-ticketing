@@ -116,11 +116,11 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            $lihat = DB::table('proyek')
+            /*$lihat = DB::table('proyek')
             ->join('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->select('proyek.ID_PROYEK', 'proyek.NAMA_PROYEK', 'proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','programer.USERNAME_PROGRAMER','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK')
-            ->paginate(2);
-		//$lihat = DB::table('proyek')->paginate(2);
+            ->paginate(2);*/
+		$lihat = DB::table('proyek')->paginate(2);
 				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
