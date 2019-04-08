@@ -473,7 +473,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
-		$ID_PROGRAMER = Session::get('ID');
+		$ID_PROGRAMER = Session::get('ID_PROGRAMER');
 		$tabel_programmer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
     }
