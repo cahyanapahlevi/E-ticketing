@@ -28,9 +28,9 @@
                       <i class="mdi mdi-receipt text-warning icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <p class="mb-0 text-right">On Progress</p>
+                      <a href="{{url('/manager/onprogress')}}"><p class="mb-0 text-right">On Progress</p></a>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">10</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{ $op->count() }}</h3>
                       </div>
                     </div>
                   </div>

@@ -58,6 +58,10 @@ class ManagerController extends Controller
     public function home()
     {
         $pm= DB::table('proyek')->get();
+        $op= DB::table('tiket')
+		 ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET')
+		 ->where('tiket.PROGRESS_TIKET', '<', 100)
+		 ->get();
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
         $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -72,7 +76,7 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm]);
+            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm, 'op'=>$op]);
         }
     }
     
@@ -865,5 +869,25 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
 		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+	}
+    
+    /*8-4-2019*/
+	public function onprogress()
+	{
+		 $op= DB::table('tiket')
+		 ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET')
+		 ->where('tiket.PROGRESS_TIKET', '<', 100)
+		 ->paginate(2);
+		$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+		return view('manager/onprogress',compact('op'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
 	}
 }
