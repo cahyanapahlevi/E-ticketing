@@ -20,7 +20,7 @@
 
                   
 				  @foreach($tabel_programmer as $p)
-				  <form action="{{url('/programmer/profile/update_profile')}}" method="post">
+				  <form action="{{url('/programmer/profile/update_profile')}}" method="post" enctype="multipart/form-data">
 				  {{ csrf_field() }}
                     <div class="form-group">
                       
@@ -35,6 +35,12 @@
                       <label for="exampleInputCity1">Password</label>
                       <input type="password" class="form-control" name="PASSWORD_PROGRAMER" value ="{{$p->PASSWORD_PROGRAMER}}" required="required" placeholder="PASSWORD PROGRAMMER">
                     </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Gambar</label>
+                      <input type="file" class="form-control" name="foto" required="required" placeholder="foto">
+                    </div>
+
+
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     <button class="btn btn-light">Batal</button>
                   </form>
