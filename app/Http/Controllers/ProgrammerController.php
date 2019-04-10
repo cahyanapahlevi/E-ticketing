@@ -65,11 +65,12 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
           if(!Session::get('login')){
             return redirect('programmer')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('programmer/home',['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('programmer/home',['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     public function baca($ID_PROYEK){
@@ -81,6 +82,7 @@ class ProgrammerController extends Controller
     
     public function ticket()
     {
+        $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -92,7 +94,7 @@ class ProgrammerController extends Controller
             ->limit(5)
             ->get();
     	$lihat = DB::table('proyek')->paginate(2);
-				return view('programmer/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+				return view('programmer/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
    public function dticket(Request $request)
     {
@@ -120,8 +122,8 @@ class ProgrammerController extends Controller
 			$angka = substr($deretakhir->ID_PROGRAMER,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
 		}
-			
-        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar],compact('proyek'));
+			$foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
+        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto],compact('proyek'));
     }
 		public function dticket2()
 		{
@@ -156,6 +158,7 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         $cities = DB::table("tiket")
                     ->where("ID_PROYEK",$id)
                     ->pluck("TASK","AKTIFITAS_TIKET")->all();
@@ -174,6 +177,7 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         Session::put('ID_PROYEK',$ID_PROYEK);
         $proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
        
@@ -186,7 +190,7 @@ class ProgrammerController extends Controller
           
             ->get();
         
-            return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
     
     public function tambah_komen(Request $request)
@@ -201,6 +205,7 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         DB::table('komentar')->insert([
             'ID' => session::get('ID_PORGRAMER'),
             'ISI_KOMENTAR' => $request -> ISI_KOMENTAR,
@@ -218,7 +223,7 @@ class ProgrammerController extends Controller
            
             ->get();
        
-       return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+       return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         
     }
     
@@ -234,10 +239,11 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		$proyek = DB::table('proyek')
 		->join('tiket','proyek.ID_PROYEK', '=', 'tiket.ID_PROYEK')->get()->all();
 		
-    	return view ('programmer/project',compact('proyek'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+    	return view ('programmer/project',compact('proyek'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
     public function dproject()
     
@@ -252,6 +258,7 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
 		
 		if( ! $deretakhir)
@@ -268,7 +275,7 @@ class ProgrammerController extends Controller
 			$angka2 = substr($deretakhir2->ID_TIKET,4);
 			$cetak2 = 'T'. sprintf('%04d', intval($angka2)+1);
 			
-        return view('programmer/dproject', compact('cetak','cetak2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('programmer/dproject', compact('cetak','cetak2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 		}
     
 	
@@ -284,6 +291,7 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		DB::transaction(function()use ($request){
 			$ID_PROYEK = $request->input('ID_PROYEK');
 		$ID_TIKET = $request->input('ID_TIKET');
@@ -322,9 +330,10 @@ $data2=array('ID_TIKET'=>$ID_TIKET,"ID_PROYEK"=>$ID_PROYEK,"AKTIFITAS_TIKET"=>$A
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		$p = DB::table('proyek')
 		->join('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where('proyek.ID_PROYEK',$ID_PROYEK)->get()->all();
-        return view('programmer/eproject',compact('p'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('programmer/eproject',compact('p'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	
 	public function updateproject(Request $request)
@@ -339,6 +348,7 @@ $data2=array('ID_TIKET'=>$ID_TIKET,"ID_PROYEK"=>$ID_PROYEK,"AKTIFITAS_TIKET"=>$A
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	DB::transaction(function()use ($request){
 		$NAMA_PROYEK = $request->input('NAMA_PROYEK');
 		$INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
@@ -379,6 +389,7 @@ $data2=array("AKTIFITAS_TIKET"=>$AKTIFITAS_TIKET,"PROGRESS_TIKET"=>$PROGRESS_TIK
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	DB::transaction(function()use ($request){
 		$ID_PROYEK = $request->get('ID_PROYEK');
 		$ID_TIKET = $request->get('ID_TIKET');
@@ -416,6 +427,7 @@ public function dproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	$deretakhir = DB::table('tiket')->orderBy('ID_TIKET','desc')->first();
 	
 		
@@ -435,7 +447,7 @@ public function dproject2(Request $request)
 			$cetak2 = 'PR'. sprintf('%04d', intval($angka2)+1);
 		
 		
-        return view('programmer/dproject2', compact('cetak','cetak2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);	
+        return view('programmer/dproject2', compact('cetak','cetak2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);	
 	
     }
 
@@ -451,6 +463,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		DB::table('tiket')->insert([
 		'ID_TIKET'			=>$request->ID_TIKET,
 		'ID_PROYEK'			=>$request->ID_PROYEK,
@@ -473,9 +486,10 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		$ID_PROGRAMER = Session::get('ID_PROGRAMER');
 		$tabel_programmer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
-	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+	return view('programmer/edituser', ['tabel_programmer'=>$tabel_programmer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	
 	public function update_profile(Request $request)
@@ -490,11 +504,19 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
+            $fot = $request->file('foto');
+            $nama = $fot->getClientOriginalName();
+            $fot -> move(public_path().'/source/images/programmer/',$nama);
 	DB::table('programer')->where('ID_PROGRAMER',$request->ID_PROGRAMER)->update([
 		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
-		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER
-	]);
+		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER,
+        'foto' => $nama
+      
+
+
 	
+	   ]);
 	return redirect('/programmer/home');
 }
    public function aktifitas()
@@ -509,12 +531,13 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	   $siswa = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('programmer/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('programmer/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
 	public function cari(Request $request)
@@ -529,13 +552,14 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		$cari = $request->cari;
 		
 		$siswa = DB::table('proyek')
         ->where('NAMA_PROYEK','like',"%".$cari."%") 
 		->paginate(2);
 		
-		return view('programmer/hasilcari',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('programmer/hasilcari',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 	}
 	
 	public function dataaktifitas()
@@ -550,9 +574,10 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		 $dataak= DB::table('proyek')->paginate(2);
 		
-		return view('programmer/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('programmer/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 	}
 	public function detailaktifitas($ID_PROYEK)
     {
@@ -566,6 +591,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 		Session::put('ID_PROYEK',$ID_PROYEK);
 	   $daktif = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
@@ -581,7 +607,7 @@ public function tambahproject2(Request $request)
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->average('PROGRESS_TIKET');
 		
-		return view('programmer/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('programmer/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	public function hapustiket($ID_TIKET)
 	{
@@ -595,6 +621,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	DB::table('tiket')->where('ID_TIKET',$ID_TIKET)->delete();
 	
 	return redirect('programmer/aktifitas');
@@ -611,6 +638,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	$eaktif = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
 			
@@ -618,7 +646,7 @@ public function tambahproject2(Request $request)
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK', 'tiket.TIMELINE_TIKET')
             ->paginate(2);
 		
-		return view('programmer/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('programmer/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 	}
 	public function updateaktifitas(Request $request)
     {
@@ -632,6 +660,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
 	   DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
 			->where('tiket.ID_TIKET','=',$request->ID_TIKET)
@@ -657,10 +686,11 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         $users = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
-        return view('programmer/dticketprog',compact('users'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('programmer/dticketprog',compact('users'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	public function tticket(Request $request)
     {
@@ -674,6 +704,7 @@ public function tambahproject2(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         DB::table('tiket')->insert([
 		'ID_TIKET' => $request->ID_TIKET,
 		'TASK' => $request->TASK,

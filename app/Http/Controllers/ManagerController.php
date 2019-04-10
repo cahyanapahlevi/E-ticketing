@@ -72,11 +72,12 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
           if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm, 'op'=>$op]);
+            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm, 'op'=>$op,'foto'=>$foto]);
         }
     }
     
@@ -117,13 +118,14 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
       if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
             //$lihat = DB::table('proyek')->join('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')->select('proyek.ID_PROYEK', 'proyek.NAMA_PROYEK', 'proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','programer.USERNAME_PROGRAMER','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK')->paginate(2);
 		$lihat = DB::table('proyek')->paginate(2);
-				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     
@@ -139,6 +141,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -154,7 +157,7 @@ class ManagerController extends Controller
 		else
 			$angka = substr($deretakhir->ID_PROYEK,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar'));
+        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar','foto'));
         }
     }
     
@@ -170,6 +173,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -186,7 +190,7 @@ class ManagerController extends Controller
           
             ->get();
         
-            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     
@@ -202,6 +206,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
        if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -224,7 +229,7 @@ class ManagerController extends Controller
            
             ->get();
        
-       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
         
     }
@@ -251,13 +256,14 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
@@ -273,6 +279,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
          if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -282,7 +289,7 @@ class ManagerController extends Controller
         $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
               ->whereMonth('DEADLINE_PROYEK', '=', $month)
               ->paginate(5);
-            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     
@@ -300,9 +307,10 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
 	public function reportorang()
     {
@@ -317,12 +325,13 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         $siswa = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
         
-        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
     
 	    public function user()
@@ -337,13 +346,14 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$programer = DB::table('programer')->get();
 		
-        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     public function edituser()
@@ -358,13 +368,14 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$ID_MANAGER = Session::get('ID_MANAGER');
 		$tabel_manager = DB::table('manager')->where('ID_MANAGER',$ID_MANAGER)->get();
-	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
 	
@@ -380,13 +391,18 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
+            $fot = $request->file('foto');
+            $nama = $fot->getClientOriginalName();
+            $fot -> move(public_path().'/source/images/manager/',$nama);
 	DB::table('manager')->where('ID_MANAGER',$request->ID_MANAGER)->update([
 		'USERNAME_MANAGER' => $request->USERNAME_MANAGER,
-		'PASSWORD_MANAGER' => $request->PASSWORD_MANAGER
+		'PASSWORD_MANAGER' => $request->PASSWORD_MANAGER,
+        'foto' =>$nama
 	]);
 	
 	return redirect('/manager/home');
@@ -405,6 +421,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -426,6 +443,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -445,7 +463,7 @@ class ManagerController extends Controller
   }
   $new_id = 'P'.$zero_string.$numeric_id;
 		
-		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
 	public function tambahuser(Request $request)
@@ -460,6 +478,7 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -474,8 +493,8 @@ class ManagerController extends Controller
 	]);
 	
 	return redirect('/manager/user');
-        }
-}
+        }}
+
 
 
 public function edit($ID_PROGRAMER)
@@ -490,13 +509,14 @@ public function edit($ID_PROGRAMER)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 	$programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
-	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
 }
 
@@ -513,6 +533,7 @@ public function update(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -541,6 +562,7 @@ public function tticket(Request $request)
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -573,6 +595,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -597,6 +620,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -606,7 +630,7 @@ DB::table('proyek')->insert($data);
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
@@ -622,6 +646,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -633,7 +658,7 @@ DB::table('proyek')->insert($data);
         ->where('NAMA_PROYEK','like',"%".$cari."%")
 		->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
 	}
 
@@ -650,13 +675,14 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		 $dataak= DB::table('proyek')->paginate(2);
 		
-		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
 	}
 	public function taktifitas()
@@ -671,6 +697,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -678,7 +705,7 @@ DB::table('proyek')->insert($data);
 		$aktif = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
-        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
 	}
 	public function tambahaktifitas(Request $request)
@@ -693,6 +720,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -721,6 +749,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -740,7 +769,7 @@ DB::table('proyek')->insert($data);
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->average('PROGRESS_TIKET');
 		
-		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
         }
     }
     
@@ -756,6 +785,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -766,7 +796,7 @@ DB::table('proyek')->insert($data);
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar ]);
+		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto ]);
         }
     }
     
@@ -782,6 +812,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -821,6 +852,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -844,6 +876,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -868,7 +901,8 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
-		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 	}
     
     /*8-4-2019*/
@@ -888,6 +922,7 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
-		return view('manager/onprogress',compact('op'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+		return view('manager/onprogress',compact('op'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
 	}
 }

@@ -4,7 +4,9 @@
             <div class="nav-link">
               <div class="user-wrapper">
                 <div class="profile-image">
-                  <img src="{{asset('source/images/faces/face1.jpg')}}" alt="profile image">
+                 @foreach($foto as $f)
+                  <img src="{{url('public/source/images/manager/'.$f->foto)}}" alt="profile image">
+                  @endforeach
                 </div>
                 <div class="text-wrapper">
                   <p class="profile-name">{{\Session::get('NAMA_MANAGER')}}</p>
