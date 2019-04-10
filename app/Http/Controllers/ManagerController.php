@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class ManagerController extends Controller
 {
@@ -72,11 +73,30 @@ class ManagerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+       
+        $sekarang = Carbon::now()->format('Y-m-d');
+        /*$3hari = 'lebih dari 3 hari lagi';
+        $2hari = 'kurang 2 hari lagi';
+        $1hari = 'besok sudah harus selesai';
+        
+        SELECT DATEDIFF ( DEADLINE_PROYEK,now()) AS selisih, NAMA_PROYEK, DEADLINE_PROYEK, now() FROM proyek
+        
+        */
+        
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'.$sekarang.') as 'selisih',  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'.$sekarang.') as 'selisih',  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('ID_PROYEK','desc')->paginate(5);
+        
           if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm, 'op'=>$op]);
+            return view('manager/home', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'pm'=>$pm, 'op'=>$op,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
