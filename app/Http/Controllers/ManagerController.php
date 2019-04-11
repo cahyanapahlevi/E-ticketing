@@ -428,20 +428,15 @@ class ManagerController extends Controller
         else{
 		$ID_PROGRAMER = $request->get('ID_PROGRAMER');
 		
-		 $numeric_id = intval(substr($ID_PROGRAMER, 1)); //retrieve numeric value of 'V001' (1)
-  $numeric_id++; //increment
-  if(mb_strlen($numeric_id) == 1)
-  {
-     $zero_string = '00';
-  }elseif(mb_strlen($numeric_id) == 2)
-  {
-     $zero_string = '0';
-  }else{
-     $zero_string = '';
-  }
-  $new_id = 'P'.$zero_string.$numeric_id;
+		 $deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
 		
-		return view('manager/tuser', compact('new_id'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
+		if( ! $deretakhir)
+			$angka = 0;
+		else
+			$angka = substr($deretakhir->ID_PROGRAMER,1,4);
+			$cetak = 'P'. sprintf('%03d', intval($angka)+1);
+		
+		return view('manager/tuser', compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar]);
         }
     }
 	public function tambahuser(Request $request)
