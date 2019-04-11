@@ -96,7 +96,7 @@ class ProgrammerController extends Controller
     	$lihat = DB::table('proyek')->paginate(2);
 				return view('programmer/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
     }
-   public function dticket(Request $request)
+   public function dticket()
     {
        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
@@ -107,48 +107,44 @@ class ProgrammerController extends Controller
             ->orWHere('k.ID','LIKE','%P%')
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
-            ->get();
-       $users = DB::table('proyek')
-            ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
-            ->get()->all();
+            ->get();			
+		   $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
+		 $tiket = DB::table('proyek')->select('NAMA_PROYEK','proyek.ID_PROYEK')->get();
 			
-		   
-		 $proyek = DB::table('proyek')->pluck("NAMA_PROYEK","ID_PROYEK")->all();
-			$deretakhir = DB::table('programer')->orderBy('ID_PROGRAMER','desc')->first();
-		
-		if( ! $deretakhir){
-		$angka = 0;}
-		else{
-			$angka = substr($deretakhir->ID_PROGRAMER,3);
-			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-		}
-			$foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
-        return view('programmer/dticket',['users'=>$users,'cetak'=>$cetak,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto],compact('proyek'));
+        return view('programmer/dticket',['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar],compact('proyek','tiket','foto'=>$foto));
+
     }
-		public function dticket2()
-		{
+		public function caritiket(Request $request) {
+			$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+            $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();			
+		   
+		 $tiket = DB::table('proyek')->get()->all();
+		   if(!Session::get('login')){
+            return redirect('programmer')->with('alert','Kamu harus login dulu');
+        }
+        else{
+        $ID_PROYEK = $request->NAMA_PROYEK;
+        $tiket2 = DB::table('proyek')->rightjoin('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where('proyek.NAMA_PROYEK', 'LIKE', '%' . $ID_PROYEK . '%' )->select('tiket.ID_TIKET','tiket.TASK','tiket.AKTIFITAS_TIKET','tiket.PROGRESS_TIKET','tiket.TIMELINE_TIKET')->get();
 		
-        $proyek = DB::table("proyek")->pluck("NAMA_PROYEK","ID_PROYEK");
-		return view('dticket',compact('proyek'));
+		if (count ( $tiket2 ) > 0){
+        return view('/programmer/dticket',compact('tiket2','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar])->withDetails ( $tiket2 )->withQuery ( $ID_PROYEK );
+		}else{
+        return view('/programmer/dticket',compact('proyek','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar])->withMessage ( 'No Details found. Try to search again !' );
+        }
 		}
-		public function getTask(Request $request)
-		{
-        $tiket = DB::table("tiket")
-                    ->where("NAMA_PROYEK",$request->NAMA_PROYEK)
-                    ->pluck("TASK");
-        return response()->json($tiket);
-		}
-		public function getAktifitas_Tiket(Request $request)
-		{
-        $tiket = DB::table("tiket")
-                    ->where("NAMA_PROYEK",$request->NAMA_PROYEK)
-                    ->pluck("AKTIFITAS_TIKET");
-        return response()->json($tiket);
-		}
-	
-    public function myformAjax($id)
+} 
+		
+		public function updateticket(Request $request)
     {
-        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+		$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
             ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
@@ -158,15 +154,27 @@ class ProgrammerController extends Controller
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
+<<<<<<< HEAD
+			$nol = '0%';
+	   DB::table('tiket')
+			->where('ID_TIKET',$request->ID_TIKET)
+			->update([
+		'PROGRESS_TIKET' => $nol,
+		'TIMELINE_TIKET' => $request->TIMELINE_TIKET		
+	]);
+	 return response()->json($edit);
+=======
             $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
         $cities = DB::table("tiket")
                     ->where("ID_PROYEK",$id)
                     ->pluck("TASK","AKTIFITAS_TIKET")->all();
         return json_encode($cities);
+>>>>>>> 2f17ded85b4e734d5de92b5faa83009a41977342
     }
-
+		
+		
     public function detail_tiket($ID_PROYEK)
-    {
+	{
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')

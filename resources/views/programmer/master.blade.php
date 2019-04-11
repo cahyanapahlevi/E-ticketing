@@ -38,14 +38,13 @@
   </div>
   
    
-
   <script src="{{asset('source/bootstrap/js/bootstrap.min.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('source/vendors/js/vendor.bundle.addons.js')}}"></script>
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
   <script src="{{asset('source/js/dashboard.js')}}"></script>
-  <script src="{{asset('source/js/jquery.min.js')}}"></script>
+  
    
 </body>
 
