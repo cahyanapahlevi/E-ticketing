@@ -10,77 +10,7 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-right">
-        <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <i class="mdi mdi-file"></i>
-                
-                <span class="count">{{$datediff->count()}}</span>
-            </a>
-              <!------NOTIFIKASI---->
-              
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                <a class="dropdown-item" href="{{url('manager/ticket')}}">
-                <p class="mb-0 font-weight-normal float-left">Anda mempunyai {{$datediff->count()}} proyek berjalan
-                </p>
-                <span class="badge badge-pill badge-warning float-right">View all</span>
-                  
-                    
-              </a>
-                @foreach($datediff1 as $d)
-                <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" href="{{url('manager/baca',$d->ID_PROYEK)}}">
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$d->NAMA_PROYEK}}</h6>
-                    <span class="float-right font-weight-light small-text">{{$d->selisih}}</span>
-                  <br><br>
-                  <p class="font-weight-light small-text">
-                    {{$d->DEADLINE_PROYEK}}<br>
-                      
-                  </p><br>
-                </div>
-              </a>
-                @endforeach
-                {{--@if($d->DATEDIFF >= 3)
-                <!--<div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" href="{{url('manager/baca',$cp->ID_PROYEK)}}">
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$d->NAMA_PROYEK}}</h6>
-                    <span class="float-right font-weight-light small-text">MASIH LEBIH DARI 3 HARI LAGI</span>
-                  <br><br>
-                  <p class="font-weight-light small-text">
-                    {{$D->DEADLINE_PROYEK}}
-                  </p><br>
-                </div>
-              </a>
-                @elseif($d->DATEDIFF >= 2)
-                <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" href="{{url('manager/baca',$cp->ID_PROYEK)}}">
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$d->NAMA_PROYEK}}</h6>
-                    <span class="float-right font-weight-light small-text">KURANG 2 HARI LAGI</span>
-                  <br><br>
-                  <p class="font-weight-light small-text">
-                    {{$D->DEADLINE_PROYEK}}
-                  </p><br>
-                </div>
-              </a>
-                @elseif($d->DATEDIFF >= 1)
-                <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item" href="{{url('manager/baca',$cp->ID_PROYEK)}}">
-                <div class="preview-item-content flex-grow">
-                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$d->NAMA_PROYEK}}</h6>
-                    <span class="float-right font-weight-light small-text">BESOK PROYEK HARUS SELESAI</span>
-                  <br><br>
-                  <p class="font-weight-light small-text">
-                    {{$D->DEADLINE_PROYEK}}
-                  </p><br>
-                </div>
-              </a>-->
-                @endif
-                 @endforeach--}}
-            </div>
-               <!-----BATAS AKHIR----->
-          </li>
+        
             
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
