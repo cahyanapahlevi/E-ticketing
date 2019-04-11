@@ -310,8 +310,8 @@ public function tticket(Request $request)
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'proyek.NAMA_PROYEK')
-            ->paginate(2);
-			
+            ->paginate(10);
+				
 			$sum = DB::table('tiket')
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->sum('PROGRESS_TIKET');
@@ -405,4 +405,25 @@ public function tticket(Request $request)
 		
 		return view('manager/onprogress',compact('op'));
 	}
+	/*11-4-2019*/
+	public function taktifitas2()
+	{
+		$aktif = DB::table('tiket')
+            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->get()->all();
+        return view('manager/taktifitas2',compact('aktif'));
+	}
+	public function tambahaktifitas2(Request $request)
+    {
+		
+        DB::table('tiket')->insert([
+		'ID_PROYEK' => $request->ID_PROYEK,
+		'ID_TIKET' => $request->ID_TIKET,
+		'TASK' => $request->Task,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET
+		
+		]);
+		
+		return redirect('manager/dataaktifitas');
+    }
 }
