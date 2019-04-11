@@ -47,10 +47,10 @@ Route::get('/programmer/detailaktifitas/{ID_PROYEK}', 'ProgrammerController@deta
 Route::get('/programmer/hapustiket/{ID_TIKET}', 'ProgrammerController@hapustiket');//tambahan untuk hapus tiket atau per aktifitas
 Route::get('/programmer/editaktifitas/{ID_TIKET}', 'ProgrammerController@editaktifitas');//tambahan edit tiket (aktifitas) (rita)
 Route::get('/programmer/dticketprog', 'ProgrammerController@dticketprog');
-Route::get('/programmer/cari', 'ProgrammerController@cari'); 
-Route::get('/programmer/dependent-dropdown','ProgrammerController@dticket');
-Route::get('/programmer/get-Task','ProgrammerController@getTask');
-Route::get('/programmer/get-Aktifitas_Tiket','ProgrammerController@getAktivitas_Tiket');
+Route::get('/programmer/cari', 'ProgrammerController@cari');
+Route::get('/programmer/dticket','ProgrammerController@dticket');
+Route::get('/programmer/dticket/caritiket', 'ProgrammerController@caritiket');
+Route::get('/programmer/dticket/caritiket/edit/{ID_TIKET}', 'ProgrammerController@caritiket');
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
@@ -106,4 +106,4 @@ Route::post('/programmer/ticket/tambah_komen', 'ProgrammerController@tambah_kome
 Route::post('/programmer/profile/update_profile','ProgrammerController@update_profile');
 Route::post('/programmer/updateaktifitas', 'ProgrammerController@updateaktifitas');//tambahan untuk edit aktifitas (rita)
 Route::post('/programmer/tticket', 'ProgrammerController@tticket');
-
+Route::post('/programmer/updateticket', 'ProgrammerController@updateticket');
