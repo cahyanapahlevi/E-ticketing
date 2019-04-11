@@ -20,7 +20,7 @@
 
                   
 				  @foreach($tabel_manager as $m)
-				  <form action="{{url('/manager/profile/update_profile')}}" method="post">
+				  <form action="{{url('/manager/profile/update_profile')}}" method="post" enctype="multipart/form-data">
 				  {{ csrf_field() }}
                     <div class="form-group">
                       
@@ -34,6 +34,10 @@
                  <div class="form-group">
                       <label for="exampleInputCity1">Password</label>
                       <input type="password" class="form-control" name="PASSWORD_MANAGER" value ="{{$m->PASSWORD_MANAGER}}" required="required" placeholder="PASSWORD MANAGER">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Gambar</label>
+                      <input type="file" class="form-control" name="foto" required="required" placeholder="foto">
                     </div>
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     <button class="btn btn-light">Batal</button>

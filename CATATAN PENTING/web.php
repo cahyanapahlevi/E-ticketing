@@ -71,6 +71,8 @@ Route::get('/manager/hapustiket/{ID_TIKET}', 'ManagerController@hapustiket');//
 Route::get('/manager/proyek', 'ManagerController@proyek'); 
 Route::get('/manager/reportproyek', 'ManagerController@reportproyek');//tambahan untuk dropdown report (rita)
 Route::get('/manager/reportorang', 'ManagerController@reportorang');//tambahan untuk dropdown report (rita)
+Route::get('/manager/onprogress', 'ManagerController@onprogress'); /*8-4-2019*/
+Route::get('/manager/taktifitas2', 'ManagerController@taktifitas2');/*10-4-2019*/
 
 
 //Route for proses data into database
@@ -82,7 +84,7 @@ Route::post('/manager/update', 'ManagerController@updateticket');
 Route::post('/manager/showreport', 'ManagerController@showreport');
 Route::post('/manager/tambahaktifitas', 'ManagerController@tambahaktifitas');//tambahan untuk cari data proyek (rita)
 Route::post('/manager/updateaktifitas', 'ManagerController@updateaktifitas');//tambahan untuk cari data proyek (rita)
-
+Route::post('/manager/tambahaktifitas2', 'ManagerController@tambahaktifitas2');
 
 
 //Route for proses data into database

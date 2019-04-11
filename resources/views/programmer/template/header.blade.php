@@ -77,7 +77,9 @@
           <li class="nav-item dropdown d-none d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <span class="profile-text">Hello, {{\Session::get('NAMA_PROGRAMER')}}</span>
-              <img class="img-xs rounded-circle" src="{{asset('source/images/faces/face1.jpg')}}" alt="Profile image">
+              @foreach($foto as $f)
+              <img class="img-xs rounded-circle" src="{{url('public/source/images/programmer/'.$f->foto)}}" alt="Profile image">
+              @endforeach
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <a class="dropdown-item p-0">

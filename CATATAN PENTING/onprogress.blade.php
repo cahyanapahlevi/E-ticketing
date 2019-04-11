@@ -1,74 +1,57 @@
 @extends('manager.master')
-<!--Tampilan baru menu aktifitas manager (rita)-->
+
 @section('manager.content')
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Daftar Programmer dan Tugas yang Sedang Dikerjakan</h4>
-          
+                  <h4 class="card-title">Daftar Aktifitas (To Do List) yang Dalam Progress</h4>
+				   <p></p>
+					
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-						<th>
-                           Nama Programmer
-                          </th>
                          <th>
                             ID Tiket
                           </th>
-              <th>
-                            Nama Proyek
-                          </th>
-                          <th>
+						  <th>
                             Task
                           </th>
-              <th>
-                            Aktifitas (To Do List)
-                          </th>
                           <th>
-                            Progress 
+                            Aktifitas
                           </th>
-                          <th>
-                            Timeline
+						  <th>
+                            Progress
                           </th>
                           
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-            @foreach ($siswa as $s)
-							<td>
-                           
-                          </td>
-                          <td>
+						@foreach ($op as $s)
+                           <td>
                             {{ $s->ID_TIKET}}
                           </td>
                           <td>
-                            {{ $s->NAMA_PROYEK}}
-                          </td>
-							<td>
                             {{ $s->TASK}}
                           </td>
-                          <td>
+							<td>
                             {{ $s->AKTIFITAS_TIKET}}
-                          </td>
-                         <td>
+                          </td>	
+							<td>
                             {{ $s->PROGRESS_TIKET}}
-                          </td>
-                          <td>
-                            {{ $s->TIMELINE_TIKET}}
-                          </td>
-              
+                          </td>							  
+						  
                         </tr>
             @endforeach
                       </tbody>
                     </table>
-          <small>Jumlah Data : {{ $siswa->total() }}</small> <br/>
-          <div class="pagination">
-          {{ $siswa->links() }}
-          </div>
+					<small>Jumlah Data : {{ $op->total() }}</small> <br/>
+				  <div class="pagination">
+					{{ $op->links() }}
+					</div>
                   </div>
                 </div>
               </div>
