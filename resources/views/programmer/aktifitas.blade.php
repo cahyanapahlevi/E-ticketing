@@ -13,6 +13,9 @@
                     <table class="table table-bordered">
                       <thead>
                         <tr>
+                            <th>
+                            WARNING
+                          </th>
                          <th>
                             ID Tiket
                           </th>
@@ -39,7 +42,25 @@
                       <tbody>
                         <tr>
                           @foreach ($siswa as $s)
-                          <td>
+                            @if($s->selisih >= '3')
+                            <td>
+                          <div class="btn btn-success">
+                              <strong>lebih dari 3 hari</strong>
+                            </div></td>
+                            @elseif($s->selisih >= '2')
+                          <td><div class="btn btn-warning">
+                              <strong>kurang dari 3 hari</strong>
+                            </div></td>
+                            @elseif($s->selisih >= '1')
+                          <td><div class="btn btn-warning">
+                              <strong>kurang dari 1 hari</strong>
+                            </div></td>
+                            @elseif('0' >= $s->selisih)
+                          <td><div class="btn btn-danger">
+                              <strong>lebih dari deadline</strong>
+                            </div></td>
+                            @endif
+                            <td>
                             {{ $s->ID_TIKET}}
                           </td>
                           <td>

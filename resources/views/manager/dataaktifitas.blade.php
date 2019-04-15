@@ -8,7 +8,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan Programmer</h4>
 				  <a href="{{url('/manager/taktifitas')}}"><button type="button" class="btn btn-primary btn-sm">Tambah Deskripsi Aktifitas</button></a>
-				  <a href="{{url('/manager/dataaktifitas')}}"><button type="button" class="btn btn-primary btn-sm">Semua Data</button></a>
+				  <a href="{{url('/manager/daktifitas')}}"><button type="button" class="btn btn-primary btn-sm">Semua Data</button></a>
 				  
 				   <p></p>
 					<form action="{{url('/manager/cari')}}" method="GET" class="form-inline" >
@@ -43,6 +43,7 @@
                           </td> 
 						  <td>
 						   <a href="{{url('/manager/detailaktifitas', $s->ID_PROYEK)}}"><button type="button" class="btn btn-success btn-dm">Detail</button></a>
+						   <a href="{{url('/manager/taktifitas2')}}"><button type="button" class="btn btn-primary btn-sm">Tambah Aktifitas</button></a><!--11-4-2019*/-->
                              <a href="{{url('/manager/editaktifitas', $s->ID_PROYEK)}}"><button type="button" class="btn btn-danger btn-dm">Edit</button></a>
 							 <a href="{{url('/manager/hapusproyek', $s->ID_PROYEK)}}"><button type="button" class="btn btn-warning btn-dm">Delete</button></a>
                           </td> 

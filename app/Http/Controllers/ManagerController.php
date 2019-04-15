@@ -75,23 +75,16 @@ class ManagerController extends Controller
             ->get();
        
         $sekarang = Carbon::now()->format('Y-m-d');
-        //$sekarang = Carbon::now();
-        /*$3hari = 'lebih dari 3 hari lagi';
-        $2hari = 'kurang 2 hari lagi';
-        $1hari = 'besok sudah harus selesai';
-        
-        SELECT DATEDIFF ( DEADLINE_PROYEK,now()) AS selisih, NAMA_PROYEK, DEADLINE_PROYEK, now() FROM proyek
-        , ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK
-        */
-        
+       
         $datediff = DB::table('proyek')
             ->select(
-            DB::raw("ID_PROYEK,  NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'.$sekarang.') as selisih")
-          )->get();
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
         $datediff1 = DB::table('proyek')
             ->select(
-            DB::raw("DATEDIFF(DEADLINE_PROYEK,'.$sekarang.') as 'selisih',  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
-          )->orderBy('ID_PROYEK','desc')->paginate(5);
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
         
         
           if(!Session::get('login_m')){
@@ -141,13 +134,25 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+      $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
       if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
             //$lihat = DB::table('proyek')->join('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')->select('proyek.ID_PROYEK', 'proyek.NAMA_PROYEK', 'proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','programer.USERNAME_PROGRAMER','proyek.DEADLINE_PROYEK','proyek.STATUS_PROYEK')->paginate(2);
 		$lihat = DB::table('proyek')->paginate(2);
-				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+				return view('manager/ticket',compact('lihat'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -164,6 +169,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -179,7 +196,7 @@ class ManagerController extends Controller
 		else
 			$angka = substr($deretakhir->ID_PROYEK,3);
 			$cetak = 'PR'. sprintf('%04d', intval($angka)+1);
-        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar','foto'));
+        return view('manager/dticket',compact('users','cetak','cek_project','cek_komentar','foto'),['datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -196,6 +213,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -212,7 +241,7 @@ class ManagerController extends Controller
           
             ->get();
         
-            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -229,6 +258,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
        if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -251,7 +292,7 @@ class ManagerController extends Controller
            
             ->get();
        
-       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+       return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
         
     }
@@ -279,13 +320,25 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+            $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
@@ -302,6 +355,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
          if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -311,7 +376,7 @@ class ManagerController extends Controller
         $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
               ->whereMonth('DEADLINE_PROYEK', '=', $month)
               ->paginate(5);
-            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -330,9 +395,21 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
          $page = DB::table('proyek')->paginate(2);
         
-        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
     }
 	public function reportorang()
     {
@@ -348,12 +425,24 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         $siswa = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
         
-        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+        return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
     }
     
 	    public function user()
@@ -369,13 +458,25 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+            $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
             if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$programer = DB::table('programer')->get();
 		
-        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+        return view('manager/user',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     public function edituser()
@@ -391,13 +492,25 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		$ID_MANAGER = Session::get('ID_MANAGER');
 		$tabel_manager = DB::table('manager')->where('ID_MANAGER',$ID_MANAGER)->get();
-	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+	return view('manager/edituser', ['tabel_manager'=>$tabel_manager,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
 	
@@ -414,6 +527,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -444,6 +569,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -466,6 +603,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -480,7 +629,7 @@ class ManagerController extends Controller
 			$angka = substr($deretakhir->ID_PROGRAMER,1,4);
 			$cetak = 'P'. sprintf('%03d', intval($angka)+1);
 		
-		return view('manager/tuser', compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+		return view('manager/tuser', compact('cetak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
 	public function tambahuser(Request $request)
@@ -496,6 +645,18 @@ class ManagerController extends Controller
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -527,13 +688,25 @@ public function edit($ID_PROGRAMER)
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+    $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 	$programer = DB::table('programer')->where('ID_PROGRAMER',$ID_PROGRAMER)->get();
 	
-	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+	return view('manager/euser',['programer' => $programer,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
 }
 
@@ -551,6 +724,18 @@ public function update(Request $request)
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+    $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -580,6 +765,18 @@ public function tticket(Request $request)
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+    $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -613,6 +810,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -637,7 +846,19 @@ DB::table('proyek')->insert($data);
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
             ->get();
-
+      $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -647,7 +868,7 @@ DB::table('proyek')->insert($data);
             ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
 	/*Penambahan untuk mecari data sesuai proyek di menu aktifitas(rita)*/
@@ -664,6 +885,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -675,7 +908,7 @@ DB::table('proyek')->insert($data);
         ->where('NAMA_PROYEK','like',"%".$cari."%")
 		->paginate(2);
 		
-		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+		return view('manager/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
 	}
 
@@ -693,13 +926,25 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
 		 $dataak= DB::table('proyek')->paginate(2);
 		
-		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+		return view('manager/dataaktifitas',compact('dataak'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
 	}
 	public function taktifitas()
@@ -715,6 +960,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -722,7 +979,7 @@ DB::table('proyek')->insert($data);
 		$aktif = DB::table('tiket')
             ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
             ->get()->all();
-        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+        return view('manager/taktifitas',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
 	}
 	public function tambahaktifitas(Request $request)
@@ -738,6 +995,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 		if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -767,6 +1036,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -786,7 +1067,7 @@ DB::table('proyek')->insert($data);
 			->where('tiket.ID_PROYEK','=',$ID_PROYEK)
 			->average('PROGRESS_TIKET');
 		
-		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+		return view('manager/detailaktifitas',compact('daktif','sum','avg'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -803,6 +1084,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -813,7 +1106,7 @@ DB::table('proyek')->insert($data);
             ->select('tiket.ID_PROYEK', 'tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
 		
-		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto ]);
+		return view('manager/editaktifitas',compact('eaktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang ]);
         }
     }
     
@@ -830,6 +1123,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -870,6 +1175,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
 	if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -894,6 +1211,18 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
         if(!Session::get('login_m')){
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
@@ -919,7 +1248,19 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
-		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
+		return view('manager/proyek',compact('pm'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
 	}
     
     /*8-4-2019*/
@@ -940,6 +1281,61 @@ DB::table('proyek')->insert($data);
             ->limit(5)
             ->get();
             $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
-		return view('manager/onprogress',compact('op'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto]);
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
+		return view('manager/onprogress',compact('op'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
 	}
+    public function taktifitas2()
+	{
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+         $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+            $foto = DB::table('manager')->where('ID_MANAGER',Session::get('ID_MANAGER'))->get();
+         $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        
+		$aktif = DB::table('tiket')
+            ->rightJoin('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
+            ->get()->all();
+        return view('manager/taktifitas2',compact('aktif'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+	}
+	public function tambahaktifitas2(Request $request)
+    {
+		
+        DB::table('tiket')->insert([
+		'ID_PROYEK' => $request->ID_PROYEK,
+		'ID_TIKET' => $request->ID_TIKET,
+		'TASK' => $request->Task,
+		'AKTIFITAS_TIKET' => $request->AKTIFITAS_TIKET
+		
+		]);
+		
+		return redirect('manager/dataaktifitas');
+    }
 }

@@ -10,7 +10,52 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-right">
-        
+        <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+              <i class="mdi mdi-file-document-box"></i>
+    
+                <span class="count">{{$datediff->count()}}</span>
+                
+            </a>
+              <!------NOTIFIKASI---->
+              
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                <a class="dropdown-item" href="{{url('manager/ticket')}}">
+                <p class="mb-0 font-weight-normal float-left">Anda mempunyai {{$datediff->count()}} proyek yang berjalan
+                </p>
+                <span class="badge badge-pill badge-warning float-right">View all</span>
+              </a>
+                
+                 @foreach($datediff1 as $df)
+                <div class="dropdown-divider"></div>
+              <a class="dropdown-item preview-item" href="{{url('manager/ticket/detail_tiket',$df->ID_PROYEK)}}">
+                <div class="preview-item-content flex-grow">
+                  <h6 class="preview-subject ellipsis font-weight-medium text-dark">{{$df->NAMA_PROYEK}}</h6>
+                    <span class="float-right font-weight-light small-text">{{$df->DEADLINE_PROYEK}}</span>
+                  <br><br>
+                     @if($df->selisih >= '2')
+                  <p class="font-weight-light small-text">
+                    Proyek akan berakhir dalam waktu lebih dari 3 hari
+                  </p><br>
+                    @elseif($df->selisih == '1')
+                    <p class="font-weight-light small-text">
+                    Proyek akan berakhir dalam waktu kurang dari 2 hari
+                  </p><br>
+                    @elseif($df->selisih == '0')
+                    <p class="font-weight-light small-text">
+                    Proyek akan berakhir di hari ini, harap diselesaikan
+                  </p><br>
+                    @elseif('-1' >= $df->selisih)
+                    <p class="font-weight-light small-text">
+                    Proyek melebihi tenggat waktu  
+                  </p><br>
+                    @endif
+                </div>
+              </a>
+                 @endforeach
+            </div>
+               <!-----BATAS AKHIR----->
+            </li>
             
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
