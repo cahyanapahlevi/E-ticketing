@@ -27,11 +27,8 @@
                     </select>
                     </div>
 
-                    <button type="submit" class="btn btn-success mr-2">Cari</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button type="submit" class="btn btn-success mr-2"><i class="fa fa-search"></i> Cari</button>
                   </form>
-          
-          
           
                 </div>
               </div>
@@ -52,12 +49,6 @@
                           <th>
                             Aktifitas
                           </th>
-              <th>
-                            Progress
-                          </th>
-                          <th>
-                            Deadline
-                          </th>
 						  <th>
                             Action
                           </th>
@@ -75,14 +66,8 @@
                           <td>
               {{ $u->AKTIFITAS_TIKET}}
                           </td>
-              <td>
-              {{ $u->PROGRESS_TIKET}}
-                          </td>
-                          <td>
-              {{ $u->TIMELINE_TIKET}}
-                          </td>
-              <td>
-			  <button type="button" class="btn btn-danger btn-dm" value="{{ $u->ID_TIKET }}" data-toggle="modal" data-target="#edit"><i class="mdi mdi-pencil"></i>Edit</button>
+              <td> <a href="{{url('/programmer/ambiltiket',$u->ID_TIKET)}}">
+                              <button class="btn btn-success mr-2"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i>Take it !!</button></a>
                           </td>
                         </tr>
                         @endforeach
@@ -97,7 +82,4 @@
             </div>
           </div>  
                 </div>
-             
-
-    
 @endsection

@@ -38,22 +38,9 @@
                       <label for="exampleInputName1">Platform Proyek</label>
                       <input type="text" class="form-control" id="exampleInputName1" placeholder="PLATFORM_PROYEK" name="PLATFORM_PROYEK" >
                     </div>
-          <div class="form-group">
-                      <label for="exampleInputCity1">Programer</label>          
-          <select class="form-control js-example-basic-multiple" name="ID_PROGRAMER[]" multiple="multiple">
-            
-                  @foreach($users as $user)
-          <option value="{{ $user->ID_PROGRAMER}}">{{ $user->USERNAME_PROGRAMER}}</option>
-          @endforeach
-                </select>
-                    </div>
            <div class="form-group">
                       <label for="exampleInputCity1">Deadline</label>
                       <input type="date" class="form-control" id="exampleInputCity1" placeholder="DEADLINE_PROYEK" name="DEADLINE_PROYEK" >
-                    </div>
-          <div class="form-group">
-                      <label for="exampleInputCity1">Status</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="STATUS PROYEK" name="STATUS_PROYEK" >
                     </div>
                     <button type="submit" class="btn btn-success mr-2">Kirim</button>
                     

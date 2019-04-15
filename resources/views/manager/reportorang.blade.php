@@ -39,9 +39,10 @@
                       <tbody>
                         <tr>
             @foreach ($siswa as $s)
-							<td>
-                           
+			<td>
+                           {{ $s->ID_PROGRAMER}}
                           </td>
+			
                           <td>
                             {{ $s->ID_TIKET}}
                           </td>

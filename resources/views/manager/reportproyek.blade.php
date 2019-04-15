@@ -26,7 +26,7 @@
                             Instansi Proyek
                           </th>
                           <th>
-                            Programmer
+                            Team
                           </th>
                         </tr>
                       </thead>
@@ -44,7 +44,12 @@
               {{ $t->INSTANSI_PROYEK}}
                           </td>
               <td> 
-              {{ $t->ID_PROGRAMER}}
+              {{ $t->USERNAME_MANAGER}}<br/>
+                       							
+							
+            @foreach($u2 as $v)
+              {{ $v->USERNAME_PROGRAMER}}<br/>
+                        @endforeach
                           </td>
                         </tr>
                         @endforeach

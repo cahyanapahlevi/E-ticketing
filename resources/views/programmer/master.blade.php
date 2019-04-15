@@ -8,6 +8,7 @@
   <title>Ticket Diskominfo</title>
   <link rel="stylesheet" href="{{asset('source/bootstrap/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('source/vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
+   <link rel="stylesheet" href="{{asset('source/vendors/iconfonts/font-awesome/css/font-awesome.css')}}">
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('source/vendors/css/vendor.bundle.addons.css')}}">
   <link rel="stylesheet" href="{{asset('source/css/style.css')}}">

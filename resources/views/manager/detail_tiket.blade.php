@@ -34,6 +34,45 @@
                         <tr>
                             <td>Status Proyek</td><td>:</td><td>{{$p -> STATUS_PROYEK}}</td>
                         </tr>
+						<tr>
+                            <td>Team</td><td>:</td><td>	
+							<div class="form-group">
+		<form class="forms-sample" action="{{url ('/manager/tambahteam')}}" method="POST">
+			{{csrf_field()}}
+		<input type="hidden" name="ID_PROYEK" value="{{$p -> ID_PROYEK}}">
+		<input type="hidden" name="ID_MANAGER" value="{{\Session::get('ID_MANAGER')}}">
+                      <select class="form-control" name="ID_PROGRAMER">
+					<option disabled selected>Nama Programer</option>
+					@foreach($use as $u)
+          <option value="{{ $u->ID_PROGRAMER}}">{{ $u->USERNAME_PROGRAMER}}</option>
+          @endforeach
+                    </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success mr-2"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
+                  </form><br/><br/>
+				  
+				  
+				  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+            @foreach($u2 as $v)
+                          <td class="font-weight-medium">
+              {{ $v->USERNAME_PROGRAMER}}
+                          </td>
+              <td>
+			  <a href="{{url('/manager/deleteuser', $v->ID_USER)}}"><button type="button" class="btn btn-danger"><i class="mdi mdi-delete"></i></button></a>
+                          </td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+					
+                  </div>
+				  
+				  </td>
+                        </tr>
                          </table>
                     </div>
 					

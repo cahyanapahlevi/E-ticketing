@@ -30,6 +30,9 @@ Route::get('/manager/logout', 'ManagerController@logout');
 //route programmer get page
 Route::get('/programmer/home', 'ProgrammerController@home');
 Route::get('/programmer/baca/{ID_PROYEK}', 'ProgrammerController@baca');
+Route::get('/programmer/open/{ID_PROYEK}', 'ManagerController@open');
+Route::get('/programmer/progress/{ID_PROYEK}', 'ManagerController@progress');
+Route::get('/programmer/closed/{ID_PROYEK}', 'ManagerController@closed');
 Route::get('/programmer/ticket', 'ProgrammerController@ticket');
 Route::get('/programmer/dticket',array('as'=>'myform','uses'=>'ProgrammerController@dticket'));
 Route::get('/programmer/dticket/myform/ajax/{id}',array('as'=>'myform.ajax','uses'=>'ProgrammerController@myformAjax'));
@@ -51,6 +54,8 @@ Route::get('/programmer/cari', 'ProgrammerController@cari');
 Route::get('/programmer/dticket','ProgrammerController@dticket');
 Route::get('/programmer/dticket/caritiket', 'ProgrammerController@caritiket');
 Route::get('/programmer/dticket/caritiket/edit/{ID_TIKET}', 'ProgrammerController@caritiket');
+Route::get('/programmer/ambiltiket/{ID_TIKET}', 'ProgrammerController@ambiltiket');
+
 //route Manager get page
 Route::get('/manager/home', 'ManagerController@home');
 Route::get('/manager/baca/{ID_PROYEK}', 'ManagerController@baca');
@@ -97,6 +102,7 @@ Route::post('/manager/showreport', 'ManagerController@showreport');
 Route::post('/manager/tambahaktifitas', 'ManagerController@tambahaktifitas');//tambahan untuk cari data proyek (rita)
 Route::post('/manager/updateaktifitas', 'ManagerController@updateaktifitas');//tambahan untuk cari data proyek (rita)
 Route::post('/manager/tambahaktifitas2', 'ManagerController@tambahaktifitas2');
+Route::post('/manager/tambahteam', 'ManagerController@tambahteam');
 
 
 //Route for proses data into database

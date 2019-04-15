@@ -33,6 +33,18 @@
                         <tr>
                             <td>Status Proyek</td><td>:</td><td>{{$p -> STATUS_PROYEK}}</td>
                         </tr>
+						<tr>
+                            <td>Team</td><td>:</td><td>
+@foreach($u3 as $z)
+              {{ $z->USERNAME_MANAGER}}<br/>
+                        @endforeach							
+							
+            @foreach($u2 as $v)
+              {{ $v->USERNAME_PROGRAMER}}<br/>
+                        @endforeach
+				  
+				  </td>
+                        </tr>
                          </table>
                     </div>
                     @endforeach

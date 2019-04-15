@@ -28,9 +28,6 @@
                           <th>
                             Platform Proyek
                           </th>
-                          <th>
-                            Programmer
-                          </th>
               <th>
                             Dedline
                           </th>
@@ -61,13 +58,6 @@
                           <td>
                             {{ $t->PLATFORM_PROYEK}}
                           </td>      
-              <td>
-                @if ($t->ID_PROGRAMER != "")
-  @foreach(explode(',', $t->ID_PROGRAMER) as $info) 
-    <option>{{$info}}</option>
-  @endforeach
-@endif
-                          </td>
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
                           </td>
@@ -87,8 +77,8 @@
                            <i class="fa fa-times  fa-fw"></i> {{ $t->STATUS_PROYEK}}
                           </button>
 @else
-    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         {{ $t->STATUS_PROYEK}}
+   <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i class="fa fa-check fa-fw"></i> {{ $t->STATUS_PROYEK}}
                           </button>
 @endif
                           <div class="dropdown-menu">

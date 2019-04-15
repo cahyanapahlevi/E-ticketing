@@ -186,7 +186,6 @@ class ManagerController extends Controller
         }
         else{
         $users = DB::table('proyek')
-            ->rightJoin('programer', 'proyek.ID_PROGRAMER', '=', 'programer.ID_PROGRAMER')
             ->get()->all();
 			
 			$deretakhir = DB::table('proyek')->orderBy('ID_PROYEK','desc')->first();
@@ -240,8 +239,9 @@ class ManagerController extends Controller
             ->orWHere('k.ID','LIKE','%P%')
           
             ->get();
-        
-            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+        $use =  DB::table('programer')->select('ID_PROGRAMER','USERNAME_PROGRAMER')->get();
+		$u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->get();
+            return view('manager/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'use'=>$use,'u2'=>$u2]);
         }
     }
     
@@ -336,9 +336,10 @@ class ManagerController extends Controller
             return redirect('manager')->with('alert','Kamu harus login dulu');
         }
         else{
-         $page = DB::table('proyek')->paginate(2);
+         $page = DB::table('proyek')->join('manager','proyek.ID_MANAGER','=','manager.ID_MANAGER')->select('manager.USERNAME_MANAGER','proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK')->paginate();
+		 $u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->get();
         
-        return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+        return view('manager/report',compact('page','u2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     /*Pnambahan untuk melihat report sesuai dengan bulan dan tahun yang dipilih(rita)*/
@@ -373,10 +374,10 @@ class ManagerController extends Controller
         else{
         $month = $req->month;
         $year = $req->year;
-        $page =DB::table('proyek')->whereYear('DEADLINE_PROYEK', '=', $year)
-              ->whereMonth('DEADLINE_PROYEK', '=', $month)
-              ->paginate(5);
-            return view('manager/report',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+	    $page = DB::table('proyek')->join('manager','proyek.ID_MANAGER','=','manager.ID_MANAGER')->select('manager.USERNAME_MANAGER','proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK')->whereYear('DEADLINE_PROYEK', '=', $year)->whereMonth('DEADLINE_PROYEK', '=', $month)
+              ->paginate();
+		 $u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->get();
+            return view('manager/report',compact('page','u2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
         }
     }
     
@@ -407,9 +408,11 @@ class ManagerController extends Controller
             DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
           )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
         
-         $page = DB::table('proyek')->paginate(2);
+         $page = DB::table('proyek')->join('manager','proyek.ID_MANAGER','=','manager.ID_MANAGER')->select('manager.USERNAME_MANAGER','proyek.ID_PROYEK','proyek.NAMA_PROYEK','proyek.INSTANSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.DESKRIPSI_PROYEK','proyek.PLATFORM_PROYEK','proyek.DEADLINE_PROYEK')->paginate();
+		 $u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->get();
+		 
         
-        return view('manager/reportproyek',compact('page'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+        return view('manager/reportproyek',compact('page','u2'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
     }
 	public function reportorang()
     {
@@ -439,7 +442,7 @@ class ManagerController extends Controller
         
         $siswa = DB::table('tiket')
             ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
-            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
+            ->select('tiket.ID_TIKET', 'tiket.ID_PROGRAMER','tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK')
             ->paginate(2);
         
         return view('manager/reportorang',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
@@ -783,15 +786,12 @@ public function tticket(Request $request)
         else{
 $ID_PROYEK = $request->input('ID_PROYEK');
 $ID_MANAGER = $request->input('ID_MANAGER');
-$ID_PROGRAMER = $request->input('ID_PROGRAMER');
 $NAMA_PROYEK = $request->input('NAMA_PROYEK');
 $INSTANSI_PROYEK = $request->input('INSTANSI_PROYEK');
 $DESKRIPSI_PROYEK = $request->input('DESKRIPSI_PROYEK');
 $PLATFORM_PROYEK = $request->input('PLATFORM_PROYEK');
-$STATUS_PROYEK = $request->input('STATUS_PROYEK');
 $DEADLINE_PROYEK = $request->input('DEADLINE_PROYEK');
-$prog = implode(", ", $ID_PROGRAMER);
-$data=array('ID_PROYEK'=>$ID_PROYEK,'ID_MANAGER'=>$ID_MANAGER,'ID_PROGRAMER'=>$prog,'NAMA_PROYEK'=>$NAMA_PROYEK,'INSTANSI_PROYEK'=>$INSTANSI_PROYEK,'DESKRIPSI_PROYEK'=>$DESKRIPSI_PROYEK,'PLATFORM_PROYEK'=>$PLATFORM_PROYEK,'STATUS_PROYEK'=>$STATUS_PROYEK,'BACA'=>'BELUM','DEADLINE_PROYEK'=>$DEADLINE_PROYEK);
+$data=array('ID_PROYEK'=>$ID_PROYEK,'ID_MANAGER'=>$ID_MANAGER,'ID_PROGRAMER'=>$prog,'NAMA_PROYEK'=>$NAMA_PROYEK,'INSTANSI_PROYEK'=>$INSTANSI_PROYEK,'DESKRIPSI_PROYEK'=>$DESKRIPSI_PROYEK,'PLATFORM_PROYEK'=>$PLATFORM_PROYEK,'STATUS_PROYEK'=>'Open','BACA'=>'BELUM','DEADLINE_PROYEK'=>$DEADLINE_PROYEK);
 DB::table('proyek')->insert($data);
 				return redirect('manager/ticket');
         
@@ -1337,5 +1337,16 @@ DB::table('proyek')->insert($data);
 		]);
 		
 		return redirect('manager/dataaktifitas');
+    }
+	public function tambahteam(Request $request)
+    {
+		
+        DB::table('proyek_user')->insert([
+		'ID_PROYEK' => $request->ID_PROYEK,
+		'ID_MANAGER' => $request->ID_MANAGER,
+		'ID_PROGRAMER' => $request->ID_PROGRAMER,
+		'STATUS'=>'BELUM']);
+		
+		return redirect()->back();
     }
 }

@@ -56,6 +56,7 @@ class ProgrammerController extends Controller
     }
     public function home()
     {
+		 
         $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
             $cek_komentar = DB::table('komentar AS k')
             ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
@@ -158,7 +159,8 @@ class ProgrammerController extends Controller
             ->orWHere('k.ID','LIKE','%P%')
             ->orderBy('TGL_KOMENTAR','desc')
             ->limit(5)
-            ->get();			
+            ->get();
+$foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();			
 		   $sekarang = Carbon::now()->format('Y-m-d');
        
         $datediff = DB::table('proyek')
@@ -176,49 +178,15 @@ class ProgrammerController extends Controller
         }
         else{
         $ID_PROYEK = $request->NAMA_PROYEK;
-        $tiket2 = DB::table('proyek')->rightjoin('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where('proyek.NAMA_PROYEK', 'LIKE', '%' . $ID_PROYEK . '%' )->select('tiket.ID_TIKET','tiket.TASK','tiket.AKTIFITAS_TIKET','tiket.PROGRESS_TIKET','tiket.TIMELINE_TIKET')->get();
+        $tiket2 = DB::table('proyek')->join('tiket','proyek.ID_PROYEK','=','tiket.ID_PROYEK')->where([['proyek.NAMA_PROYEK', 'LIKE', '%' . $ID_PROYEK . '%'],['tiket.STATUS_TIKET','=','SINGLE']])->select('tiket.ID_TIKET','tiket.TASK','tiket.AKTIFITAS_TIKET')->get();
 		
 		if (count ( $tiket2 ) > 0){
-        return view('/programmer/dticket',compact('tiket2','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang])->withDetails ( $tiket2 )->withQuery ( $ID_PROYEK );
+        return view('/programmer/dticket',compact('tiket2','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'foto'=>$foto])->withDetails ( $tiket2 )->withQuery ( $ID_PROYEK );
 		}else{
-        return view('/programmer/dticket',compact('proyek','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang])->withMessage ( 'No Details found. Try to search again !' );
+        return view('/programmer/dticket',compact('proyek','tiket'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'foto'=>$foto])->withMessage ( 'No Details found. Try to search again !' );
         }
 		}
-} 
-		
-		public function updateticket(Request $request)
-    {
-		$cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
-            $cek_komentar = DB::table('komentar AS k')
-            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
-            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
-            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
-            ->where('k.ID','LIKE','%M%')
-            ->orWHere('k.ID','LIKE','%P%')
-            ->orderBy('TGL_KOMENTAR','desc')
-            ->limit(5)
-            ->get();
-            $sekarang = Carbon::now()->format('Y-m-d');
-       
-        $datediff = DB::table('proyek')
-            ->select(
-            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
-            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
-          ->get();
-        $datediff1 = DB::table('proyek')
-            ->select(
-            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
-          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
-			$nol = '0%';
-	   DB::table('tiket')
-			->where('ID_TIKET',$request->ID_TIKET)
-			->update([
-		'PROGRESS_TIKET' => $nol,
-		'TIMELINE_TIKET' => $request->TIMELINE_TIKET		
-	]);
-	 return response()->json($edit);
-    }
-		
+} 	
 		
     public function detail_tiket($ID_PROYEK)
 	{
@@ -255,8 +223,10 @@ class ProgrammerController extends Controller
             ->orWHere('k.ID','LIKE','%P%')
           
             ->get();
+		$u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->where('proyek_user.ID_PROYEK',$ID_PROYEK)->get();
+		$u3 = DB::table('proyek')->join('manager','proyek.ID_MANAGER','=','manager.ID_MANAGER')->select('manager.USERNAME_MANAGER')->where('proyek.ID_PROYEK',$ID_PROYEK)->get();
         
-            return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
+            return view('programmer/detail_tiket',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'u2'=>$u2,'u3'=>$u3]);
     }
     
     public function tambah_komen(Request $request)
@@ -699,10 +669,6 @@ public function tambahproject2(Request $request)
 		'USERNAME_PROGRAMER' => $request->USERNAME_PROGRAMER,
 		'PASSWORD_PROGRAMER' => $request->PASSWORD_PROGRAMER,
         'foto' => $nama
-      
-
-
-	
 	   ]);
 	return redirect('/programmer/home');
 }
@@ -730,15 +696,10 @@ public function tambahproject2(Request $request)
             ->select(
             DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
           )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
-	   /*$siswa = DB::table('tiket')
-            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
-            ->select('tiket.ID_TIKET', 'tiket.TASK', 'tiket.AKTIFITAS_TIKET', 'tiket.PROGRESS_TIKET', 'tiket.TIMELINE_TIKET', 'proyek.NAMA_PROYEK',(DB::raw('DATEDIFF(tiket.TIMELINE_TIKET,'.$sekarang.') as selisih')))
-            ->paginate(2);*/
 		
        $siswa = DB::table('tiket')
            ->join('proyek', 'tiket.ID_PROYEK', '=', 'proyek.ID_PROYEK')
-           ->select(DB::raw("DATEDIFF(tiket.TIMELINE_TIKET,'$sekarang') selisih, tiket.TASK, tiket.AKTIFITAS_TIKET, tiket.PROGRESS_TIKET, tiket.ID_TIKET, tiket.TIMELINE_TIKET, proyek.NAMA_PROYEK"))
-           ->paginate(2);
+           ->select(DB::raw("DATEDIFF(tiket.TIMELINE_TIKET,'$sekarang') selisih, tiket.TASK, tiket.AKTIFITAS_TIKET, tiket.PROGRESS_TIKET, tiket.ID_TIKET, tiket.TIMELINE_TIKET, proyek.NAMA_PROYEK"))->where('tiket.STATUS_TIKET','=','PAIRED')->paginate(2);
        
 		return view('programmer/aktifitas',compact('siswa'),['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang]);
     }
@@ -1008,6 +969,30 @@ public function tambahproject2(Request $request)
 		]);
 		
 		return redirect('programmer/aktifitas');
+    }
+	public function ambiltiket($ID_TIKET){
+        DB::table('tiket')
+            ->where('ID_TIKET',$ID_TIKET)
+            ->update(['STATUS_TIKET' => 'PAIRED','PROGRESS_TIKET' => '0 %','ID_PROGRAMER'=>SESSION::GET('ID_PROGRAMER')]);
+        return redirect('programmer/aktifitas');
+    }
+	 public function open($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Open']);
+        return redirect('programmer/ticket/');
+    }
+     public function progress($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'On Progress']);
+        return redirect('programmer/ticket/');
+    }
+     public function closed($ID_PROYEK){
+        DB::table('proyek')
+            ->where('ID_PROYEK',$ID_PROYEK)
+            ->update(['STATUS_PROYEK' => 'Closed']);
+        return redirect('programmer/ticket/');
     }
 
 }

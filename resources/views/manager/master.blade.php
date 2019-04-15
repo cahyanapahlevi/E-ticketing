@@ -48,11 +48,5 @@
   <script src="{{asset('source/js/off-canvas.js')}}"></script>
   <script src="{{asset('source/js/misc.js')}}"></script>
   <script src="{{asset('source/js/dashboard.js')}}"></script>
-  <script src="{{asset('source/js/select2.full.min.js')}}"></script>
-  <script type="text/javascript">
-  $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
-  </script>
     </body>
 </html>

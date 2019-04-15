@@ -61,11 +61,12 @@
                           <th>
                             Platform Proyek
                           </th>
-                          <th>
-                            Programmer
-                          </th>
               <th>
                             Deadline Proyek
+                          </th>
+						  
+                          <th>
+                            Team
                           </th>
               
                           
@@ -89,12 +90,17 @@
                           </td>
                           <td>
                             {{ $t->PLATFORM_PROYEK}}
-                          </td>
-                          <td> 
-              {{ $t->ID_PROGRAMER}}
-                          </td>
+                          </td>						  
                           <td>
                             {{ $t->DEADLINE_PROYEK}}
+                          </td>
+                          <td> 
+              {{ $t->USERNAME_MANAGER}}<br/>
+                       							
+							
+            @foreach($u2 as $v)
+              {{ $v->USERNAME_PROGRAMER}}<br/>
+                        @endforeach
                           </td>
               
                         </tr>
