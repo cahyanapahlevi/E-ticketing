@@ -6,7 +6,7 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Daftar Aktifitas (To Do List) yang Dalam Progress</h4>
+                  <h4 class="card-title">Daftar AKtifitas (To Do List) Yang Sedang Dikerjakan Programmer</h4>
                     <a href="{{url('/manager/home')}}"><button type="button" class="btn btn-primary btn-sm">BACK</button></a>
 				   <p></p>
 					
@@ -15,43 +15,37 @@
                       <thead>
                         <tr>
                          <th>
-                            ID Tiket
+                            ID Proyek
                           </th>
 						  <th>
-                            Task
+                            Nama Proyek
                           </th>
                           <th>
-                            Aktifitas
-                          </th>
-						  <th>
-                            Progress
+                            Instansi
                           </th>
                           
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-						@foreach ($op as $s)
+						@foreach ($pm as $s)
                            <td>
-                            {{ $s->ID_TIKET}}
+                            {{ $s->ID_PROYEK}}
                           </td>
                           <td>
-                            {{ $s->TASK}}
+                            {{ $s->NAMA_PROYEK}}
                           </td>
 							<td>
-                            {{ $s->AKTIFITAS_TIKET}}
-                          </td>	
-							<td>
-                            {{ $s->PROGRESS_TIKET}}
-                          </td>							  
+                            {{ $s->INSTANSI_PROYEK}}
+                          </td>						  
 						  
                         </tr>
             @endforeach
                       </tbody>
                     </table>
-					<small>Jumlah Data : {{ $op->total() }}</small> <br/>
+					<small>Jumlah Data : {{ $pm->total() }}</small> <br/>
 				  <div class="pagination">
-					{{ $op->links() }}
+					{{ $pm->links() }}
 					</div>
                   </div>
                 </div>
