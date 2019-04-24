@@ -69,9 +69,9 @@
                       <i class="mdi mdi-cube text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <p class="mb-0 text-right">Project</p>
+                      <a href="{{url('/programmer/proyek')}}"><p class="mb-0 text-right">Project</p></a><!--24-4-2019-->
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">5</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{ $pm->count() }}</h3><!--24-4-2019-->
                       </div>
                     </div>
                   </div>
@@ -86,9 +86,9 @@
                       <i class="mdi mdi-receipt text-warning icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <p class="mb-0 text-right">On Progress</p>
+                      <a href="{{url('/programmer/onprogress')}}"><p class="mb-0 text-right">On Progress</p></a><!--24-4-2019-->
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">10</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{ $op->count() }}</h3><!--24-4-2019-->
                       </div>
                     </div>
                   </div>
