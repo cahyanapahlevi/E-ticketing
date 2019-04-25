@@ -1,65 +1,7 @@
-@extends('programmer.master')
+@extends('manager.master')
 
-@section('programmer.content')
+@section('manager.content')
         <div class="content-wrapper">
-		  <div class="row">
-            <div class="col-lg-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-				<div id="demo" class="carousel slide" data-ride="carousel" data-interval="1000">
-  <ul class="carousel-indicators">
-    <li data-target="#demo" data-slide-to="0" class="active"></li>
-    <li data-target="#demo" data-slide-to="1"></li>
-    <li data-target="#demo" data-slide-to="2"></li>
-    <li data-target="#demo" data-slide-to="3"></li>
-    <li data-target="#demo" data-slide-to="4"></li>
-	<li data-target="#demo" data-slide-to="5"></li>
-	<li data-target="#demo" data-slide-to="6"></li>
-  </ul>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="{{asset('source/images/kominfo2.png')}}" alt="Los Angeles" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-    <div class="carousel-item">
-      <img src="{{asset('source/images/kominfo3.png')}}" alt="Chicago" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-    <div class="carousel-item">
-      <img src="{{asset('source/images/kominfo4.png')}}" alt="New York" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-	<div class="carousel-item">
-      <img src="{{asset('source/images/kominfo5.png')}}" alt="New York" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-	<div class="carousel-item">
-      <img src="{{asset('source/images/kominfo6.png')}}" alt="New York" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-	<div class="carousel-item">
-      <img src="{{asset('source/images/kominfo8.png')}}" alt="New York" width="1000" height="500">
-      <div class="carousel-caption">
-      </div>   
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#demo" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-  <a class="carousel-control-next" href="#demo" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
-</div>
-                </div>
-              </div>
-            </div>
-          </div>
-		
           <div class="row">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
               <div class="card card-statistics">
@@ -69,9 +11,9 @@
                       <i class="mdi mdi-cube text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <a href="{{url('/programmer/proyek')}}"><p class="mb-0 text-right">Project</p></a><!--24-4-2019-->
-                      <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">{{ $pm->count() }}</h3><!--24-4-2019-->
+                      <a href="{{url('/manager/proyek')}}"><p class="mb-0 text-right">Project</p></a><!--Tambahan rita-->
+                     <div class="fluid-container">
+                        <h3 class="font-weight-medium text-right mb-0">{{ $pm->count() }}</h3><!--Tambahan rita-->
                       </div>
                     </div>
                   </div>
@@ -86,9 +28,9 @@
                       <i class="mdi mdi-receipt text-warning icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <a href="{{url('/programmer/onprogress')}}"><p class="mb-0 text-right">On Progress</p></a><!--24-4-2019-->
+                      <a href="{{url('/manager/onprogress')}}"><p class="mb-0 text-right">On Progress</p></a>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">{{ $op->count() }}</h3><!--24-4-2019-->
+                        <h3 class="font-weight-medium text-right mb-0">{{ $op->count() }}</h3>
                       </div>
                     </div>
                   </div>
@@ -117,10 +59,202 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Tambahkan Project Yang Saat Ini Sedang Anada Kerjakan</h4>
+                  <h4 class="card-title">Data Programmer Dengan Progress Aplikasi Selesai</h4>
                   <div class="table-responsive">
                     <table class="table table-bordered">
-                      <a href="{{url('/programmer/dproject')}}"><button type="button" class="btn btn-outline-success">Tambah Project</button></a>
+                      <thead>
+                        <tr>
+                          <th>
+                            Nama Proyek
+                          </th>
+						  <th>
+                            Status
+                          </th>
+						  <th>
+                            Team
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+            @foreach ($page as $t)
+                          <td>
+              {{ $t->NAMA_PROYEK}}
+                          </td>
+						  <td>
+              {{ $t->STATUS_PROYEK}}
+                          </td>
+                          <td> 
+              {{ $t->USERNAME_MANAGER}}<br/>
+                       							
+							
+            @foreach($u2 as $v)
+              {{ $v->USERNAME_PROGRAMER}}<br/>
+                        @endforeach
+                          </td>
+                        </tr>
+                        @endforeach
+                     
+                      </tbody>
+                    </table>
+					<a href="{{url('/manager/detaildone')}}"><button type="button" class="btn btn-success btn-dm">Lihat Semua Data >></button></a>
+                  </div>
+                </div>
+				<p></p>
+				<div class="row">
+            <div class="col-lg-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Data Programmer Dengan Progress Mendekati 100%</h4>
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                           Nama Programmer
+                          </th>
+                         <th>
+                            ID Tiket
+                          </th>
+              <th>
+                            Nama Proyek
+                          </th>
+                          <th>
+                            Task
+                          </th>
+              <th>
+                            Aktifitas (To Do List)
+                          </th>
+                          <th>
+                            Progress 
+                          </th>
+                          <th>
+                            Timeline
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          @foreach ($siswa as $s)
+			<td>
+                           {{ $s->ID_PROGRAMER}}
+                          </td>
+			
+                          <td>
+                            {{ $s->ID_TIKET}}
+                          </td>
+                          <td>
+                            {{ $s->NAMA_PROYEK}}
+                          </td>
+							<td>
+                            {{ $s->TASK}}
+                          </td>
+                          <td>
+                            {{ $s->AKTIFITAS_TIKET}}
+                          </td>
+                         <td>
+                            {{ $s->PROGRESS_TIKET}}
+                          </td>
+                          <td>
+                            {{ $s->TIMELINE_TIKET}}
+                          </td>
+              
+                        </tr>
+            @endforeach
+                      </tbody>
+                    </table>
+					
+                  </div>
+				  <a href="{{url('/manager/detailminseratus')}}"><button type="button" class="btn btn-success btn-dm">Lihat Semua Data >></button></a>
+                </div>
+				<p> </p>
+				<div class="row">
+            <div class="col-lg-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Data Programmer Dengan Progress Aplikasi Sesuai Bidang (Overload)</h4>
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            No
+                          </th>
+                          <th>
+                            Nama Programmer
+                          </th>
+						   <th>
+                            Divisi
+                          </th>
+						  <th>
+                            Bidang
+                          </th>
+                          <th>
+                            Nama Aplikasi
+                          </th>
+                          <th>
+                            Progress
+                          </th>
+                          <th>
+                            Status
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="font-weight-medium">
+                            1
+                          </td>
+                          <td>
+                            Herman Beck
+                          </td>
+						  <td>
+						  </td>
+						  <td>
+						  </td>
+                          <td>
+                            Aplikasi TU
+                          </td>
+                          <td>
+                            $ 77.99
+                          </td>
+                          <td class="text-danger"> 53.64%
+                            <i class="mdi mdi-arrow-down"></i>
+                          </td>
+                          <td>
+                            <a href="{{url('/manager/dticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-medium">
+                            2
+                          </td>
+                          <td>
+                            Messsy Adam
+                          </td>
+						  <td>
+						  </td>
+						  <td>
+						  </td>
+                          <td>
+                            Aplikasi RS
+                          </td>
+                          <td>
+                            $245.30
+                          </td>
+                          <td class="text-success"> 24.56%
+                            <i class="mdi mdi-arrow-up"></i>
+                          </td>
+                          <td>
+                            <a href="{{url('/manager/dticket')}}"><button type="button" class="btn btn-outline-success">Detail</button></a>
+                          </td>
+                        </tr>
+                      
+                     
+                      </tbody>
                     </table>
                   </div>
                 </div>
