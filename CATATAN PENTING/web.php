@@ -91,6 +91,7 @@ Route::get('/manager/onprogress', 'ManagerController@onprogress'); /*8-4-2019*/
 Route::get('/manager/taktifitas2', 'ManagerController@taktifitas2');
 Route::get('/manager/detaildone', 'ManagerController@detaildone');
 Route::get('/manager/detailminseratus', 'ManagerController@detailminseratus');
+Route::get('/manager/ticket/detaildas/{ID_PROYEK}', 'ManagerController@detaildas');
 
 
 //Route for proses data into database
@@ -106,6 +107,7 @@ Route::post('/manager/tambahaktifitas', 'ManagerController@tambahaktifitas');//t
 Route::post('/manager/updateaktifitas', 'ManagerController@updateaktifitas');//tambahan untuk cari data proyek (rita)
 Route::post('/manager/tambahaktifitas2', 'ManagerController@tambahaktifitas2');
 Route::post('/manager/tambahteam', 'ManagerController@tambahteam');
+
 
 
 //Route for proses data into database

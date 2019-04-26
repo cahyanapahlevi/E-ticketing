@@ -71,7 +71,7 @@
                             Status
                           </th>
 						  <th>
-                            Team
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -84,14 +84,9 @@
 						  <td>
               {{ $t->STATUS_PROYEK}}
                           </td>
-                          <td> 
-              {{ $t->USERNAME_MANAGER}}<br/>
-                       							
-							
-            @foreach($u2 as $v)
-              {{ $v->USERNAME_PROGRAMER}}<br/>
-                        @endforeach
-                          </td>
+						  <td>
+						  <a href="{{url('manager/ticket/detaildas', $t->ID_PROYEK)}}" class='btn btn-mini btn-warning tipsy-kiri-atas'>DETAIL</a>
+						  </td>
                         </tr>
                         @endforeach
                      

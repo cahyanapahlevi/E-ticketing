@@ -1471,4 +1471,45 @@ DB::table('proyek')->insert($data);
             return view('manager/detailminseratus', ['cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'siswa'=>$siswa]);
     
     }
+	
+	 public function detaildas($ID_PROYEK)
+	{
+        $cek_project = DB::table('proyek')->where('BACA','=','BELUM')->orderBy('ID_PROYEK','desc')->get();
+            $cek_komentar = DB::table('komentar AS k')
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->leftjoin('proyek AS y','y.ID_PROYEK','=','k.ID_PROYEK')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+            ->orderBy('TGL_KOMENTAR','desc')
+            ->limit(5)
+            ->get();
+            $foto = DB::table('programer')->where('ID_PROGRAMER',Session::get('ID_PROGRAMER'))->get();
+        $sekarang = Carbon::now()->format('Y-m-d');
+       
+        $datediff = DB::table('proyek')
+            ->select(
+            DB::raw("ID_PROYEK, NAMA_PROYEK, DEADLINE_PROYEK, DATEDIFF(DEADLINE_PROYEK,'$sekarang') selisih"))
+            ->where('STATUS_PROYEK','=','On Progress')->orWhere('STATUS_PROYEK','=','open')
+          ->get();
+        $datediff1 = DB::table('proyek')
+            ->select(
+            DB::raw("DATEDIFF(DEADLINE_PROYEK,'$sekarang') as selisih,  NAMA_PROYEK, DEADLINE_PROYEK, ID_PROYEK")
+          )->orderBy('DEADLINE_PROYEK','asc')->paginate(5);
+        Session::put('ID_PROYEK',$ID_PROYEK);
+        $proyek = DB::table('proyek')->where('ID_PROYEK',$ID_PROYEK)->get();
+       
+        $komentar = DB::table('komentar AS k')
+            
+            ->leftjoin('programer AS p','p.ID_PROGRAMER','=','k.ID')
+            ->leftjoin('manager AS m','m.ID_MANAGER','=','k.ID')
+            ->where('k.ID','LIKE','%M%')
+            ->orWHere('k.ID','LIKE','%P%')
+          
+            ->get();
+		$u2 = DB::table('proyek_user')->join('programer','proyek_user.ID_PROGRAMER','=','programer.ID_PROGRAMER')->select('proyek_user.ID_USER','programer.USERNAME_PROGRAMER')->where('proyek_user.ID_PROYEK',$ID_PROYEK)->get();
+		$u3 = DB::table('proyek')->join('manager','proyek.ID_MANAGER','=','manager.ID_MANAGER')->select('manager.USERNAME_MANAGER')->where('proyek.ID_PROYEK',$ID_PROYEK)->get();
+        
+            return view('manager/detaildas',['komentar'=>$komentar,'proyek'=>$proyek,'cek_project'=>$cek_project, 'cek_komentar'=>$cek_komentar,'foto'=>$foto,'datediff'=>$datediff,'datediff1'=>$datediff1,'sekarang'=>$sekarang,'u2'=>$u2,'u3'=>$u3]);
+    }
 }
